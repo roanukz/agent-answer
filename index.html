@@ -3,19 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Will My Agent Answer This? — Product Teardown</title>
+    <title>Will My Agent Answer This? A Product Teardown</title>
     <meta
       name="description"
-      content="The product thinking behind a free tool that scores whether an AI agent can answer from a knowledge-base article, and runs entirely in your browser: the job, the evidence, the gap analysis, the eight decisions, and what I would cut."
+      content="The product thinking behind a free tool that scores whether an AI agent can answer from a knowledge-base article, and runs entirely in your browser: the job, the evidence, the gap, eight decisions, and what I would cut."
     />
 
     <!-- Share card. og:image is a file in this repo, rendered from og-image.svg
          and served from the same origin. The zero-network rule applies to the
          page's own runtime, and it applies to its share assets too. -->
-    <meta property="og:title" content="Will My Agent Answer This? — Product Teardown" />
+    <meta property="og:title" content="Will My Agent Answer This? A Product Teardown" />
     <meta
       property="og:description"
-      content="The product thinking behind a free tool that scores whether an AI agent can answer from a knowledge-base article, and runs entirely in your browser: the job, the evidence, the gap analysis, the eight decisions, and what I would cut."
+      content="The product thinking behind a free tool that scores whether an AI agent can answer from a knowledge-base article, and runs entirely in your browser: the job, the evidence, the gap, eight decisions, and what I would cut."
     />
     <meta property="og:image" content="https://roanukz.github.io/agent-answer/og-image.png" />
     <meta property="og:image:width" content="2400" />
@@ -46,19 +46,14 @@
     <header class="hero">
       <div class="wrap">
         <p class="eyebrow">Product teardown</p>
-        <h1>Will My Agent Answer This? — Product Teardown</h1>
+        <h1>Will My Agent Answer This? A Product Teardown</h1>
         <p class="lede">
-          Support and knowledge teams are being told to get their knowledge
-          bases ready for AI agents, and the check they are handed is a manual
-          one: take a single paragraph, cover up everything around it, read it
-          cold, and rewrite it if it no longer makes sense on its own. Repeating
-          that for every paragraph of every article is work no team ever gets to
-          the end of, and it asks a writer to guess how a machine will read their
-          words. So I built a tool that runs the same check on every section in
-          seconds and applies the same judgement every time. Below is the
-          product thinking behind it: the job, the evidence, the eleven ideas I
-          cut to find this one, the eight decisions I committed to, and what I
-          would cut next.
+          Knowledge teams are being told to get their articles ready for AI
+          agents, and the test they are handed is a manual one: cut out a
+          paragraph, read it with no context around it, and rewrite it if it no
+          longer stands up. Nobody gets to the end of that by hand, so I built a
+          tool that runs it on every section in seconds. This is the thinking
+          behind it.
         </p>
         <p class="byline">
           Roanuk Zaman · Product teardown of a tool I designed, directed and
@@ -96,32 +91,27 @@
           <h2>Summary</h2>
           <ul>
             <li>
-              <strong>The problem is real and documented.</strong> Vendors are
-              publishing step-by-step instructions for testing AI readiness by
-              hand, and two of them describe the same chore in almost the same
-              words (<a href="#evidence">Part B</a>). Meanwhile Gartner projects
-              that by 2029, agentic AI will autonomously resolve 80% of common
-              customer service issues without human intervention, and every one
-              of those agents will be answering from a knowledge base that was
-              written for people.
+              <strong>The problem is documented, not inferred.</strong> Two
+              vendors publish the same manual test in almost the same words
+              (<a href="#evidence">Part B</a>), and Gartner projects that by
+              2029, agentic AI will autonomously resolve 80% of common customer
+              service issues without human intervention. Those agents will be
+              answering from knowledge bases written for people.
             </li>
             <li>
-              <strong>The gap was found by elimination, not inspiration.</strong>
-              Around fourteen candidate ideas were researched before anything
-              was built, and eleven of them were cut because good free tools
-              already existed. This was the only space where every nearby
-              product misses the same combination: written for the
-              knowledge-base author, scores whether a section stands on its own,
-              takes pasted text, and runs entirely in the browser.
+              <strong>The gap was found by elimination.</strong> Around fourteen
+              ideas were researched for saturation before anything was built,
+              and eleven were cut. This was the only space where no existing
+              product combines all four of: written for the knowledge-base
+              author, scores whether a section stands alone, takes pasted text,
+              and runs entirely in the browser.
             </li>
             <li>
-              <strong>Capability is not the constraint, but trust and
-                distribution are.</strong>
-              That is why the score comes from a published set of fixed rules
-              rather than a model's opinion, why nothing you paste ever leaves
-              your browser, and why the top three items on the
-              <a href="#next">roadmap</a> are about reaching people and testing
-              my own evidence rather than about adding features.
+              <strong>Trust and distribution are the constraints, not
+                capability.</strong>
+              Hence fixed published rules instead of a model's opinion, nothing
+              leaving the browser, and a <a href="#next">roadmap</a> whose top
+              three items are reach and evidence rather than features.
             </li>
           </ul>
         </section>
@@ -130,37 +120,26 @@
           <p class="section-kicker">Part A</p>
           <h2>The problem</h2>
           <p>
-            Support and knowledge teams are being told their articles must be
-            rewritten so that an AI agent can answer from them. The reason is
-            worth spelling out, because it is the whole problem. An AI support
-            agent does not read your article: software splits it into pieces,
-            usually one piece per section, and files each piece separately. When
-            a customer asks a question, the software pulls out the two or three
-            pieces that look like the closest match, and the agent answers from
-            those alone, without ever seeing the title, the introduction, or any
-            of the paragraphs that came before.
+            An AI support agent does not read your article. Software splits it
+            into pieces, usually one per section, and files each piece
+            separately. When a customer asks a question, it retrieves the few
+            pieces that best match and the agent answers from those alone,
+            without the title, the introduction, or the paragraphs that came
+            before. So a section that only makes sense in sequence is a section
+            the agent will get wrong.
           </p>
           <p>
-            A section that only makes sense in sequence is therefore a section
-            the agent will get wrong, and the test for that is currently a
-            manual one. You lift a paragraph out, strip away its context, read
-            it cold, rewrite it if it fails, and then start again on the next
-            paragraph. Two vendors describe exactly that routine in
-            <a href="#evidence">Part B</a>, in almost the same words. It fails
-            for two reasons: it asks a writer to imagine how retrieval software
-            will read their sentences, which is not a skill anyone was hired
-            for, and at the size of a real knowledge base it stops being a test
-            and becomes a second job that never gets finished.
+            The test for that is manual, and it is the routine two vendors
+            describe in <a href="#evidence">Part B</a>. It fails for two
+            reasons. It asks a writer to imagine how retrieval software reads,
+            which is not a skill anyone was hired for, and at the size of a real
+            knowledge base it is a second job rather than a test. Knowing what
+            breaks an answer belongs in a tool that applies the same judgement
+            to every section, not in the head of each author on each paragraph.
           </p>
           <p>
-            That is the gap a purpose-built checker fills. Knowing what breaks
-            an answer belongs in a tool that applies the same judgement to every
-            section, rather than in the head of each author on each paragraph.
-          </p>
-          <p>
-            <strong>Jobs To Be Done</strong> is a simple discipline that
-            describes the progress someone is trying to make rather than the
-            feature they asked for. Here the job is:
+            <strong>Jobs To Be Done</strong> describes the progress someone
+            wants rather than the feature they asked for. Here the job is:
           </p>
 
           <div class="jtbd">
@@ -174,22 +153,20 @@
           </div>
 
           <p>
-            It is worth noticing whose job that is. It does not belong to the
-            engineer who set up the retrieval software, and it does not belong
-            to the marketer chasing mentions in AI search results. It belongs to
-            the person who owns the content, whose target for tickets resolved
-            without a human is now tied to somebody else's model, and whose
+            That job belongs to the person who owns the content, not to the
+            engineer who configured the retrieval software or the marketer
+            chasing mentions in AI search. Their target for tickets resolved
+            without a human is now tied to somebody else's model, and their
             worst day is a customer being told something untrue with complete
             confidence.
           </p>
 
           <h3>The forces of progress</h3>
           <p>
-            The <strong>Forces of Progress</strong> model asks four questions
-            about anyone weighing up a change: what is pushing them away from
-            how they work now, what is pulling them toward something new, what
-            makes them nervous, and what keeps them where they are. A product is
-            adopted only when the first two outweigh the last two.
+            The <strong>Forces of Progress</strong> model asks what pushes
+            someone away from how they work now, what pulls them to something
+            new, what makes them nervous, and what keeps them where they are.
+            Adoption needs the first two to outweigh the last two.
           </p>
 
           <div class="table-scroll">
@@ -208,10 +185,8 @@
                 <tr>
                   <th scope="row">Push of the situation</th>
                   <td>
-                    Agent rollouts are decided high up, and they arrive with a
-                    target attached for how many tickets the agent should
-                    resolve on its own. Most existing content will not pass the
-                    standalone test, and Rezolve.ai's own guidance says that
+                    Agent rollouts are decided high up and arrive with a
+                    deflection target attached. Rezolve.ai's own guidance says
                     only a small percentage of content is usually AI-ready as
                     written (<a href="#evidence">Part B</a>).
                   </td>
@@ -219,17 +194,16 @@
                 <tr>
                   <th scope="row">Pull of the solution</th>
                   <td>
-                    The same test, done for you. One paste checks every section
-                    in seconds, marks the weak passages where they sit, and
-                    ranks what to fix first.
+                    The same test, done for you. One paste checks every section,
+                    marks the weak passages in place, and ranks what to fix
+                    first.
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">Anxiety of the new</th>
                   <td>
-                    There are two separate worries here rather than one. The
-                    first is pasting confidential internal content into a
-                    website nobody has vetted. The second is getting back a
+                    Two worries rather than one. Pasting confidential internal
+                    content into a website nobody has vetted, and getting back a
                     number too vague to defend, since "the website said 62" will
                     not win an argument about pausing publishing for a rewrite.
                   </td>
@@ -247,14 +221,9 @@
           </div>
 
           <p>
-            Those two worries deserve the attention, because neither of them is
-            a marketing problem and each one settled a piece of the
-            architecture. Confidentiality is why the whole tool runs inside your
-            browser and makes no network requests at all, and why you can check
-            that for yourself instead of taking my word for it. Defensibility is
-            why the score comes from fixed rules that show their working rather
-            than from a model's opinion. <a href="#built">Part E</a> comes back
-            to both of them, as decisions 1 and 2.
+            Neither of those worries is a marketing problem. Each one settled a
+            piece of the architecture, which is decisions 1 and 2 in
+            <a href="#built">Part E</a>.
           </p>
 
           <div class="pullquote">
@@ -270,16 +239,16 @@
           <p class="section-kicker">Part B</p>
           <h2>The evidence</h2>
           <p>
-            I did not reason this problem out from first principles. The manual
-            test is being recommended in public, by the vendors selling the
-            agents.
+            The manual test is being recommended in public, by the vendors
+            selling the agents. Every quote below was re-checked at its own page
+            in August 2026.
           </p>
 
           <ul class="evidence">
             <li>
               <span class="src">SearchUnify</span>
-              <span class="yr">Building an AI-Ready Knowledge Base: Best
-                Practices for 2026, published 1 July 2026</span>
+              <span class="yr">Building an AI-Ready Knowledge Base, published 1
+                July 2026</span>
               <blockquote>
                 <p>
                   "Pull a paragraph from the middle of each one, remove the
@@ -290,9 +259,9 @@
                 </p>
               </blockquote>
               <p>
-                A second answer in the same guide gives the rule behind the
-                test: "if a section can't be understood without reading what
-                came before it, it needs to be rewritten."
+                A later answer in the same guide gives the rule behind the test:
+                "if a section can't be understood without reading what came
+                before it, it needs to be rewritten."
                 <a
                   href="https://www.searchunify.com/resource-center/blog/building-an-ai-ready-knowledge-base-best-practices-for-2026/"
                   >Read the guide</a
@@ -301,7 +270,7 @@
             </li>
             <li>
               <span class="src">Rankscale</span>
-              <span class="yr">Chunkability for RAG, in a section headed "The
+              <span class="yr">Chunkability for RAG, under the heading "The
                 paste-into-a-blank-doc test"</span>
               <blockquote>
                 <p>
@@ -310,7 +279,7 @@
                 </p>
               </blockquote>
               <p>
-                A different vendor, arriving at the same hands-on routine.
+                A different vendor arriving at the same hands-on routine.
                 <a
                   href="https://rankscale.ai/resources/modules/seo-gaps/chunkability-for-rag"
                   >Read the module</a
@@ -336,18 +305,18 @@
             <li>
               <span class="src">RefineTrain AI</span>
               <span class="yr">Y Combinator, W22</span><br />
-              A company whose entire business is
+              A funded company whose business is
               <a href="https://www.ycombinator.com/companies/refinetrain-ai"
                 >rewriting and optimising internal documentation for LLMs</a
-              >. Venture money has been raised against this exact problem, which
-              tells me it is a fundable one rather than a private irritation.
+              >, which tells me this is a fundable problem rather than a private
+              irritation.
             </li>
             <li>
               <span class="src">Gartner</span>
               <span class="yr">press release, March 2025</span><br />
-              The wider driver: by 2029, agentic AI will autonomously resolve
-              80% of common customer service issues without human intervention,
-              leading to a 30% reduction in operational costs.
+              By 2029, agentic AI will autonomously resolve 80% of common
+              customer service issues without human intervention, leading to a
+              30% reduction in operational costs.
               <a
                 href="https://www.gartner.com/en/newsroom/press-releases/2025-03-05-gartner-predicts-agentic-ai-will-autonomously-resolve-80-percent-of-common-customer-service-issues-without-human-intervention-by-20290"
                 >Gartner press release</a
@@ -355,54 +324,36 @@
             </li>
           </ul>
 
-          <p>
-            Read together, the first three sources show that the test exists and
-            is done by hand, the fourth shows that someone is being paid to do
-            it, and the fifth shows how many agent rollouts are going to need
-            it.
-          </p>
-
           <div class="callout callout-warning">
             <h4>Freshness check, August 2026</h4>
             <p>
-              I checked the gap again immediately before publishing, because a
-              gap this obvious invites company, and the "AI readiness checker"
-              label has become crowded. Rank Prompt's free
+              "AI readiness checker" has become a crowded label, so I re-checked
+              the space before publishing. Most new arrivals resemble Rank
+              Prompt's free
               <a href="https://rankprompt.com/tools/free-ai-readiness-checker/"
                 >AI Readiness Checker</a
-              >
-              is typical of the new arrivals: you give it a web address, and it
-              reports on robots.txt rules for AI crawlers, schema markup,
-              sitemaps and whether you publish an llms.txt. Several others now
-              do the same job for the same audience.
-            </p>
-            <p>
-              The closest thing to a real overlap is NotionCue's free
+              >: you give it a web address and it reports on crawler access,
+              schema markup, sitemaps and llms.txt. The closest real overlap is
+              NotionCue's free
               <a href="https://notioncue.com/ai-readability-checker"
                 >AI Readability Checker</a
-              >, which does accept pasted text and does score answer-first
-              structure and heading hierarchy. It is scored for a marketer who
-              wants a public page quoted in AI answers, though, and it does not
-              test the thing this tool exists to test, which is whether a
-              section still means anything once it has been retrieved without
-              the article around it. The gap is narrower than it was, and it
-              holds.
+              >, which does take pasted text and does score answer-first
+              structure and heading hierarchy. It is built to get a public page
+              quoted in AI answers, though, and it does not test whether a
+              section survives retrieval on its own. The gap is narrower than it
+              was, and it holds.
             </p>
           </div>
 
           <div class="callout callout-notice">
-            <h4>Where this evidence is weak, stated up front</h4>
+            <h4>Where this evidence is weak</h4>
             <p>
-              Every source above is linked, and I re-checked each quote at its
-              own page before publishing. The weakness is not accuracy, it is
-              the type of source: three of the five are vendor guides, and the
-              fourth is a company with a product to sell. What I do not have is
-              first-hand complaint from working technical writers, the "I spent
-              my Friday doing this by hand" post. A focused pass through those
-              communities is item three on the <a href="#next">roadmap</a>, and
-              it is deliberately scheduled before any launch messaging is
-              finalised, because messaging written ahead of that evidence would
-              only be my own hypothesis in a customer's voice.
+              The weakness is not accuracy, it is source type. Three of the five
+              sources are vendor guides and the fourth is a company with
+              something to sell. I have no first-hand complaint from working
+              technical writers, which is why gathering it is item three on the
+              <a href="#next">roadmap</a>, scheduled before launch messaging
+              rather than after.
             </p>
           </div>
         </section>
@@ -411,72 +362,61 @@
           <p class="section-kicker">Part C</p>
           <h2>Market and incentives</h2>
           <p>
-            There are two outside numbers on this page and no others. On demand,
-            there is Gartner's projection above, that 80% of common customer
-            service issues will be resolved without a human by 2029. On market
-            size, knowledge management software is projected to reach $75.22
-            billion by 2034, growing at 12.3% a year
+            Two outside numbers, and no others. Gartner's projection above is
+            the demand driver. For size, knowledge management software is
+            projected to reach $75.22 billion by 2034 at a 12.3% annual growth
+            rate
             (<a
               href="https://straitsresearch.com/press-release/global-knowledge-management-software-market-companies"
               >Straits Research</a
-            >). Treat that second figure as an order of magnitude rather than a
-            precise forecast, because the same firm publishes another report on
-            the same market with a materially different number, and I would
-            rather say so than pretend the analyst consensus is tighter than it
-            is. I am not claiming a share of it either way, only using it to show
-            where this tool sits inside the market.
+            >), which is worth reading as an order of magnitude, because the same
+            firm publishes a materially different forecast for the same market. I
+            am not claiming a share of it, only locating the tool inside it.
           </p>
           <p>
-            It sits in the <strong>author's workflow</strong>, at the point
-            where an article either becomes answerable by an agent or does not.
-            That point is upstream of the retrieval software and upstream of the
-            agent itself, and it is also the point that enterprise platforms
-            sell as a paid readiness audit or a consulting engagement rather
-            than as software you can use yourself.
+            The tool sits in the author's workflow, at the point where an article
+            either becomes answerable or does not. That point is upstream of the
+            retrieval software and the agent, and it is also what enterprise
+            platforms sell as a paid readiness audit rather than as software you
+            can use yourself.
           </p>
 
           <h3>Why the incumbents will not build this</h3>
           <p>
-            What follows reads business models and works backwards to motives,
-            so it is my interpretation rather than anything these companies have
-            said, and I flag it as such.
+            What follows infers motive from business model, so I flag it as my
+            reading rather than anything these companies have said.
           </p>
           <ul>
             <li>
               <strong>Enterprise knowledge platforms</strong> such as Bloomfire,
               SearchUnify, Rezolve and DevRev sell AI readiness as audits,
-              premium modules and services, and a free tool you can paste an
-              article into eats into exactly that revenue. The shape of their
-              pricing is the tell: Bloomfire, which publishes its own guide on
+              modules and services, and a free paste-an-article tool eats into
+              that revenue. The pricing is the tell: Bloomfire publishes its own
+              guide on
               <a href="https://bloomfire.com/blog/audit-kms-for-ai-readiness/"
                 >auditing a knowledge base for AI readiness</a
-              >, sends you to a sales contact form rather than to a self-serve
-              plan. Any of these companies could build this in a sprint, but
-              none of them has a reason to give it away.
+              >
+              and sends you to a sales form rather than a self-serve plan.
             </li>
             <li>
-              <strong>Generative search tools</strong>, sold as GEO or AEO, help
-              marketers get quoted inside AI answers rather than ranked in
-              search results. Their money comes from public web pages and
-              marketing budgets, whereas an internal knowledge-base author has
-              neither a public page nor a budget line.
+              <strong>AI search visibility tools</strong> make their money from
+              marketers who want public pages quoted in AI answers. An internal
+              knowledge-base author has neither a public page nor a budget line.
             </li>
             <li>
-              <strong>Companies selling retrieval infrastructure</strong> aim at
-              the developers who configure it rather than the writers who
-              produce what it reads. Those developers can already see how a
-              document was divided up, which gives them a debugging view rather
-              than an editorial verdict.
+              <strong>Retrieval infrastructure vendors</strong> sell to the
+              developers who configure pipelines, not to the writers who produce
+              what those pipelines read.
             </li>
           </ul>
           <p>
-            So this is not a gap in technology, because any of those three could
-            build it tomorrow. It is a gap in incentives, which is a sturdier
-            thing to sit behind, and it is the same shape as the argument in my
-            previous teardown about why Google will not fix the metadata in
-            Takeout exports. A gap that exists because nobody thought of it
-            closes the moment somebody does, whereas a gap that exists because
-            closing it would cost the incumbent money stays open.
+            Any of the three could build this in a sprint, so the opening is not
+            technical. It is a gap in incentives, which is a sturdier thing to
+            sit behind, and the same shape as the argument in my previous
+            teardown about why Google will not fix Takeout's metadata. A gap that
+            exists because nobody thought of it closes as soon as somebody does.
+            A gap that exists because closing it costs the incumbent money stays
+            open.
           </p>
         </section>
 
@@ -485,11 +425,11 @@
           <h2>Found by elimination</h2>
           <p>
             This tool was not the first idea, it was the survivor. Around
-            fourteen candidate ideas were researched for how crowded they
-            already were before any code was written, on the assumption that a
-            free browser tool with no marketing budget cannot win a crowded
-            space, and eleven of them were cut. The verdict column below repeats
-            itself because the finding kept repeating itself.
+            fourteen candidates were researched for how crowded they already
+            were before any code was written, on the assumption that a free
+            browser tool with no marketing budget cannot win a crowded space.
+            Eleven were cut, and the verdict column repeats because the finding
+            did.
           </p>
 
           <div class="table-scroll">
@@ -529,7 +469,7 @@
                   <td>Already crowded with free browser-based tools.</td>
                 </tr>
                 <tr>
-                  <th scope="row">Contact list and spreadsheet de-duplicator</th>
+                  <th scope="row">Contact and spreadsheet de-duplicator</th>
                   <td>Already crowded with free browser-based tools.</td>
                 </tr>
                 <tr>
@@ -547,8 +487,8 @@
                 <tr>
                   <th scope="row">Website AI-readiness crawler</th>
                   <td>
-                    Already served, and it is a search-marketing play rather
-                    than a knowledge-architecture one.
+                    Already served, and a search-marketing play rather than a
+                    knowledge-architecture one.
                   </td>
                 </tr>
               </tbody>
@@ -562,20 +502,18 @@
 
           <h3>The surviving space</h3>
           <p>
-            Here is how that space looks. The columns are the six things the job
-            in <a href="#problem">Part A</a> needs at the same time, and the
-            claim is not that these other products are bad, only that none of
-            them is aimed at this person doing this task.
+            The columns below are the six things the job needs at the same time.
+            None of these products is bad; none of them is aimed at this person
+            doing this task.
           </p>
 
           <div class="table-scroll">
             <table>
               <caption>
                 Checked against each product's own pages in August 2026, which
-                is not the same as a hands-on feature audit. "Unclear" means I
-                could not verify it, so I am not asserting it either way, and
-                where a category is mixed I have credited the competitor with
-                the more generous reading.
+                is not the same as a hands-on audit. "Unclear" means I could not
+                verify it, and where a category is mixed I have credited the
+                competitor with the more generous reading.
               </caption>
               <thead>
                 <tr>
@@ -651,29 +589,17 @@
           </div>
 
           <p>
-            The two near misses are worth being precise about, because both are
-            closer than a competitive table usually admits. The retrieval preview
-            tools are free and they do take pasted text: you set a chunk size,
-            and they show you the pieces your document will be broken into,
-            which is exactly the right raw material. They stop before the
-            judgement, though. Showing an author their article in fragments
-            answers the question "what will the software store?" without
-            answering "can an agent answer from this?", and the second question
-            is the one the job asks. Answering it needs a rubric rather than a
-            viewer, and it needs to be phrased for someone who has never chosen
-            a chunk size in their life.
-          </p>
-          <p>
-            The AI search visibility checkers come closer still, since the best
-            of them are free, accept pasted text, and score answer-first
-            structure and heading hierarchy, which genuinely overlaps with two
-            of my five checks. The difference is what they are scoring for. They
-            are built to get a public marketing page quoted inside an AI answer,
-            they run on a server, and none of them asks the question this tool
-            is built around, which is whether a section still stands up once
-            retrieval has pulled it out of the article on its own. That is the
-            check with the heaviest weight here, and it is the one nobody else
-            is running.
+            Both near misses are closer than a competitive table usually admits.
+            The retrieval preview tools are free and take pasted text, and they
+            show you the pieces your document will be broken into, which is
+            exactly the right raw material. They stop before the judgement,
+            because showing an author their article in fragments answers "what
+            will the software store?" and not "can an agent answer from this?"
+            The visibility checkers are also free and score two of the same
+            things I score, but they score them for a marketer chasing citations
+            on a public page. Neither category asks whether a section still
+            stands up once retrieval has pulled it out alone, and that is the
+            check carrying the most weight here.
           </p>
         </section>
 
@@ -681,23 +607,19 @@
           <p class="section-kicker">Part E</p>
           <h2>What I built</h2>
           <p>
-            The tool is a single web page. You paste in a knowledge-base article
-            and get back a score out of 100 for how well an agent could answer
-            from it, across five checks: whether sections stand on their own,
-            whether the answer comes first, whether references point at
-            something nearby, whether each section sticks to one idea, and
-            whether the structure is clear. The checks are weighted
-            25/20/20/15/20 and there are 19 rules underneath them. Every finding
-            is marked in your own text and every point lost is itemised, and
-            nothing is uploaded anywhere, because there is nowhere to upload it
-            to.
+            One web page. You paste in an article and get a score out of 100 for
+            how well an agent could answer from it, across five checks: whether
+            sections stand alone, whether the answer comes first, whether
+            references point at something nearby, whether each section holds one
+            idea, and whether the structure is clear. The checks are weighted
+            25/20/20/15/20 with 19 rules underneath, every finding is marked in
+            your own text, and every point lost is itemised.
           </p>
           <p>
-            <strong>Marty Cagan's four product risks</strong> are the spine of
-            this section: value (will anyone want it), usability (can they use
-            it), feasibility (can it be built) and viability (does it work for
-            the business). Each decision below exists to settle one of them, and
-            naming which one keeps the reasoning honest.
+            <strong>Marty Cagan's four product risks</strong> are the spine
+            here: value (will anyone want it), usability (can they use it),
+            feasibility (can it be built) and viability (does it work for the
+            business). Each decision names the one it settles.
           </p>
 
           <div class="decision">
@@ -705,30 +627,26 @@
             <h3>Fixed, explainable rules instead of an AI grader</h3>
             <p class="decision-risk">Risk addressed: value, and trust</p>
             <p>
-              The obvious build is to send the article to a language model and
-              ask it for a score, and I chose not to. Every point lost here
-              shows the sentence that caused it, what is wrong with it, why it
-              matters to an agent, and what to write instead. A score that
-              cannot explain itself is a toy, and a score out of a black box is
-              exactly what this audience would reject, because a knowledge
-              manager asking to pause publishing for a rewrite has to show a
-              colleague the sentence and the reason rather than a number from a
-              model that might say something different tomorrow.
+              The obvious build sends the article to a language model and asks
+              for a score, and I chose not to. Every point lost shows the
+              sentence that caused it, why it matters to an agent, and what to
+              write instead. A knowledge manager asking to pause publishing for
+              a rewrite has to show a colleague the sentence and the reason, not
+              a number from a model that might say something different tomorrow.
             </p>
             <ul class="tradeoff">
               <li>
                 <span class="k">Cost</span
                 ><span
-                  >Blunter than judging meaning properly, and it will flag some
-                  perfectly good writing.</span
+                  >Blunter than judging meaning, and it will flag some good
+                  writing.</span
                 >
               </li>
               <li>
                 <span class="k">Bought</span
                 ><span
-                  >The same article always gets the same score, the result can
-                  be defended in a meeting, and there are no servers to
-                  run.</span
+                  >The same article always scores the same, the result can be
+                  defended in a meeting, and there are no servers to run.</span
                 >
               </li>
             </ul>
@@ -737,18 +655,13 @@
           <div class="decision">
             <span class="decision-num">Decision 2</span>
             <h3>Everything runs in your browser, with no network requests</h3>
-            <p class="decision-risk">
-              Risk addressed: viability, and the confidentiality worry
-            </p>
+            <p class="decision-risk">Risk addressed: viability, and confidentiality</p>
             <p>
-              Knowledge-base articles are confidential by default, because they
-              hold internal procedures, unreleased features, escalation paths
-              and customer names in examples. Any tool that asks an author to
-              paste that in has to answer "where does this go?" before it earns
-              the first paste. Here the answer is that it goes nowhere, and you
-              do not have to believe me, because you can turn off your Wi-Fi and
-              run it again. The page makes no network requests at all, and you
-              can confirm that in your own browser.
+              Knowledge-base articles hold internal procedures, unreleased
+              features, escalation paths and customer names in examples, so any
+              tool that asks an author to paste one in has to answer "where does
+              this go?" first. Here it goes nowhere, and you do not have to take
+              my word for it: turn off your Wi-Fi and run it again.
             </p>
             <ul class="tradeoff">
               <li>
@@ -758,8 +671,8 @@
               <li>
                 <span class="k">Bought</span
                 ><span
-                  >An author can try this on a real article without asking
-                  anyone's permission first.</span
+                  >An author can try it on a real article without asking
+                  anyone's permission.</span
                 >
               </li>
             </ul>
@@ -771,15 +684,12 @@
             <p class="decision-risk">Risk addressed: usability</p>
             <p>
               Authors do not write in plain text markup. They copy from a
-              finished page in Zendesk, Confluence or ServiceNow, and a
-              plain-text paste of that arrives with the headings flattened into
-              ordinary sentences. That matters more here than it would in most
-              tools, because headings are where sections begin, the section is
-              the unit every check scores, and four of the five checks have
-              rules that read the headings themselves. So the tool takes the
-              formatted version of what you copied and converts it, which means
-              the analysis is accurate on the input people really have instead of
-              the tidy input a file format imagines.
+              finished page in Zendesk, Confluence or ServiceNow, and pasting
+              that as plain text flattens the headings into ordinary sentences.
+              Headings are where sections begin, the section is the unit every
+              check scores, and four of the five checks have rules that read the
+              headings themselves, so the tool converts the formatted version of
+              what you copied instead.
             </p>
             <ul class="tradeoff">
               <li>
@@ -804,28 +714,26 @@
             <h3>A cap on how often one rule can cost you points</h3>
             <p class="decision-risk">Risk addressed: value</p>
             <p>
-              Only the first three findings from any single rule count against
-              the score, and the rest are still listed but marked as the same
-              habit rather than as fresh evidence. One bad habit repeated thirty
-              times should read as one lesson rather than as a zero, because a
-              rubric that hands back a zero teaches the author nothing except
-              that the tool is hostile. Of everything here, this is the change
-              that most affects whether a score gets shared with the team or
-              quietly closed.
+              Only the first three findings from any one rule count against the
+              score, and the rest are listed as the same habit rather than fresh
+              evidence. One bad habit repeated thirty times is one lesson, not a
+              zero, and a rubric that returns a zero teaches the author only
+              that the tool is hostile. This is the change that most affects
+              whether a score gets shared with the team or quietly closed.
             </p>
             <ul class="tradeoff">
               <li>
                 <span class="k">Cost</span
                 ><span
-                  >Two genuinely poor articles can end up scoring closer
-                  together than they deserve.</span
+                  >Two genuinely poor articles can score closer together than
+                  they deserve.</span
                 >
               </li>
               <li>
                 <span class="k">Bought</span
                 ><span
                   >Scores that feel fair, and fairness is what makes a rubric
-                  worth adopting.</span
+                  adoptable.</span
                 >
               </li>
             </ul>
@@ -837,12 +745,10 @@
             <p class="decision-risk">Risk addressed: usability</p>
             <p>
               The interface says "section" and never "chunk", and the ideas the
-              rubric rests on, such as whether a passage stands on its own and
-              whether a pronoun has anything nearby to refer to, are explained
-              rather than assumed. This sounds cosmetic, but it is the
-              positioning made concrete: the category is full of tools that
-              speak to people who already know the jargon and empty of tools
-              that speak to the person writing the words.
+              rubric rests on are explained rather than assumed. This sounds
+              cosmetic, but it is the positioning made concrete: the category is
+              full of tools that speak to people who already know the jargon and
+              empty of tools that speak to the person writing the words.
             </p>
             <ul class="tradeoff">
               <li>
@@ -862,31 +768,25 @@
           <div class="decision">
             <span class="decision-num">Decision 6</span>
             <h3>Saying what already works, not just what is broken</h3>
-            <p class="decision-risk">
-              Risk addressed: value, as a Kano delighter
-            </p>
+            <p class="decision-risk">Risk addressed: value, as a Kano delighter</p>
             <p>
-              The report also picks out what is already working, such as
-              headings written as questions, tables used for comparisons and
-              numbered lists for procedures. None of it earns points, because it
-              is recognition rather than scoring. A tool that only ever
-              subtracts teaches authors to avoid it, and an author who runs this
-              once has not changed how they write, whereas an author who runs it
-              twice has.
+              The report also picks out what is working, such as headings
+              written as questions and numbered lists for procedures. None of it
+              earns points, because it is recognition rather than scoring. A
+              tool that only subtracts teaches authors to avoid it, and an
+              author who runs this once has not changed how they write, whereas
+              one who runs it twice has.
             </p>
             <ul class="tradeoff">
               <li>
                 <span class="k">Cost</span
-                ><span
-                  >Screen space, and part of the report's attention
-                  budget.</span
-                >
+                ><span>Screen space, and part of the report's attention budget.</span>
               </li>
               <li>
                 <span class="k">Bought</span
                 ><span
-                  >It reads as a coach rather than a critic, and that is what
-                  decides whether it gets opened a second time.</span
+                  >It reads as a coach rather than a critic, which decides
+                  whether it gets opened again.</span
                 >
               </li>
             </ul>
@@ -897,28 +797,27 @@
             <h3>Every rule tested twice, including a near miss</h3>
             <p class="decision-risk">Risk addressed: feasibility</p>
             <p>
-              Every rule ships with two tests: an example it must catch, and a
-              near miss it must leave alone. "This setting controls the retry
-              interval" is not a vague pronoun even though it starts with
-              "This", and a rule that cannot tell those two apart will flag good
-              writing and lose the author's trust in one sitting. The near miss
-              is the test that matters, because a rule-based checker rarely
-              fails by missing problems and usually fails by crying wolf.
+              Every rule ships with an example it must catch and a near miss it
+              must leave alone. "This setting controls the retry interval" is
+              not a vague pronoun even though it opens with "This", and a rule
+              that cannot tell the two apart will flag good writing and lose the
+              author in one sitting. The near miss is the test that matters,
+              because a rule-based checker rarely fails by missing problems and
+              usually fails by crying wolf.
             </p>
             <ul class="tradeoff">
               <li>
                 <span class="k">Cost</span
                 ><span
-                  >Slower rule writing, since a rule is not finished until both
+                  >Slower rule writing, since a rule is not done until both
                   tests exist.</span
                 >
               </li>
               <li>
                 <span class="k">Bought</span
                 ><span
-                  >A rubric that holds up. In this product the rubric
-                  <em>is</em> the product, and the interface is only how you
-                  read it.</span
+                  >Rubric integrity. In this product the rubric
+                  <em>is</em> the product.</span
                 >
               </li>
             </ul>
@@ -929,13 +828,12 @@
             <h3>A cut list, written down before the build</h3>
             <p class="decision-risk">Risk addressed: viability, and focus</p>
             <p>
-              Version 1 has no accounts, no server, no integrations with other
-              platforms, no batch mode, no automatic rewriting and no file
-              upload, and all of that was written down before the first line of
-              code so that later enthusiasm could not reopen the argument. Every
-              one of those features is defensible on its own, but together they
-              add up to a different product with a server, a privacy caveat and
-              no shipping date.
+              No accounts, no server, no integrations, no batch mode, no
+              automatic rewriting and no file upload, all written down before
+              the first line of code so that later enthusiasm could not reopen
+              the argument. Each of those is defensible alone. Together they are
+              a different product with a server, a privacy caveat and no
+              shipping date.
             </p>
             <ul class="tradeoff">
               <li>
@@ -947,10 +845,7 @@
               </li>
               <li>
                 <span class="k">Bought</span
-                ><span
-                  >A tool that shipped, and a privacy promise with no small
-                  print.</span
-                >
+                ><span>A tool that shipped, and a promise with no small print.</span>
               </li>
             </ul>
           </div>
@@ -958,18 +853,14 @@
           <h3>Kano classification</h3>
           <p>
             The <strong>Kano model</strong> sorts features by how people react
-            to them. Must-haves go unnoticed when they work and cause real anger
-            when they fail, performance features get better the more you invest
-            in them, and delighters are the things nobody asked for that stick
-            in the memory. Reading headings correctly is the must-have here,
-            because getting it wrong puts every section boundary in the wrong
-            place, which makes every check wrong, and nobody will report that as
-            a parsing bug because they will simply stop believing the score.
-            Marking passages in place and scoring each check separately are
-            performance features, where more precision is straightforwardly
-            better. The two delighters are the line on every finding explaining
-            why it matters to an agent, and a privacy claim you can test by
-            switching off your network.
+            to them. Reading headings correctly is the must-have, because
+            getting it wrong puts every section boundary in the wrong place, and
+            nobody reports that as a parsing bug because they simply stop
+            believing the score. Marking passages in place and scoring each
+            check separately are performance features, where more precision is
+            straightforwardly better. The delighters are the line on every
+            finding explaining why it matters to an agent, and a privacy claim
+            you can test by switching off your network.
           </p>
 
           <h3>Scope, made legible</h3>
@@ -987,42 +878,29 @@
               <tbody>
                 <tr>
                   <th scope="row">Input</th>
+                  <td>Pasted text, formatting preserved</td>
+                  <td>File upload, web addresses, integrations</td>
                   <td>
-                    Pasted text, including formatted pastes from finished KB
-                    pages
-                  </td>
-                  <td>File upload, web addresses, platform integrations</td>
-                  <td>
-                    Confidentiality and scope, since every other kind of input
-                    adds either a trust question or a server.
+                    Every other input adds a trust question or a server.
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">Analysis</th>
                   <td>5 fixed checks, 19 rules</td>
                   <td>AI models and similarity scoring</td>
-                  <td>
-                    Trust and the no-network rule, both of which a single model
-                    call would break.
-                  </td>
+                  <td>One model call would break both trust and the no-network rule.</td>
                 </tr>
                 <tr>
                   <th scope="row">Output</th>
-                  <td>
-                    Score, passages marked in place, a ranked fix list, a
-                    copyable report
-                  </td>
+                  <td>Score, marked passages, ranked fixes, copyable report</td>
                   <td>Automatic rewriting</td>
-                  <td>
-                    Authors keep authorship, and a rewrite button would turn a
-                    coach into a ghostwriter.
-                  </td>
+                  <td>A rewrite button turns a coach into a ghostwriter.</td>
                 </tr>
                 <tr>
                   <th scope="row">Platform</th>
                   <td>One static page that works offline</td>
-                  <td>Accounts, saved history, team features</td>
-                  <td>There is nothing to leak and nothing to maintain.</td>
+                  <td>Accounts, history, team features</td>
+                  <td>Nothing to leak and nothing to maintain.</td>
                 </tr>
               </tbody>
             </table>
@@ -1030,49 +908,43 @@
 
           <h3>Business viability, stated plainly</h3>
           <p>
-            There is no revenue model and none is planned. People clearly pay
-            for this kind of analysis, since enterprise platforms sell it as
-            audits and consulting, but free with no strings attached is the
-            position here rather than a plan to charge later. What I am betting
-            on is the judgement on display, in the public version of the work I
-            do, which is organising knowledge content so that autonomous agents
-            can resolve tickets. I am not going to invent a business case for a
-            portfolio piece.
+            There is no revenue model and none is planned. Willingness to pay
+            exists, since enterprise platforms charge for this analysis as
+            audits, but free with no strings is the position rather than a plan
+            to charge later. What I am betting on is the judgement on display,
+            in the public version of the work I do, which is organising
+            knowledge content so autonomous agents can resolve tickets.
           </p>
 
           <h3>What I got wrong, and what is still open</h3>
           <ol>
             <li>
               <strong>The weights are judgement, not evidence.</strong> The
-              25/20/20/15/20 split is my own ranking of what damages an answer
-              most, and there is no dataset of articles that agents failed on
-              behind it. The weights are defensible, but they are not validated.
+              25/20/20/15/20 split is my ranking of what damages an answer most,
+              with no dataset of failed articles behind it. Defensible, not
+              validated.
             </li>
             <li>
-              <strong>Fixed rules will misfire on good writing.</strong> The
-              per-rule cap and the near-miss tests limit the damage, but the
-              score is a strong hint rather than a verdict until it has been
-              calibrated against real production articles.
+              <strong>Fixed rules misfire on good writing.</strong> The cap and
+              the near-miss tests limit the damage, but the score is a strong
+              hint rather than a verdict until it is calibrated against real
+              production articles.
             </li>
             <li>
-              <strong>The demand evidence comes from vendors.</strong> It is
-              strong on the existence of the manual test and thin on what it
-              feels like to do it, which is why closing that gap is item three
-              on the roadmap, scheduled before launch messaging rather than
-              after it.
+              <strong>The demand evidence is vendor-sourced.</strong> Strong on
+              the existence of the manual test, thin on what it feels like to do
+              it.
             </li>
             <li>
               <strong>The rules only work properly in English.</strong> The tool
-              warns you when the text does not look like English, and a warning
-              is not a fix.
+              warns when the text does not look like English, and a warning is
+              not a fix.
             </li>
             <li>
-              <strong>With no usage data, the rubric can never be tuned by
-                watching people use it.</strong>
-              There is no funnel, no drop-off and no spread of real scores to
-              calibrate the bands against. That is the price of the privacy
-              promise and I am paying it knowingly and permanently, because the
-              alternative would break the one claim the tool rests on.
+              <strong>The rubric can never be tuned from usage.</strong> No
+              funnel, no drop-off, no spread of real scores to calibrate the
+              bands against. That is the price of decision 2, paid knowingly,
+              because the alternative breaks the claim the tool rests on.
             </li>
           </ol>
         </section>
@@ -1081,13 +953,12 @@
           <p class="section-kicker">Part F</p>
           <h2>What I would do next</h2>
           <p>
-            <strong>RICE</strong> scores each idea by reach, multiplied by
-            impact, multiplied by confidence, divided by effort, and it suits
-            this situation because the reach term punishes feature work on a
-            tool nobody can find yet. Two notes on the numbers. Reach is a
-            relative score out of 10 rather than a count of users, because I
-            have no traffic data and will not invent any, and effort is in
-            person-days, with both effort and impact being my own estimates.
+            <strong>RICE</strong> scores reach times impact times confidence,
+            divided by effort, and it suits this situation because reach
+            punishes feature work on a tool nobody can find yet. Reach is a
+            relative score out of 10 rather than a user count, since I have no
+            traffic data. Effort is in person-days, and both effort and impact
+            are my estimates.
           </p>
 
           <div class="table-scroll">
@@ -1137,8 +1008,7 @@
                 <tr>
                   <td colspan="6">
                     Joining conversations that already exist beats building an
-                    audience from scratch, and it is the playbook from my
-                    previous project.
+                    audience.
                   </td>
                 </tr>
                 <tr>
@@ -1154,15 +1024,14 @@
                 </tr>
                 <tr>
                   <td colspan="6">
-                    This closes the evidence gap named in
-                    <a href="#evidence">Part B</a>, before launch messaging is
-                    finalised rather than after.
+                    Closes the evidence gap in <a href="#evidence">Part B</a>
+                    before launch messaging, not after.
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">
-                    Version 2 check on whether sections stand alone, using a
-                    model that runs locally
+                    Version 2 standalone-section check, using a model that runs
+                    locally
                   </th>
                   <td class="num">4</td>
                   <td class="num">6</td>
@@ -1173,9 +1042,9 @@
                 <tr>
                   <td colspan="6">
                     transformers.js with all-MiniLM-L6-v2 is about 22MB
-                    compressed and still runs entirely inside the browser, so
-                    the privacy promise survives. Low confidence that it beats
-                    the fixed rules by enough to justify the download.
+                    compressed and stays in the browser, so the privacy promise
+                    survives. Low confidence it beats the fixed rules by enough
+                    to justify the download.
                   </td>
                 </tr>
                 <tr>
@@ -1188,8 +1057,8 @@
                 </tr>
                 <tr>
                   <td colspan="6">
-                    There is real demand from authors who work in files, but it
-                    reopens the input question the cut list closed.
+                    Real demand from authors who work in files, but it reopens
+                    the input question the cut list closed.
                   </td>
                 </tr>
                 <tr>
@@ -1202,10 +1071,9 @@
                 </tr>
                 <tr>
                   <td colspan="6">
-                    This is the feature I expect to be asked for most and the
-                    lowest-scoring one on the list. Teams ask for it, but this
-                    version scores for individuals, because individuals are who
-                    is here.
+                    The most-requested feature I expect, and the
+                    lowest-scoring. Teams want it; this version scores for
+                    individuals, because individuals are who is here.
                   </td>
                 </tr>
               </tbody>
@@ -1215,11 +1083,9 @@
           <div class="callout callout-success">
             <h4>The table forces the finding</h4>
             <p>
-              The top three items are about reaching people and testing my
-              evidence, and not one of them is a feature. The version 2 semantic
-              check, which is the most interesting thing on the list and the one
-              I most want to build, scores 4 against the publishing item's 115.
-              Capability was never the constraint.
+              The top three items are reach and evidence, and not one is a
+              feature. The version 2 check, the thing I most want to build,
+              scores 4 against publishing's 115.
             </p>
           </div>
         </section>
@@ -1229,10 +1095,9 @@
           <h2>What I would cut</h2>
           <p>
             The <strong>Blue Ocean ERRC grid</strong> asks what to eliminate,
-            what to reduce, what to raise and what to create, measured against
-            the norms of the category. It suits a cut list, because the plan
-            here is to compete on the things competitors ignore rather than to
-            out-feature them on the things they own.
+            reduce, raise and create against the norms of the category. It suits
+            a cut list, because the plan is to compete where competitors are not
+            looking rather than to out-feature them where they are.
           </p>
 
           <div class="errc">
@@ -1242,39 +1107,29 @@
                 <li>Servers and uploads.</li>
                 <li>Accounts.</li>
                 <li>Usage tracking.</li>
-                <li>Integrations with other platforms.</li>
+                <li>Integrations.</li>
                 <li>Automatic rewriting.</li>
               </ul>
-              <p>
-                Each one of these breaks either the privacy promise or the
-                focus, and two of them break both, so they go on sight.
-              </p>
+              <p>Each breaks either the privacy promise or the focus.</p>
             </div>
             <div class="errc-cell">
               <h4>Reduce</h4>
               <ul>
+                <li>Scope, to one pasted article at a time.</li>
                 <li>
-                  Scope, to one article at a time, pasted in. No queues and no
-                  crawling.
-                </li>
-                <li>
-                  Settings, to none at all. The rubric is the opinion, and a
-                  rubric you can adjust is a rubric you can talk out of a bad
-                  score.
+                  Settings, to none. A rubric you can adjust is a rubric you can
+                  talk out of a bad score.
                 </li>
               </ul>
             </div>
             <div class="errc-cell">
               <h4>Raise</h4>
               <ul>
+                <li>Explanation, so every point lost is accounted for.</li>
+                <li>Trust, through a claim you can test offline.</li>
                 <li>
-                  Explanation, so that every point lost is accounted for in the
-                  author's own words.
-                </li>
-                <li>Trust, through a privacy claim you can test offline.</li>
-                <li>
-                  Plain language, so the ideas behind the score are open to
-                  people who do not build software.
+                  Plain language, so the ideas behind the score reach people who
+                  do not build software.
                 </li>
               </ul>
             </div>
@@ -1282,9 +1137,8 @@
               <h4>Create</h4>
               <ul>
                 <li>
-                  A free, self-serve, nothing-to-install version of what the
-                  enterprise layer sells as consulting: the manual
-                  paragraph-by-paragraph AI-readiness test, done automatically.
+                  A free, zero-install version of what the enterprise layer
+                  sells as consulting.
                 </li>
               </ul>
             </div>
@@ -1294,11 +1148,6 @@
         <section id="method">
           <p class="section-kicker">Appendix</p>
           <h2>Method made visible</h2>
-          <p>
-            These are the frameworks that did real work here, and what each one
-            was load-bearing for. Where one did not change a decision, I left it
-            out and said so below.
-          </p>
 
           <div class="table-scroll">
             <table>
@@ -1313,40 +1162,37 @@
                 <tr>
                   <th scope="row">Jobs To Be Done</th>
                   <td>
-                    Defined the job, and identified whose job it is: the person
-                    who owns the content, rather than the engineer or the
-                    marketer.
+                    Defined the job, and whose it is: the content owner, not the
+                    engineer or the marketer.
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">Forces of Progress</th>
                   <td>
-                    Mapped the two reasons someone would refuse the tool onto
-                    two architecture decisions, which is the load-bearing link
-                    in this essay.
+                    Turned the two reasons for refusing the tool into two
+                    architecture decisions.
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">Kano model</th>
                   <td>
-                    Separated the must-have of reading headings correctly from
-                    the performance features of marked passages and per-check
-                    scores, and from the delighters of the "why this matters"
-                    lines and the offline proof.
+                    Separated heading parsing as a must-have from the
+                    delighters, which are the "why this matters" lines and the
+                    offline proof.
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">Cagan's four risks</th>
                   <td>
-                    Structured all eight decisions, and made each one name the
-                    risk it settles rather than the feature it adds.
+                    Made each of the eight decisions name the risk it settles
+                    rather than the feature it adds.
                   </td>
                 </tr>
                 <tr>
                   <th scope="row">RICE</th>
                   <td>
-                    Put distribution above features, and pushed the most
-                    interesting engineering work into fourth place.
+                    Put distribution above features, and the most interesting
+                    engineering work fourth.
                   </td>
                 </tr>
                 <tr>
@@ -1359,14 +1205,12 @@
 
           <h3>Deliberately left out</h3>
           <p>
-            I did not write personas, because there is one well-understood user
-            here, my own professional peers, and inventing three named
-            archetypes of a person I already understand would be box-ticking
-            rather than insight. I did not set a North Star metric or use the
-            HEART framework, because both need usage data, which decision 2
-            rules out, and a metric I cannot measure only invites false
-            confidence. I did not write OKRs, because this is a portfolio piece
-            rather than an organisation, and there is nobody to align.
+            No personas, because there is one well-understood user here and
+            inventing three archetypes of a person I already understand is
+            box-ticking. No North Star metric or HEART, because both need usage
+            data that decision 2 rules out, and a metric I cannot measure only
+            invites false confidence. No OKRs, because this is a portfolio piece
+            rather than an organisation.
           </p>
           <p>Naming what I left out, and why, is itself a position.</p>
         </section>
