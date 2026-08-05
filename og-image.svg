@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Social share card for the teardown page. The coordinate space is 1200x627
+  (the Open Graph large-summary ratio); public/og-image.png is rendered from
+  this file at 2x, 2400x1254, because a 1x asset gets scaled up on high-DPI
+  screens and softens. Edit here, not there — the render command is in the
+  README.
+
+  LAYOUT IS CENTRED ON PURPOSE. LinkedIn's profile "Featured" section does not
+  honour the 1.91:1 ratio: it centre-crops into a roughly square frame, which
+  throws away half the width. Every element lives inside a 540px-wide centre
+  column (x 330..870) so it survives that crop and still reads as a deliberate
+  centred card at full width.
+
+  Colours are literal values from tokens.css — an SVG cannot read a stylesheet,
+  and this file must not fetch anything. Neutral-950 ground, primary-400 rule,
+  success-400 and error-400 for the two verdicts. The accent ramp is unused: in
+  this design system it is reserved for measurement.
+
+  Fonts are a plain system stack. No webfont, no network request, ever.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="627" viewBox="0 0 1200 627">
+
+  <rect width="1200" height="627" fill="#10141a"/>
+
+  <!-- ============ an article, three sections, one an agent cannot answer from ============ -->
+
+  <rect x="450" y="58" width="300" height="222" rx="14" fill="#1b2028" stroke="#3f4653" stroke-width="2"/>
+
+  <!-- section 1 — passes -->
+  <rect x="468" y="82" width="4" height="42" rx="2" fill="#4aa576"/>
+  <rect x="486" y="82" width="126" height="13" rx="6.5" fill="#6f7887"/>
+  <rect x="486" y="105" width="180" height="8" rx="4" fill="#2b313b"/>
+  <path d="M 692 100 L 700 108 L 716 90" fill="none" stroke="#4aa576" stroke-width="5"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- section 2 — fails: it opens mid-thought, so retrieved alone it means nothing -->
+  <rect x="468" y="146" width="4" height="42" rx="2" fill="#d96450"/>
+  <rect x="486" y="146" width="96" height="13" rx="6.5" fill="#6f7887"/>
+  <rect x="486" y="169" width="180" height="8" rx="4" fill="#3f2a26"/>
+  <path d="M 694 154 L 714 174 M 714 154 L 694 174" fill="none" stroke="#d96450" stroke-width="5"
+        stroke-linecap="round"/>
+
+  <!-- section 3 — passes -->
+  <rect x="468" y="210" width="4" height="42" rx="2" fill="#4aa576"/>
+  <rect x="486" y="210" width="150" height="13" rx="6.5" fill="#6f7887"/>
+  <rect x="486" y="233" width="180" height="8" rx="4" fill="#2b313b"/>
+  <path d="M 692 228 L 700 236 L 716 218" fill="none" stroke="#4aa576" stroke-width="5"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ============ name and promise ============ -->
+
+  <text x="600" y="333" text-anchor="middle"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="21" font-weight="700" letter-spacing="3.4" fill="#4c9bb0">PRODUCT TEARDOWN</text>
+
+  <text x="600" y="404" text-anchor="middle"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="56" font-weight="700" fill="#f7f8f9">Will My Agent</text>
+  <text x="600" y="466" text-anchor="middle"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="56" font-weight="700" fill="#f7f8f9">Answer This?</text>
+
+  <rect x="545" y="492" width="110" height="5" rx="2.5" fill="#4c9bb0"/>
+
+  <text x="600" y="543" text-anchor="middle"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="25" font-weight="400" fill="#c8ced7">Paste a KB article. See whether</text>
+  <text x="600" y="578" text-anchor="middle"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="25" font-weight="400" fill="#c8ced7">an AI agent can answer from it.</text>
+
+</svg>

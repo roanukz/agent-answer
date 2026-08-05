@@ -7,6 +7,18 @@ plus inline highlights of every failing passage.
 
 Free · No account · No telemetry · 100% client-side.
 
+## Two pages, one URL
+
+| Path | What it is |
+| --- | --- |
+| `index.html` | The **product teardown** — the essay documenting the problem, the evidence, the gap analysis, the decisions and the kill list. This is the front door. |
+| `tool.html` | The **tool** itself. |
+
+Deployed: `roanukz.github.io/agent-answer/` (teardown) and
+`roanukz.github.io/agent-answer/tool.html` (tool). Both pages share
+`src/tokens.css`, so the essay and the thing it describes read as one
+product.
+
 ## The manual test this automates
 
 Teams rewriting their knowledge bases to be "AI-ready" are told to test
@@ -31,7 +43,9 @@ Same input, same score, always.
 
 Your text never leaves the browser. There is no server, no account, no
 analytics, no external font or script — the analysis is plain TypeScript
-running on your machine.
+running on your machine. The same rule binds the teardown page: no
+external fonts, scripts, analytics or images, and the Open Graph card is
+a file in this repo.
 
 To verify: load the page, **turn off Wi-Fi**, paste an article, and
 analyze. Everything works. You can also open the browser's network tab —
@@ -50,7 +64,22 @@ npm run smoke    # score both test fixtures from Node and print the results
 ```
 
 The analysis engine (`src/engine/`) is pure, DOM-free TypeScript — every
-rule is a small module with its own unit tests in `tests/rules/`.
+rule is a small module with its own unit tests in `tests/rules/`. The
+build has two entries (`index.html`, `tool.html`), wired in
+`vite.config.ts`.
+
+### The share card
+
+`og-image.svg` is the source; `public/og-image.png` is what ships, at
+2400×1254 — twice the 1200×627 Open Graph size, because a 1× asset is
+scaled up on high-DPI screens and visibly softens. The
+`og:image:width` / `og:image:height` tags must match whatever is
+committed. To regenerate after editing the SVG, render at 4× and
+downsample — supersampling gives noticeably cleaner edges:
+
+```bash
+soffice --headless --convert-to 'png:draw_png_Export:{"PixelWidth":{"type":"long","value":4800},"PixelHeight":{"type":"long","value":2508}}' --outdir /tmp/og og-image.svg && sips -z 1254 2400 /tmp/og/og-image.png --out public/og-image.png
+```
 
 The UI uses the same token-based design system as
 [Save the Dates](https://github.com/Roanukz): cool grey neutrals, an
@@ -63,8 +92,8 @@ tokens, never raw ramp values.
 Pushing to `main` runs tests, builds, and deploys to GitHub Pages via
 `.github/workflows/deploy.yml`. One-time setup: in the repo settings,
 set **Pages → Source** to **"GitHub Actions"**. The Vite `base` is
-`/will-my-agent-answer-this/`; change it in `vite.config.ts` if your repo
-name differs.
+`/agent-answer/`, which must match the repo name; change it in
+`vite.config.ts` if the repo is named differently.
 
 ## v2 roadmap
 

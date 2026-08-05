@@ -3,3 +3,6 @@ dist/
 dist-smoke/
 *.log
 .DS_Store
+
+# Claude Code local dev config
+.claude/
