@@ -48,10 +48,25 @@ external fonts, scripts, analytics or images, and the Open Graph card is
 a file in this repo.
 
 To verify: load the page, **turn off Wi-Fi**, paste an article, and
-analyze. Everything works. You can also open the browser's network tab —
-after the initial page load there are zero requests — or grep the built
-bundle: `fetch(`, `XMLHttpRequest`, and `sendBeacon` do not appear in
-`dist/`.
+analyze. Everything works. You can also open the browser's network tab
+(after the initial page load there are zero requests) or grep the built
+bundle, where `fetch(`, `XMLHttpRequest` and `sendBeacon` do not appear.
+
+The built pages also carry a strict content security policy, injected at
+build time by a plugin in `vite.config.ts`:
+
+```
+default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline';
+img-src 'self' data:; base-uri 'none'; form-action 'none'
+```
+
+`default-src 'none'` covers `connect-src`, so the browser refuses every
+outbound request even if a future dependency attempts one. Paste
+`fetch('https://example.com')` into the console on the live site and it
+is blocked. `style-src` allows inline styles because the finding tooltip
+is positioned at a computed pixel coordinate; it permits styling, never a
+request. It is build-only, because the dev server needs a WebSocket for
+hot reload.
 
 ## Local development
 

@@ -141,7 +141,12 @@
   --border-default: var(--neutral-300);   /* controls */
   --border-strong:  var(--neutral-400);   /* hover */
 
-  --text-muted:   var(--neutral-500);
+  /* 600, not 500. Muted styles the 13px text on both pages (bylines,
+     kickers, captions, footers, table sub-labels) and neutral-500 on the
+     page background measures 4.19:1, which fails WCAG AA for text this
+     small. 600 measures 6.17:1 and still reads as clearly recessive
+     against text-body at 700. */
+  --text-muted:   var(--neutral-600);
   --text-body:    var(--neutral-700);
   --text-heading: var(--neutral-900);
 

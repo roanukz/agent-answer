@@ -120,9 +120,9 @@
           <p class="section-kicker">Part A</p>
           <h2>The problem</h2>
           <p>
-            An AI support agent does not read your article. Software splits it
-            into pieces, usually one per section, and files each piece
-            separately. When a customer asks a question, it retrieves the few
+            The problem is that an AI support agent never reads your article.
+            Software splits it into pieces, usually one per section, and files
+            each piece separately. When a customer asks a question, it retrieves the few
             pieces that best match and the agent answers from those alone,
             without the title, the introduction, or the paragraphs that came
             before. So a section that only makes sense in sequence is a section
@@ -327,8 +327,9 @@
           <div class="callout callout-warning">
             <h4>Freshness check, August 2026</h4>
             <p>
-              "AI readiness checker" has become a crowded label, so I re-checked
-              the space before publishing. Most new arrivals resemble Rank
+              This freshness check matters because "AI readiness checker" has
+              become a crowded label, so I re-checked the space before
+              publishing. Most new arrivals resemble Rank
               Prompt's free
               <a href="https://rankprompt.com/tools/free-ai-readiness-checker/"
                 >AI Readiness Checker</a
@@ -362,8 +363,8 @@
           <p class="section-kicker">Part C</p>
           <h2>Market and incentives</h2>
           <p>
-            Two outside numbers, and no others. Gartner's projection above is
-            the demand driver. For size, knowledge management software is
+            The market case rests on two outside numbers and no others.
+            Gartner's projection above is the demand driver. For size, knowledge management software is
             projected to reach $75.22 billion by 2034 at a 12.3% annual growth
             rate
             (<a
@@ -414,7 +415,7 @@
             technical. It is a gap in incentives, which is a sturdier thing to
             sit behind, and the same shape as the argument in my previous
             teardown about why Google will not fix Takeout's metadata. A gap that
-            exists because nobody thought of it closes as soon as somebody does.
+            exists because nobody thought of it closes the moment somebody does.
             A gap that exists because closing it costs the incumbent money stays
             open.
           </p>
@@ -607,7 +608,7 @@
           <p class="section-kicker">Part E</p>
           <h2>What I built</h2>
           <p>
-            One web page. You paste in an article and get a score out of 100 for
+            I built one web page. You paste in an article and get a score out of 100 for
             how well an agent could answer from it, across five checks: whether
             sections stand alone, whether the answer comes first, whether
             references point at something nearby, whether each section holds one
@@ -661,7 +662,11 @@
               features, escalation paths and customer names in examples, so any
               tool that asks an author to paste one in has to answer "where does
               this go?" first. Here it goes nowhere, and you do not have to take
-              my word for it: turn off your Wi-Fi and run it again.
+              my word for it: turn off your Wi-Fi and run it again. The page
+              also ships a content security policy that refuses outbound
+              connections of any kind, so the browser enforces the promise
+              rather than my discipline. If a future dependency ever tried to
+              phone home, it would be blocked rather than trusted.
             </p>
             <ul class="tradeoff">
               <li>
@@ -908,7 +913,8 @@
 
           <h3>Business viability, stated plainly</h3>
           <p>
-            There is no revenue model and none is planned. Willingness to pay
+            The business case is that there is no revenue model and none is
+            planned. Willingness to pay
             exists, since enterprise platforms charge for this analysis as
             audits, but free with no strings is the position rather than a plan
             to charge later. What I am betting on is the judgement on display,
@@ -939,6 +945,17 @@
               <strong>The rules only work properly in English.</strong> The tool
               warns when the text does not look like English, and a warning is
               not a fix.
+            </li>
+            <li>
+              <strong>I ran this page through the tool, and it marked me
+                down.</strong>
+              Answer first was the weakest check, because several sections
+              opened with context instead of the point. Those openings are
+              rewritten, which is the rubric doing its job on its author. It
+              also flagged the Cost and Bought lines in every decision as buried
+              steps, and I left those alone, because they are a summary rather
+              than a procedure. That is exactly the false positive risk 2
+              describes, found in my own writing.
             </li>
             <li>
               <strong>The rubric can never be tuned from usage.</strong> No
