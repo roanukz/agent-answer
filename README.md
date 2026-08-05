@@ -99,8 +99,12 @@ set **Pages → Source** to **"GitHub Actions"**. The Vite `base` is
 
 - Local-embedding semantic self-containment check (in-browser, still no
   server)
-- DOCX/PDF ingestion
+- DOCX/HTML ingestion
 - Batch mode
+
+The teardown's [RICE table](index.html) is the current, prioritised
+version of this list. Every source quoted in the teardown was re-checked
+at its own page in August 2026.
 
 ## Non-goals
 

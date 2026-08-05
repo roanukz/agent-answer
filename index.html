@@ -278,44 +278,69 @@
           <ul class="evidence">
             <li>
               <span class="src">SearchUnify</span>
-              <span class="yr">2026 best-practices guide</span>
+              <span class="yr">Building an AI-Ready Knowledge Base: Best
+                Practices for 2026, published 1 July 2026</span>
               <blockquote>
                 <p>
                   "Pull a paragraph from the middle of each one, remove the
                   title and surrounding context, and read it the way an agent
-                  would, as a standalone fragment… if a section can't be
-                  understood without reading what came before it, it needs to be
-                  rewritten."
+                  would, as a standalone fragment. If that fragment alone isn't
+                  enough to produce a reliable answer, the knowledge base is the
+                  performance bottleneck."
                 </p>
               </blockquote>
+              <p>
+                A second answer in the same guide gives the rule behind the
+                test: "if a section can't be understood without reading what
+                came before it, it needs to be rewritten."
+                <a
+                  href="https://www.searchunify.com/resource-center/blog/building-an-ai-ready-knowledge-base-best-practices-for-2026/"
+                  >Read the guide</a
+                >.
+              </p>
             </li>
             <li>
               <span class="src">Rankscale</span>
-              <span class="yr">describing the identical manual workflow</span>
+              <span class="yr">Chunkability for RAG, in a section headed "The
+                paste-into-a-blank-doc test"</span>
               <blockquote>
                 <p>
                   "Cut it, paste it into a blank document. Read it cold…
-                  Rewrite. Repeat for every paragraph."
+                  Rewrite. Repeat for every paragraph on the page."
                 </p>
               </blockquote>
+              <p>
+                A different vendor, arriving at the same hands-on routine.
+                <a
+                  href="https://rankscale.ai/resources/modules/seo-gaps/chunkability-for-rag"
+                  >Read the module</a
+                >.
+              </p>
             </li>
             <li>
               <span class="src">Rezolve.ai</span>
-              <span class="yr">on the state of existing content</span>
+              <span class="yr">on auditing the content you already have</span>
               <blockquote>
                 <p>
-                  "it's common for only a small percentage of content to be
+                  "It's common for only a small percentage of content to be
                   AI-ready in its current form."
                 </p>
               </blockquote>
+              <p>
+                <a
+                  href="https://www.rezolve.ai/blog/building-an-ai-ready-knowledge-base-best-practices"
+                  >Read the post</a
+                >.
+              </p>
             </li>
             <li>
               <span class="src">RefineTrain AI</span>
               <span class="yr">Y Combinator, W22</span><br />
-              A company whose entire business is rewriting documentation so that
-              AI retrieval can use it. Venture money has been raised against
-              this exact problem, which tells me it is a fundable one rather
-              than a private irritation.
+              A company whose entire business is
+              <a href="https://www.ycombinator.com/companies/refinetrain-ai"
+                >rewriting and optimising internal documentation for LLMs</a
+              >. Venture money has been raised against this exact problem, which
+              tells me it is a fundable one rather than a private irritation.
             </li>
             <li>
               <span class="src">Gartner</span>
@@ -340,24 +365,38 @@
           <div class="callout callout-warning">
             <h4>Freshness check, August 2026</h4>
             <p>
-              I checked the gap again immediately before building, because a gap
-              this obvious invites company. The closest new arrival is Rank
-              Prompt's free
+              I checked the gap again immediately before publishing, because a
+              gap this obvious invites company, and the "AI readiness checker"
+              label has become crowded. Rank Prompt's free
               <a href="https://rankprompt.com/tools/free-ai-readiness-checker/"
                 >AI Readiness Checker</a
-              >, which is built for marketers and checks a public web address
-              for visibility in AI search results. It serves a different user,
-              takes a different input and answers a different question, so the
-              gap holds.
+              >
+              is typical of the new arrivals: you give it a web address, and it
+              reports on robots.txt rules for AI crawlers, schema markup,
+              sitemaps and whether you publish an llms.txt. Several others now
+              do the same job for the same audience.
+            </p>
+            <p>
+              The closest thing to a real overlap is NotionCue's free
+              <a href="https://notioncue.com/ai-readability-checker"
+                >AI Readability Checker</a
+              >, which does accept pasted text and does score answer-first
+              structure and heading hierarchy. It is scored for a marketer who
+              wants a public page quoted in AI answers, though, and it does not
+              test the thing this tool exists to test, which is whether a
+              section still means anything once it has been retrieved without
+              the article around it. The gap is narrower than it was, and it
+              holds.
             </p>
           </div>
 
           <div class="callout callout-notice">
             <h4>Where this evidence is weak, stated up front</h4>
             <p>
-              The demand evidence leans on vendor and practitioner blogs plus
-              one Y Combinator company, and three of the five sources above are
-              vendor guides, cited by publisher and title. What I do not have is
+              Every source above is linked, and I re-checked each quote at its
+              own page before publishing. The weakness is not accuracy, it is
+              the type of source: three of the five are vendor guides, and the
+              fourth is a company with a product to sell. What I do not have is
               first-hand complaint from working technical writers, the "I spent
               my Friday doing this by hand" post. A focused pass through those
               communities is item three on the <a href="#next">roadmap</a>, and
@@ -380,7 +419,11 @@
             (<a
               href="https://straitsresearch.com/press-release/global-knowledge-management-software-market-companies"
               >Straits Research</a
-            >). I am not claiming a share of that number, only using it to show
+            >). Treat that second figure as an order of magnitude rather than a
+            precise forecast, because the same firm publishes another report on
+            the same market with a materially different number, and I would
+            rather say so than pretend the analyst consensus is tighter than it
+            is. I am not claiming a share of it either way, only using it to show
             where this tool sits inside the market.
           </p>
           <p>
@@ -403,8 +446,13 @@
               <strong>Enterprise knowledge platforms</strong> such as Bloomfire,
               SearchUnify, Rezolve and DevRev sell AI readiness as audits,
               premium modules and services, and a free tool you can paste an
-              article into eats into exactly that revenue. They could build it in
-              a sprint, but they have no reason to give it away.
+              article into eats into exactly that revenue. The shape of their
+              pricing is the tell: Bloomfire, which publishes its own guide on
+              <a href="https://bloomfire.com/blog/audit-kms-for-ai-readiness/"
+                >auditing a knowledge base for AI readiness</a
+              >, sends you to a sales contact form rather than to a self-serve
+              plan. Any of these companies could build this in a sprint, but
+              none of them has a reason to give it away.
             </li>
             <li>
               <strong>Generative search tools</strong>, sold as GEO or AEO, help
@@ -523,9 +571,11 @@
           <div class="table-scroll">
             <table>
               <caption>
-                My reading of how these products describe themselves publicly,
-                not a hands-on feature audit. "Unclear" means I could not verify
-                it, so I am not asserting it either way.
+                Checked against each product's own pages in August 2026, which
+                is not the same as a hands-on feature audit. "Unclear" means I
+                could not verify it, so I am not asserting it either way, and
+                where a category is mixed I have credited the competitor with
+                the more generous reading.
               </caption>
               <thead>
                 <tr>
@@ -554,12 +604,12 @@
                 <tr>
                   <th scope="row">
                     Retrieval preview tools<br />
-                    <span class="yr">Langcopilot, Ailog, AgentSwarms</span>
+                    <span class="yr">LangCoPilot, Ailog, AgentSwarms</span>
                   </th>
                   <td class="no">No</td>
                   <td class="no">No</td>
-                  <td class="unclear">Unclear</td>
-                  <td class="unclear">Unclear</td>
+                  <td class="yes">Yes</td>
+                  <td class="yes">Yes</td>
                   <td class="unclear">Unclear</td>
                   <td class="no">No</td>
                 </tr>
@@ -570,8 +620,8 @@
                   </th>
                   <td class="no">No</td>
                   <td class="no">No</td>
-                  <td class="unclear">Unclear</td>
                   <td class="partial">Some</td>
+                  <td class="yes">Yes</td>
                   <td class="no">No</td>
                   <td class="unclear">Unclear</td>
                 </tr>
@@ -601,17 +651,29 @@
           </div>
 
           <p>
-            The retrieval preview tools are the closest miss and the most
-            instructive one. They divide a document up and show you the pieces,
-            which is the right raw material, but they stop before the judgement.
-            Showing an author their article in fragments answers the question
-            "what will the software store?" without answering "can an agent
-            answer from this?", and the second question is the one the job asks.
-            Answering it needs a rubric rather than a viewer. The AI search
-            checkers do score structure and answer-first writing, which
-            overlaps, but they score a public web page, for visibility in AI
-            answers, on a server, for a marketer, and every part of that
-            sentence describes a different product.
+            The two near misses are worth being precise about, because both are
+            closer than a competitive table usually admits. The retrieval preview
+            tools are free and they do take pasted text: you set a chunk size,
+            and they show you the pieces your document will be broken into,
+            which is exactly the right raw material. They stop before the
+            judgement, though. Showing an author their article in fragments
+            answers the question "what will the software store?" without
+            answering "can an agent answer from this?", and the second question
+            is the one the job asks. Answering it needs a rubric rather than a
+            viewer, and it needs to be phrased for someone who has never chosen
+            a chunk size in their life.
+          </p>
+          <p>
+            The AI search visibility checkers come closer still, since the best
+            of them are free, accept pasted text, and score answer-first
+            structure and heading hierarchy, which genuinely overlaps with two
+            of my five checks. The difference is what they are scoring for. They
+            are built to get a public marketing page quoted inside an AI answer,
+            they run on a server, and none of them asks the question this tool
+            is built around, which is whether a section still stands up once
+            retrieval has pulled it out of the article on its own. That is the
+            check with the heaviest weight here, and it is the one nobody else
+            is running.
           </p>
         </section>
 
