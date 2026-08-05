@@ -30,7 +30,7 @@ export function renderFixList(
         el(
           'p',
           { class: 'fix-points' },
-          `+${fmtPoints(f.recovery)} points · ${f.severity} · ${report.checks.find((c) => c.def.id === f.checkId)?.def.name ?? ''}`
+          `+${fmtPoints(f.impact)} points · ${f.severity} · ${report.checks.find((c) => c.def.id === f.checkId)?.def.name ?? ''}`
         )
       )
     )

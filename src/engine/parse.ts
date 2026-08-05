@@ -27,6 +27,8 @@ interface Line {
   inFence: boolean
   /** True for the opening/closing ``` lines themselves. */
   isFenceMarker: boolean
+  /** Metadata lines (YAML frontmatter) that never become content. */
+  skip: boolean
 }
 
 interface HeadingMark {
@@ -63,7 +65,8 @@ function splitLines(source: string): Line[] {
       end,
       blank: text.trim() === '',
       inFence: false,
-      isFenceMarker: false
+      isFenceMarker: false,
+      skip: false
     })
     if (nl === source.length) break
     start = nl + 1
@@ -71,10 +74,29 @@ function splitLines(source: string): Line[] {
   return lines
 }
 
+/**
+ * YAML frontmatter (--- … --- at the very top, common in markdown exported
+ * from CMS and static-site tools) is metadata, not prose. Treat it like a
+ * fenced region so it never becomes headings or paragraphs.
+ */
+function markFrontmatter(lines: Line[]): void {
+  if (lines.length === 0 || !/^---\s*$/.test(lines[0]!.text)) return
+  for (let i = 1; i < Math.min(lines.length, 40); i++) {
+    if (/^---\s*$/.test(lines[i]!.text)) {
+      for (let k = 0; k <= i; k++) {
+        lines[k]!.skip = true
+        lines[k]!.inFence = true // keeps heading detection away too
+      }
+      return
+    }
+  }
+}
+
 function markFences(lines: Line[]): void {
   let open = false
   let marker = ''
   for (const line of lines) {
+    if (line.isFenceMarker) continue // frontmatter delimiters stay as-is
     const m = FENCE_RE.exec(line.text)
     if (m && (!open || m[1] === marker)) {
       line.isFenceMarker = true
@@ -87,7 +109,7 @@ function markFences(lines: Line[]): void {
         marker = ''
       }
     } else {
-      line.inFence = open
+      line.inFence = line.inFence || open
     }
   }
 }
@@ -110,6 +132,8 @@ function detectMarkdownHeadings(lines: Line[]): HeadingMark[] {
       continue
     }
     // Setext: a non-blank text line followed by === or --- underline.
+    // The text line must not itself look like an underline or rule, or
+    // '---' pairs (thematic breaks, frontmatter remnants) become headings.
     const next = lines[i + 1]
     if (
       next &&
@@ -118,6 +142,8 @@ function detectMarkdownHeadings(lines: Line[]): HeadingMark[] {
       !BULLET_RE.test(line.text) &&
       !NUMBERED_RE.test(line.text) &&
       !BLOCKQUOTE_RE.test(line.text) &&
+      !SETEXT_EQ_RE.test(line.text) &&
+      !SETEXT_DASH_RE.test(line.text) &&
       !line.text.includes('|') &&
       (SETEXT_EQ_RE.test(next.text) || SETEXT_DASH_RE.test(next.text))
     ) {
@@ -281,7 +307,7 @@ function buildBlocks(source: string, lines: Line[]): Block[] {
   }
   while (i < lines.length) {
     const line = lines[i]!
-    if (line.blank) {
+    if (line.blank || line.skip) {
       i++
       continue
     }
@@ -321,6 +347,7 @@ function isOpening(lines: Line[], idx: number): boolean {
 
 export function parse(source: string): DocModel {
   const lines = splitLines(source)
+  markFrontmatter(lines)
   markFences(lines)
 
   let headings = detectMarkdownHeadings(lines)
@@ -371,8 +398,9 @@ export function parse(source: string): DocModel {
   } else {
     const firstHeading = headings[0]!
     const intro = lines.slice(0, firstHeading.lineIdx)
-    if (intro.some((l) => !l.blank)) {
-      sections.push(makeSection(null, intro))
+    if (intro.some((l) => !l.blank && !l.skip)) {
+      const sec = makeSection(null, intro)
+      if (sec.blocks.length > 0) sections.push(sec)
     }
     for (let h = 0; h < headings.length; h++) {
       const cur = headings[h]!

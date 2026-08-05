@@ -166,15 +166,18 @@ export function paragraphBlocks(section: Section): Block[] {
 }
 
 /**
- * The section's opening sentence: the first sentence of its first
- * paragraph block. Null when the section has no paragraph before any
- * other content that would carry one.
+ * The section's opening sentence: the first sentence of its opening
+ * paragraph. Null when the section opens with anything else (a list,
+ * table, or code block) — a paragraph further down is not the section's
+ * opener, and its antecedents travel with the section.
  */
 export function firstSentence(
   section: Section
 ): { sentence: SentenceNode; block: Block } | null {
-  const para = section.blocks.find((b) => b.type === 'paragraph')
-  if (!para || para.sentences.length === 0) return null
+  const para = section.blocks[0]
+  if (!para || para.type !== 'paragraph' || para.sentences.length === 0) {
+    return null
+  }
   return { sentence: para.sentences[0]!, block: para }
 }
 

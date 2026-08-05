@@ -119,7 +119,16 @@ export interface ScoredFinding extends Finding {
   deduction: number
   /** False when past the 3-per-rule cap ("not double-counted — same habit"). */
   counted: boolean
-  /** Overall (weighted, cap/floor-aware) points recovered by fixing this. */
+  /**
+   * Weighted overall points this finding contributes to the deficit
+   * (deduction × check weight when counted, else 0). Ranks the fix list.
+   */
+  impact: number
+  /**
+   * Exact overall points recovered by fixing this one finding — cap-aware
+   * (a capped sibling may take its place) and floor-aware. Can be 0 even
+   * for a counted major when the check is saturated.
+   */
   recovery: number
 }
 

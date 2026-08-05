@@ -94,21 +94,40 @@ export function buildReport(doc: DocModel, findings: Finding[]): Report {
     perRuleCount.set(f.ruleId, seen + 1)
     const deduction = f.positive ? 0 : deductionFor(f.severity)
     const counted = !f.positive && seen < PER_RULE_CAP
-    return { ...f, deduction, counted, recovery: 0 }
+    return { ...f, deduction, counted, impact: 0, recovery: 0 }
   })
 
+  /**
+   * A check's capped deduction with some findings excluded ("fixed").
+   * Re-applies the per-rule cap, so fixing a counted finding can promote
+   * a previously uncounted sibling into the cap.
+   */
+  const cappedDeduction = (
+    own: ScoredFinding[],
+    excluded: ReadonlySet<ScoredFinding>
+  ): number => {
+    const count = new Map<string, number>()
+    let total = 0
+    for (const f of own) {
+      if (f.positive || excluded.has(f)) continue
+      const seen = count.get(f.ruleId) ?? 0
+      count.set(f.ruleId, seen + 1)
+      if (seen < PER_RULE_CAP) total += f.deduction
+    }
+    return total
+  }
+
+  const NONE: ReadonlySet<ScoredFinding> = new Set()
   const checks: CheckResult[] = CHECK_DEFS.map((def) => {
     const own = scored.filter((f) => f.checkId === def.id)
-    const totalDeduction = own.reduce(
-      (n, f) => n + (f.counted ? f.deduction : 0),
-      0
-    )
+    const totalDeduction = cappedDeduction(own, NONE)
     const score = Math.max(0, 100 - totalDeduction)
-    // Exact recovery: what the check (and overall) would gain if this one
-    // finding were fixed. Respects the floor at 0.
     for (const f of own) {
       if (!f.counted || f.deduction === 0) continue
-      const without = Math.max(0, 100 - (totalDeduction - f.deduction))
+      f.impact = f.deduction * def.weight
+      // Exact recovery for fixing this one finding: cap-aware and
+      // floor-aware, so it can be 0 when siblings would fill the gap.
+      const without = Math.max(0, 100 - cappedDeduction(own, new Set([f])))
       f.recovery = (without - score) * def.weight
     }
     return { def, score, status: checkStatus(score), findings: own }
@@ -120,18 +139,27 @@ export function buildReport(doc: DocModel, findings: Finding[]): Report {
 
   const issues = scored.filter((f) => !f.positive)
   const strengths = scored.filter((f) => f.positive === true)
+  // Rank by impact (the weighted points a finding costs), so majors lead
+  // even when a saturated check makes any single fix recover 0.
   const fixes = [...issues]
     .sort(
       (a, b) =>
-        b.recovery - a.recovery ||
+        b.impact - a.impact ||
         deductionFor(b.severity) - deductionFor(a.severity) ||
         a.span.start - b.span.start
     )
-    .filter((f) => f.recovery > 0)
+    .filter((f) => f.impact > 0)
     .slice(0, 5)
-  const topFixRecovery = fixes
-    .slice(0, 3)
-    .reduce((n, f) => n + f.recovery, 0)
+  // The summary's "~N points" is the exact overall gain from fixing the
+  // top three together — group math handles cap promotion and the floor.
+  const topSet = new Set(fixes.slice(0, 3))
+  const topFixRecovery = checks.reduce((sum, c) => {
+    const withoutTop = Math.max(
+      0,
+      100 - cappedDeduction(c.findings, topSet)
+    )
+    return sum + (withoutTop - c.score) * c.def.weight
+  }, 0)
 
   const checksWithIssues = checks.filter((c) =>
     c.findings.some((f) => !f.positive)

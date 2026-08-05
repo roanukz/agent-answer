@@ -98,3 +98,24 @@ describe('buried-steps', () => {
     expect(rule.run(parse(src))).toHaveLength(0)
   })
 })
+
+describe('buried-steps: steps below an opening summary list', () => {
+  it('still fires when a short list precedes the prose that buries the real steps', () => {
+    const doc = parse(
+      [
+        '## Reset a token',
+        '',
+        '- quick summary item one',
+        '- quick summary item two',
+        '',
+        'First sentence of context. Second sentence of context. Third sentence of context. Fourth sentence of context.',
+        '',
+        '1. Open the portal.',
+        '2. Select Reset token.'
+      ].join('\n')
+    )
+    const findings = rule.run(doc)
+    expect(findings).toHaveLength(1)
+    expect(findings[0]!.ruleId).toBe('buried-steps')
+  })
+})

@@ -65,3 +65,16 @@ describe('slow-start', () => {
     expect(rule.run(parse(src))).toHaveLength(0)
   })
 })
+
+describe('slow-start: headings made only of filtered words', () => {
+  it('falls back to raw 4+ letter heading words instead of firing vacuously', () => {
+    const long =
+      'These steps normally finish in a few minutes for most accounts, ' +
+      'although the exact timing depends on the region, the account type, ' +
+      'the number of connected devices, the state of the request queue, ' +
+      'and whether a maintenance window is currently in progress across ' +
+      'the platform, so please allow extra time before retrying anything.'
+    const doc = parse(`## Steps overview\n\n${long}\n`)
+    expect(rule.run(doc)).toHaveLength(0)
+  })
+})

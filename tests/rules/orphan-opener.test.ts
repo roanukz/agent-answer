@@ -105,3 +105,12 @@ describe('orphan-opener', () => {
     )
   })
 })
+
+describe('orphan-opener: section opening with a non-paragraph block', () => {
+  it('does not flag a later paragraph when the section opens with a list', () => {
+    const doc = parse(
+      '## Export limits\n\n- 10 GB per export\n- 3 exports per day\n\nThis means large exports are split into parts.\n'
+    )
+    expect(rule.run(doc)).toHaveLength(0)
+  })
+})

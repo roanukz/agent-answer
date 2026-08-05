@@ -4,6 +4,33 @@ import { SCORING_RULE_IDS } from '../src/engine/rules/index'
 import badArticle from './fixtures/bad-article.md?raw'
 import goodArticle from './fixtures/good-article.md?raw'
 
+/**
+ * The 19 scoring rules the spec defines, written out literally so a rule
+ * silently dropped from the registry fails here instead of shrinking the
+ * expectation with it.
+ */
+const SPEC_RULE_IDS = [
+  'orphan-opener',
+  'cross-section-pointer',
+  'generic-heading',
+  'orphan-acronym',
+  'preamble-opener',
+  'buried-steps',
+  'slow-start',
+  'dangling-pointer',
+  'bare-demonstrative',
+  'ambiguous-it',
+  'relative-time',
+  'section-too-long',
+  'topic-shift',
+  'no-headings',
+  'low-heading-density',
+  'heading-jump',
+  'prose-comparison',
+  'prose-sequence',
+  'wall-of-text'
+] as const
+
 describe('bad-article fixture', () => {
   const report = analyze(badArticle)
 
@@ -16,12 +43,16 @@ describe('bad-article fixture', () => {
     expect(report.bandLabel).toBe('An agent will struggle to answer from this')
   })
 
+  it('the registry carries exactly the 19 rules the spec names', () => {
+    expect([...SCORING_RULE_IDS].sort()).toEqual([...SPEC_RULE_IDS].sort())
+  })
+
   it('triggers every rule that can coexist with headings', () => {
     const fired = new Set(report.issues.map((f) => f.ruleId))
     // no-headings requires a document with zero headings, which cannot
     // coexist with the heading-dependent rules — covered by the variant
     // below. Every other scoring rule must fire on the fixture itself.
-    const expected = SCORING_RULE_IDS.filter((id) => id !== 'no-headings')
+    const expected = SPEC_RULE_IDS.filter((id) => id !== 'no-headings')
     for (const id of expected) {
       expect(fired, `rule ${id} should fire on bad-article`).toContain(id)
     }
@@ -38,7 +69,7 @@ describe('bad-article fixture', () => {
     expect(fired).toContain('no-headings')
 
     const union = new Set([...report.issues.map((f) => f.ruleId), ...fired])
-    for (const id of SCORING_RULE_IDS) {
+    for (const id of SPEC_RULE_IDS) {
       expect(union, `rule ${id} should fire across fixture + variant`).toContain(
         id
       )

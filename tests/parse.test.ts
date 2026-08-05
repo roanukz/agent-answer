@@ -206,3 +206,20 @@ describe('splitSentences', () => {
     expect(nodes).toHaveLength(1)
   })
 })
+
+describe('parse: YAML frontmatter and setext guards', () => {
+  it('does not turn frontmatter into headings or prose', () => {
+    const doc = parse(
+      '---\ntitle: My Doc\nauthor: someone\n---\n\n# Real Heading\n\nBody here.\n'
+    )
+    expect(doc.sections.map((s) => s.heading)).toEqual(['Real Heading'])
+    const types = doc.sections.flatMap((s) => s.blocks.map((b) => b.type))
+    expect(types).not.toContain('paragraph-frontmatter')
+    expect(doc.wordCount).toBe(2) // only "Body here."
+  })
+
+  it('does not treat stacked --- lines as a heading titled ---', () => {
+    const doc = parse('Para one.\n\n---\n---\n\nPara two.\n')
+    expect(doc.sections.every((s) => s.heading !== '---')).toBe(true)
+  })
+})

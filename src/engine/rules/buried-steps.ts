@@ -14,9 +14,20 @@ export const buriedSteps: Rule = {
   run(doc) {
     const findings: Finding[] = []
     for (const section of doc.sections) {
-      const listIdx = section.blocks.findIndex(
-        (b) => b.type === 'numbered-list' || b.type === 'bulleted-list'
-      )
+      // Any list can be the buried one — a section may open with a short
+      // summary list while the real steps sit below the prose. Flag the
+      // first list that has three or more prose sentences above it.
+      const listIdx = section.blocks.findIndex((b, i) => {
+        if (b.type !== 'numbered-list' && b.type !== 'bulleted-list') {
+          return false
+        }
+        return (
+          section.blocks
+            .slice(0, i)
+            .filter((x) => x.type === 'paragraph')
+            .reduce((n, x) => n + x.sentences.length, 0) >= 3
+        )
+      })
       if (listIdx === -1) continue
       const before = section.blocks.slice(0, listIdx)
       const paragraphs = before.filter((b) => b.type === 'paragraph')
@@ -24,7 +35,6 @@ export const buriedSteps: Rule = {
         (n, b) => n + b.sentences.length,
         0
       )
-      if (sentenceCount < 3) continue
       const firstPara = paragraphs[0]!
       const lastBefore = before[before.length - 1]!
       findings.push({

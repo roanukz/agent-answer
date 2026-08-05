@@ -34,7 +34,7 @@ export function buildMarkdownReport(report: Report): string {
     lines.push('')
     report.fixes.forEach((f, i) => {
       lines.push(
-        `${i + 1}. ${actionFor(report, f)} _(+${fmtPoints(f.recovery)} points)_`
+        `${i + 1}. ${actionFor(report, f)} _(+${fmtPoints(f.impact)} points)_`
       )
     })
   }

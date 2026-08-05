@@ -178,7 +178,7 @@ describe('recovery and fix list', () => {
     }
   })
 
-  it('fix list is capped at 5 and sorted by recovery', () => {
+  it('fix list is capped at 5 and sorted by impact', () => {
     const report = buildReport(doc, [
       finding('self-contained', 'major', 'a'),
       finding('answer-first', 'major', 'b'),
@@ -188,18 +188,50 @@ describe('recovery and fix list', () => {
       finding('structure', 'minor', 'f')
     ])
     expect(report.fixes.length).toBeLessThanOrEqual(5)
-    const recoveries = report.fixes.map((f) => f.recovery)
-    expect([...recoveries].sort((x, y) => y - x)).toEqual(recoveries)
+    const impacts = report.fixes.map((f) => f.impact)
+    expect([...impacts].sort((x, y) => y - x)).toEqual(impacts)
   })
 
-  it('uncounted (capped) findings have zero recovery and sink in the fix list', () => {
+  it('uncounted (capped) findings have zero impact and sink in the fix list', () => {
     const findings = Array.from({ length: 5 }, () =>
       finding('structure', 'minor', 'same')
     )
     const report = buildReport(doc, findings)
     const uncounted = report.issues.filter((f) => !f.counted)
-    expect(uncounted.every((f) => f.recovery === 0)).toBe(true)
+    expect(uncounted.every((f) => f.impact === 0)).toBe(true)
     expect(report.fixes.every((f) => f.counted)).toBe(true)
+  })
+
+  it('recovery is cap-aware: a capped sibling takes the fixed finding’s place', () => {
+    // 4 majors of one rule: 3 counted (75 off). Fixing any one just lets
+    // the 4th into the cap, so true recovery is 0 — but impact still ranks
+    // them at the top of the fix list.
+    const findings = Array.from({ length: 4 }, () =>
+      finding('self-contained', 'major', 'same-rule')
+    )
+    const report = buildReport(doc, findings)
+    const counted = report.issues.filter((f) => f.counted)
+    expect(counted).toHaveLength(3)
+    expect(counted.every((f) => f.recovery === 0)).toBe(true)
+    expect(counted.every((f) => f.impact === 6.25)).toBe(true)
+    expect(report.fixes).toHaveLength(3)
+    // Group recovery for the top 3 is exact: removing all three leaves one
+    // counted major (25 off) → check 75 instead of 25 → +12.5 overall.
+    expect(report.topFixRecovery).toBe(13)
+  })
+
+  it('majors on a floored check still lead the fix list', () => {
+    const report = buildReport(doc, [
+      finding('self-contained', 'major', 'a1'),
+      finding('self-contained', 'major', 'a2'),
+      finding('self-contained', 'major', 'a3'),
+      finding('self-contained', 'major', 'b1'),
+      finding('self-contained', 'major', 'b2'),
+      finding('structure', 'minor', 'small')
+    ])
+    // Every single-major fix on the floored check recovers 0, but the fix
+    // list must not lead with the unrelated minor.
+    expect(report.fixes[0]!.severity).toBe('major')
   })
 })
 
