@@ -30,7 +30,7 @@ export const proseSequence: Rule = {
           checkId: 'structure',
           severity: 'minor',
           span: block.span,
-          message: `This paragraph walks through a sequence in prose — ${matches.length} ordering words (${sample}) with no numbered list in the section.`,
+          message: `This paragraph walks through a sequence in prose, with ${matches.length} ordering words (${sample}) and no numbered list in the section.`,
           whyItMatters:
             'Steps hidden in a paragraph get paraphrased and reordered; a numbered list gets quoted.',
           suggestion:

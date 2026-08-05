@@ -83,7 +83,7 @@ export function renderCheckCards(
           el(
             'span',
             { class: 'uncounted-tag' },
-            'not double-counted — same habit'
+            'not double-counted, same habit'
           )
         )
       }

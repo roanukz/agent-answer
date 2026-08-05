@@ -51,7 +51,7 @@ syncAnalyzeButton()
 attachPasteHandler(editor, () => {
   if (pasteToastShown) return
   pasteToastShown = true
-  showToast('Formatting captured — headings detected from the page you copied.')
+  showToast('Formatting captured. Headings came from the page you copied.')
 })
 
 loadSampleBtn.addEventListener('click', () => {
@@ -95,7 +95,7 @@ analyzeBtn.addEventListener('click', () => {
   const isLarge = countWords(source) > LARGE_ARTICLE_WORDS
   if (isLarge) {
     noticesHost.append(
-      notice('notice', 'Large article — analysis may take a few seconds.')
+      notice('notice', 'Large article, so analysis may take a few seconds.')
     )
   }
   // Let the notice paint before the (synchronous) analysis runs.
@@ -113,14 +113,14 @@ function runAnalysis(source: string): void {
 
   if (looksNonEnglish(source)) {
     noticesHost.append(
-      notice('warn', 'Heuristics are tuned for English — scores may be unreliable.')
+      notice('warn', 'These rules are tuned for English, so the score may be unreliable.')
     )
   }
   if (report.doc.headingsInferred) {
     noticesHost.append(
       notice(
         'notice',
-        'No markdown headings found — I guessed the section boundaries. Add # headings for a more accurate score.'
+        'No markdown headings found, so the section boundaries are a guess. Add # headings for a more accurate score.'
       )
     )
   }
@@ -153,6 +153,6 @@ copyBtn.addEventListener('click', async () => {
       copyBtn.textContent = original
     }, 1600)
   } catch {
-    showToast("Couldn't copy — your browser blocked clipboard access.")
+    showToast("Couldn't copy, because your browser blocked clipboard access.")
   }
 })

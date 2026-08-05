@@ -45,7 +45,7 @@ export const topicShift: Rule = {
         checkId: 'one-idea',
         severity: 'minor',
         span: second.span,
-        message: `"${truncate(second.text)}" opens yet another topic — ${hits.length} topic shifts in this section.`,
+        message: `"${truncate(second.text)}" opens yet another topic, making ${hits.length} topic shifts in this section.`,
         whyItMatters: WHY,
         suggestion:
           'Move each extra topic into its own section under a heading that names it.',

@@ -87,7 +87,7 @@ describe('cross-section-pointer', () => {
     const findings = rule.run(parse(src))
     expect(findings).toHaveLength(1)
     expect(findings[0]!.whyItMatters).toBe(
-      "The agent sees one section at a time — 'above' doesn't exist for it."
+      "The agent sees one section at a time, so 'above' doesn't exist for it."
     )
   })
 })

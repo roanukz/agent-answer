@@ -7,7 +7,7 @@
 import type { Finding, Rule } from '../types.js'
 import { findAllMatches, sectionLabel, textBlocks } from '../textUtils.js'
 
-const WHY = "The agent sees one section at a time — 'above' doesn't exist for it."
+const WHY = "The agent sees one section at a time, so 'above' doesn't exist for it."
 
 /**
  * Positional cross-references. `\s+` between words so a phrase wrapped

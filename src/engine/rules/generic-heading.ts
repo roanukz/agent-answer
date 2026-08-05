@@ -53,7 +53,7 @@ export const genericHeading: Rule = {
         checkId: genericHeading.checkId,
         severity: genericHeading.severity,
         span: section.headingSpan,
-        message: `The heading "${section.heading}" is generic — it gives no clue what this section covers.`,
+        message: `The heading "${section.heading}" is generic, so it gives no clue what this section covers.`,
         whyItMatters: WHY,
         suggestion:
           'Rename the heading to state the specific task or question this section answers.',

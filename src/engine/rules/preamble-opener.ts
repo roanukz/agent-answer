@@ -33,9 +33,9 @@ export const preambleOpener: Rule = {
         checkId: 'answer-first',
         severity: 'major',
         span: opener.sentence.span,
-        message: `This section opens with preamble — "${truncate(opener.sentence.text, 100)}" — instead of the answer.`,
+        message: `This section opens with preamble, "${truncate(opener.sentence.text, 100)}", instead of the answer.`,
         whyItMatters:
-          'The first sentence is prime real estate for retrieval and answering — spend it on the answer, not on announcing the article.',
+          'The first sentence is the one retrieval and answering weigh most, so spend it on the answer rather than on announcing the article.',
         suggestion:
           'Rewrite the first sentence to state the answer or key fact directly, and move any context after it.',
         sectionHeading: sectionLabel(section)

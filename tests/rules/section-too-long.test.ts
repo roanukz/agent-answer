@@ -85,7 +85,7 @@ describe('section-too-long', () => {
   it('uses the exact whyItMatters wording', () => {
     const doc = parse(`# Sync details\n\n${paras(11)}\n`)
     expect(rule.run(doc)[0]!.whyItMatters).toBe(
-      'Long sections get split arbitrarily by ingestion pipelines — mid-sentence, mid-idea — instead of where you would split them.'
+      'Long sections get split wherever the software decides, mid-sentence and mid-idea, instead of where you would split them.'
     )
   })
 })

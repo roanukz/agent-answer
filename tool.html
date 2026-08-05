@@ -11,7 +11,7 @@
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='16' fill='%231f6379'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif'%3E%3F%3C/text%3E%3C/svg%3E"
     />
-    <title>Will My Agent Answer This? — KB AI-Readiness Linter</title>
+    <title>Will My Agent Answer This? A KB AI-Readiness Linter</title>
   </head>
   <body>
     <div id="app">
@@ -40,8 +40,8 @@
                 <path d="M5 6.25h6M5 9.25h4" />
               </svg>
               <span>
-                <strong>100% client-side</strong> — your text never leaves this
-                page. Verify it: turn off Wi-Fi and analyze again.
+                <strong>100% client-side.</strong> Your text never leaves this
+                page. To check that, turn off Wi-Fi and analyze again.
               </span>
             </p>
             <nav>
@@ -58,9 +58,9 @@
           <textarea
             id="editor"
             spellcheck="false"
-            placeholder="Paste your knowledge-base article here — markdown or plain text.
+            placeholder="Paste your knowledge-base article here, as markdown or plain text.
 
-Copying straight from a rendered KB page (Zendesk, Confluence, ServiceNow…) works too: formatting is captured automatically."
+Copying straight from a finished KB page (Zendesk, Confluence, ServiceNow) works too. The formatting is captured automatically."
           ></textarea>
           <div class="input-actions">
             <button id="analyze" type="button" class="btn btn-primary" disabled>
@@ -71,7 +71,8 @@ Copying straight from a rendered KB page (Zendesk, Confluence, ServiceNow…) wo
             </button>
             <p class="input-note">
               Tip: markdown headings (<code>#</code>, <code>##</code>) improve
-              accuracy — they tell the tool where your sections really begin.
+              accuracy, because they tell the tool where your sections really
+              begin.
             </p>
           </div>
         </section>
@@ -79,7 +80,7 @@ Copying straight from a rendered KB page (Zendesk, Confluence, ServiceNow…) wo
         <section id="results-view" aria-label="Analysis results" hidden>
           <div class="results-topbar">
             <button id="back" type="button" class="linklike">
-              ← Edit article
+              &larr; Edit article
             </button>
             <button id="copy-report" type="button" class="btn btn-primary">
               Copy report
@@ -101,36 +102,38 @@ Copying straight from a rendered KB page (Zendesk, Confluence, ServiceNow…) wo
         <section id="how-scoring-works" aria-label="How scoring works">
           <h2>How scoring works</h2>
           <p>
-            AI support agents don't read your article the way a person does.
-            Before an agent ever sees your writing, a retrieval pipeline
-            splits the article into pieces — usually one piece per section —
-            and stores each piece separately. (Engineers call these pieces
-            <em>chunks</em>; everywhere else, this tool just says
-            <em>sections</em>.) When someone asks the agent a question, the
-            pipeline fetches the few sections that best match the question,
-            and the agent answers from those sections alone — without the
-            title, without the intro, without whatever came before.
+            An AI support agent does not read your article the way a person
+            does. Before the agent sees your writing, software splits the
+            article into pieces, usually one piece per section, and stores each
+            piece on its own. (Engineers call these pieces <em>chunks</em>.
+            Everywhere else, this tool just says <em>sections</em>.) When
+            someone asks the agent a question, that software fetches the few
+            sections that best match the question, and the agent answers from
+            those sections alone, without the title, the intro, or whatever came
+            before.
           </p>
           <p>
-            The traditional way to test for this is manual: pull a paragraph
-            out of the article, read it cold with no surrounding context,
-            rewrite it if it doesn't stand on its own — and repeat for every
-            paragraph. This tool automates that test with deterministic,
-            explainable checks. Same article in, same score out, every time.
-            No AI models are involved in the scoring, and nothing you paste
-            leaves your browser.
+            The usual way to test for this is by hand: pull a paragraph out of
+            the article, read it cold with no context around it, rewrite it if
+            it cannot stand on its own, then repeat for every paragraph. This
+            tool runs that test for you, using fixed rules that explain
+            themselves. The same article always gets the same score. No AI
+            model is involved in the scoring, and nothing you paste leaves your
+            browser.
           </p>
 
           <h3>The score</h3>
           <p>
             Each of the five checks starts at 100 points. Every
-            <strong>major</strong> finding subtracts 25, every
-            <strong>minor</strong> subtracts 10, and <strong>info</strong>
-            findings subtract nothing — they're worth knowing, not worth
-            punishing. Only the first three findings per rule count toward
-            the deduction; anything past that is listed but tagged
-            <em>"not double-counted — same habit"</em>, because ten instances
-            of one habit is one lesson, not ten. A check never goes below 0.
+            <strong>major</strong> finding costs 25 points and every
+            <strong>minor</strong> finding costs 10.
+            <strong>Info</strong> findings cost nothing, because they are worth
+            knowing without being worth punishing. Only the first three findings
+            from any one rule count against the score. Anything past that is
+            still listed, tagged
+            <em>"not double-counted, same habit"</em>, because ten instances of
+            one habit is one lesson rather than ten. A check never drops below
+            0.
           </p>
           <p>The overall score is a weighted average of the five checks:</p>
           <table class="weights-table">
@@ -146,211 +149,214 @@ Copying straight from a rendered KB page (Zendesk, Confluence, ServiceNow…) wo
             </tbody>
           </table>
           <p>
-            <strong>85 and up:</strong> Agent-ready.
-            <strong>60–84:</strong> Needs edits before your agent can rely on
-            it. <strong>Below 60:</strong> An agent will struggle to answer
-            from this. The same bands apply to each individual check (pass /
-            needs work / fail).
+            <strong>85 and up:</strong> agent-ready.
+            <strong>60 to 84:</strong> needs edits before your agent can rely
+            on it. <strong>Below 60:</strong> an agent will struggle to answer
+            from this. The same bands apply to each individual check, as pass,
+            needs work, or fail.
           </p>
 
-          <h3>Check 1 — Self-contained sections (25%)</h3>
+          <h3>Check 1: Self-contained sections (25%)</h3>
           <p class="check-why">
-            AI agents retrieve individual sections, not whole articles. A
-            section that only makes sense after reading what came before it
-            will be retrieved alone — and misread alone. The retrieval
-            principle: <em>chunk self-containment</em>.
+            Agents retrieve individual sections, not whole articles. A section
+            that only makes sense after reading what came before it will be
+            retrieved alone, and misread alone. The principle is
+            <em>chunk self-containment</em>: every section has to work by
+            itself.
           </p>
           <ul class="rule-list">
             <li>
-              <strong>Orphan opener</strong> (major, −25). The section's
+              <strong>Orphan opener</strong> (major, costs 25). The section's
               first sentence starts with a bare pronoun ("It", "This",
-              "They…") or a connective ("However", "Therefore",
-              "Additionally"…). Retrieved alone, the section opens
-              mid-thought: the agent has no idea what "this" refers to, and
-              a connective promises a contrast with text the agent never saw.
+              "They") or a connective ("However", "Therefore",
+              "Additionally"). Retrieved alone, the section opens mid-thought.
+              The agent has no idea what "this" refers to, and a connective
+              promises a contrast with text the agent never saw.
             </li>
             <li>
-              <strong>Cross-section pointer</strong> (major, −25). Phrases
+              <strong>Cross-section pointer</strong> (major, costs 25). Phrases
               like "as mentioned above", "see below", or "in the previous
-              section". The agent sees one section at a time — "above"
-              doesn't exist for it.
+              section". The agent sees one section at a time, so "above" does
+              not exist for it.
             </li>
             <li>
-              <strong>Generic heading</strong> (minor, −10). Headings like
-              "Overview", "Notes", "More information", or a bare "Step 3".
-              The heading travels with its section as the label retrieval
-              matches against; a generic label matches nothing in
-              particular.
+              <strong>Generic heading</strong> (minor, costs 10). Headings like
+              "Overview", "Notes", "More information", or a bare "Step 3". The
+              heading travels with its section as the label retrieval matches
+              against, and a generic label matches nothing in particular.
             </li>
             <li>
-              <strong>Orphan acronym</strong> (minor, −10). An acronym is
-              spelled out once — "Multi-Factor Authentication (MFA)" — and
-              then used bare in a different section. The section holding the
-              expansion may not be retrieved with the one using the acronym.
+              <strong>Orphan acronym</strong> (minor, costs 10). An acronym is
+              spelled out once, as in "Multi-Factor Authentication (MFA)", then
+              used bare in a different section. The section holding the
+              expansion may not be retrieved alongside the one using the
+              acronym.
             </li>
           </ul>
 
-          <h3>Check 2 — Answer first / BLUF (20%)</h3>
+          <h3>Check 2: Answer first, or BLUF (20%)</h3>
           <p class="check-why">
-            Agents (and the rankers that pick which sections to retrieve)
-            weight the start of a section heavily. Burying the answer under
-            context makes a section both harder to retrieve and harder to
-            answer from. The principle: <em>bottom line up front</em>.
+            Agents, and the software that picks which sections to retrieve,
+            weigh the start of a section heavily. Burying the answer under
+            context makes a section both harder to find and harder to answer
+            from. The principle is <em>bottom line up front</em>.
           </p>
           <ul class="rule-list">
             <li>
-              <strong>Preamble opener</strong> (major, −25).
-              Throat-clearing first sentences: "In this article…", "Before
-              you begin…", "It is important to note…". The first sentence is
-              prime real estate — spend it on the answer, not on announcing
-              the article.
+              <strong>Preamble opener</strong> (major, costs 25).
+              Throat-clearing first sentences such as "In this article", "Before
+              you begin", or "It is important to note". The first sentence is
+              the most valuable one you have, so spend it on the answer rather
+              than on announcing the article.
             </li>
             <li>
-              <strong>Buried steps</strong> (minor, −10). Three or more
+              <strong>Buried steps</strong> (minor, costs 10). Three or more
               sentences of prose before the section's steps. An agent asked
-              "how do I…" should hit the steps immediately.
+              "how do I" should reach the steps immediately.
             </li>
             <li>
-              <strong>Slow start</strong> (minor, −10). A first paragraph
-              over 60 words that neither gives an instruction nor restates
-              the topic named in the heading. If the opening doesn't restate
-              the topic, retrieval has weaker signal that this section
-              answers the question.
-            </li>
-          </ul>
-
-          <h3>Check 3 — Unresolved references (20%)</h3>
-          <p class="check-why">
-            Pronouns and pointers that depend on distant context break when
-            text is split into sections. The agent can't resolve them and may
-            answer about the wrong thing. The principle:
-            <em>entity resolution</em> — every "it" needs its noun nearby.
-          </p>
-          <ul class="rule-list">
-            <li>
-              <strong>Dangling pointer</strong> (major, −25). "The
-              following", "the above", or "the previous" with no list or
-              table in the same section for it to point at. (A "the
-              following" sentence that introduces the list right under it is
-              fine — the target travels with the section.)
-            </li>
-            <li>
-              <strong>Bare demonstrative</strong> (minor, −10). A paragraph
-              that opens "This causes…" or "Those require…". Each paragraph
-              may be quoted alone in an answer; an opener like "This…"
-              forces the agent to guess the referent. ("This setting
-              controls…" is fine — the noun is right there.)
-            </li>
-            <li>
-              <strong>Ambiguous "it"</strong> (minor, −10). A paragraph that
-              opens "It takes…" or "It fails…". Formal patterns like "It is
-              recommended…" are not flagged.
-            </li>
-            <li>
-              <strong>Relative time</strong> (info, −0). "Currently",
-              "recently", "soon", "the latest release". Agents can't tell
-              when the article was written — "currently" becomes wrong
-              silently. No points deducted; worth a date or a version number
-              instead.
+              <strong>Slow start</strong> (minor, costs 10). A first paragraph
+              over 60 words that neither gives an instruction nor restates the
+              topic named in the heading. If the opening does not restate the
+              topic, retrieval has weaker evidence that this section answers
+              the question.
             </li>
           </ul>
 
-          <h3>Check 4 — One idea per section (15%)</h3>
+          <h3>Check 3: Unresolved references (20%)</h3>
           <p class="check-why">
-            Retrieval matches a question to a section. A section covering
-            three ideas matches all three questions weakly instead of one
-            strongly. The principle: <em>one idea per chunk</em>.
+            Pronouns and pointers that rely on distant context break when text
+            is split into sections. The agent cannot work out what they refer
+            to, and may answer about the wrong thing. The principle is
+            <em>entity resolution</em>: every "it" needs its noun nearby.
           </p>
           <ul class="rule-list">
             <li>
-              <strong>Section too long</strong> (minor −10 over 300 words;
-              major −25 over 500). Ingestion pipelines split oversized
-              sections arbitrarily — mid-sentence, mid-idea — instead of
-              where you would split them.
+              <strong>Dangling pointer</strong> (major, costs 25). "The
+              following", "the above", or "the previous", with no list or table
+              in the same section to point at. A "the following" sentence that
+              introduces the list right underneath is fine, because the target
+              travels with the section.
             </li>
             <li>
-              <strong>Topic shift</strong> (minor, −10). Two or more
-              paragraphs in one section starting with "Additionally…", "You
-              can also…", "Alternatively…". Each extra idea dilutes the
-              section's match to any one question.
+              <strong>Bare demonstrative</strong> (minor, costs 10). A
+              paragraph that opens "This causes" or "Those require". Any
+              paragraph may be quoted alone in an answer, and an opener like
+              "This" forces the agent to guess what it means. "This setting
+              controls" is fine, because the noun is right there.
             </li>
             <li>
-              <strong>No headings</strong> (major, −25). A document over 200
-              words with no headings at all. Without headings, the splitting
-              is done by a token counter instead of by you.
+              <strong>Ambiguous "it"</strong> (minor, costs 10). A paragraph
+              that opens "It takes" or "It fails". Formal patterns such as "It
+              is recommended" are not flagged.
+            </li>
+            <li>
+              <strong>Relative time</strong> (info, costs nothing).
+              "Currently", "recently", "soon", "the latest release". Agents
+              cannot tell when the article was written, so "currently" goes
+              wrong silently. No points are deducted, but a date or a version
+              number is worth more.
             </li>
           </ul>
 
-          <h3>Check 5 — Structure signals (20%)</h3>
+          <h3>Check 4: One idea per section (15%)</h3>
           <p class="check-why">
-            Headings, lists, and tables are structure an agent can parse
-            reliably; walls of prose are not. The principle:
-            <em>structure parseability</em>.
+            Retrieval matches a question to a section. A section covering three
+            ideas matches all three questions weakly instead of matching one
+            strongly. The principle is <em>one idea per chunk</em>.
           </p>
           <ul class="rule-list">
             <li>
-              <strong>Low heading density</strong> (minor, −10). More than
+              <strong>Section too long</strong> (minor, costs 10 over 300
+              words; major, costs 25 over 500). Oversized sections get split
+              wherever the software decides, mid-sentence and mid-idea, instead
+              of where you would have split them.
+            </li>
+            <li>
+              <strong>Topic shift</strong> (minor, costs 10). Two or more
+              paragraphs in one section starting with "Additionally", "You can
+              also", or "Alternatively". Each extra idea dilutes the section's
+              match to any one question.
+            </li>
+            <li>
+              <strong>No headings</strong> (major, costs 25). A document over
+              200 words with no headings at all. Without headings, the
+              splitting is done by length instead of by you.
+            </li>
+          </ul>
+
+          <h3>Check 5: Structure signals (20%)</h3>
+          <p class="check-why">
+            Headings, lists and tables are structure an agent can read
+            reliably. Walls of prose are not. The principle is
+            <em>structure parseability</em>: make the shape of the article
+            visible.
+          </p>
+          <ul class="rule-list">
+            <li>
+              <strong>Low heading density</strong> (minor, costs 10). More than
               400 words per heading on average. Fewer headings means bigger
               retrieval units and vaguer matches.
             </li>
             <li>
-              <strong>Heading jump</strong> (info, −0). A heading level
-              skipping down more than one step (# straight to ###). Skipped
-              levels scramble the section tree some ingestion pipelines rely
-              on.
+              <strong>Heading jump</strong> (info, costs nothing). A heading
+              level that skips down more than one step, such as # straight to
+              ###. Skipped levels scramble the section tree that some software
+              relies on.
             </li>
             <li>
-              <strong>Comparison in prose</strong> (minor, −10). Two or more
-              "whereas / compared to / in contrast" sentences and no table
-              in the section. Agents answer comparison questions far more
+              <strong>Comparison in prose</strong> (minor, costs 10). Two or
+              more "whereas", "compared to" or "in contrast" sentences with no
+              table in the section. Agents answer comparison questions far more
               reliably from a table.
             </li>
             <li>
-              <strong>Sequence in prose</strong> (minor, −10). "First…,
-              then…, next…, finally…" packed into one paragraph with no
-              numbered list in the section. Steps hidden in a paragraph get
-              paraphrased and reordered; a numbered list gets quoted.
+              <strong>Sequence in prose</strong> (minor, costs 10). "First,
+              then, next, finally" packed into one paragraph with no numbered
+              list in the section. Steps hidden in a paragraph get paraphrased
+              and reordered. A numbered list gets quoted.
             </li>
             <li>
-              <strong>Wall of text</strong> (minor, −10). Any single
-              paragraph over 120 words. Long paragraphs are split blindly
-              mid-thought by ingestion pipelines.
+              <strong>Wall of text</strong> (minor, costs 10). Any single
+              paragraph over 120 words. Long paragraphs get split blindly,
+              mid-thought.
             </li>
           </ul>
 
           <h3>Strengths</h3>
           <p>
-            The report also celebrates what's already agent-ready — no
-            points, just recognition: question- or task-form headings ("How
-            do I…", "Reset your token"), tables for comparisons, and
-            numbered steps. If your article shows strengths, keep writing
-            like that.
+            The report also points out what is already agent-ready. There are no
+            points for it, just recognition: headings written as questions or
+            tasks ("How do I reset my token", "Reset your token"), tables for
+            comparisons, and numbered steps. If your article shows strengths,
+            keep writing like that.
           </p>
 
           <h3>Honest limitations</h3>
           <p>
-            Every rule here is a deterministic heuristic tuned for
-            English-language KB writing — no machine learning, no API calls.
-            Heuristics have edge cases; when a finding is wrong for your
-            article, you'll be able to see exactly why it fired, judge it
-            yourself, and ignore it with a clear conscience. A score that
-            can't explain itself is a toy; every deduction on this page can.
+            Every rule here is a fixed rule of thumb, tuned for
+            English-language KB writing, with no machine learning and no calls
+            to any service. Rules of thumb have edge cases. When a finding is
+            wrong for your article you can see exactly why it fired, judge it
+            yourself, and ignore it with a clear conscience. A score that cannot
+            explain itself is a toy, and every point lost on this page can
+            explain itself.
           </p>
           <p>
-            One consequence of the weighting is worth knowing: the checks
-            about meaning — self-containment, answer-first, references —
-            carry 65% of the score, and pure structure carries 35%. An
-            article whose only problem is structural (one giant unbroken
-            section, say) can still land in the 80s. Read the five check
-            scores, not just the headline number: a failing check is a
-            failing check, whatever the total says.
+            One consequence of the weighting is worth knowing. The three checks
+            about meaning, which are self-containment, answer first and
+            references, carry 65% of the score, and pure structure carries 35%.
+            An article whose only problem is structural, one giant unbroken
+            section for example, can still land in the 80s. So read the five
+            check scores rather than just the headline number. A failing check
+            is a failing check, whatever the total says.
           </p>
         </section>
       </main>
 
       <footer class="site-footer">
         <p>
-          Free · No account · No telemetry · Open source —
+          Free · No account · No telemetry · Open source ·
           <a href="https://github.com/Roanukz/agent-answer">GitHub</a> ·
           <a href="index.html">product teardown</a>
         </p>

@@ -13,7 +13,7 @@ const MINOR_LIMIT = 300
 const MAJOR_LIMIT = 500
 
 const WHY =
-  'Long sections get split arbitrarily by ingestion pipelines — mid-sentence, mid-idea — instead of where you would split them.'
+  'Long sections get split wherever the software decides, mid-sentence and mid-idea, instead of where you would split them.'
 
 export const sectionTooLong: Rule = {
   id: 'section-too-long',
@@ -34,8 +34,8 @@ export const sectionTooLong: Rule = {
         severity: major ? 'major' : 'minor',
         span,
         message: major
-          ? `This section is ${section.wordCount} words — far past the point where it holds a single idea.`
-          : `This section is ${section.wordCount} words — longer than a single idea usually needs.`,
+          ? `This section is ${section.wordCount} words, far past the point where it holds a single idea.`
+          : `This section is ${section.wordCount} words, longer than a single idea usually needs.`,
         whyItMatters: WHY,
         suggestion:
           'Split this section into smaller sections, each with a heading naming the one question it answers.',

@@ -38,7 +38,7 @@ export const ambiguousIt: Rule = {
           checkId: 'unresolved-references',
           severity: 'minor',
           span: sentence.span,
-          message: `Paragraph opens with "${truncate(sentence.text, 80)}" — an agent quoting it alone can't tell what "It" is.`,
+          message: `Paragraph opens with "${truncate(sentence.text, 80)}". An agent quoting it alone can't tell what "It" is.`,
           whyItMatters:
             "Each paragraph may be quoted alone in an answer; a paragraph that starts with 'This…' forces the agent to guess the referent.",
           suggestion:

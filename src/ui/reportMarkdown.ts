@@ -13,9 +13,9 @@ const STATUS_LABEL: Record<string, string> = {
 
 export function buildMarkdownReport(report: Report): string {
   const lines: string[] = []
-  lines.push('# Will My Agent Answer This? — report')
+  lines.push('# Will My Agent Answer This? Report')
   lines.push('')
-  lines.push(`**Score: ${report.overall}/100 — ${report.bandLabel}**`)
+  lines.push(`**Score: ${report.overall}/100. ${report.bandLabel}**`)
   lines.push('')
   lines.push(summaryLine(report))
   lines.push('')
@@ -48,7 +48,7 @@ export function buildMarkdownReport(report: Report): string {
   }
   lines.push('')
   lines.push(
-    '_Scored locally by Will My Agent Answer This? — no text left the browser._'
+    '_Scored locally by Will My Agent Answer This? No text left the browser._'
   )
   return lines.join('\n')
 }

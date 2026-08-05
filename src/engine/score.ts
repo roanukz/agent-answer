@@ -25,7 +25,7 @@ export const CHECK_DEFS: readonly CheckDef[] = [
     id: 'self-contained',
     name: 'Self-contained sections',
     weight: 0.25,
-    why: 'AI agents retrieve individual sections, not whole articles. A section that only makes sense after reading what came before it will be retrieved alone — and misread alone.'
+    why: 'AI agents retrieve individual sections, not whole articles. A section that only makes sense after reading what came before it will be retrieved alone, and misread alone.'
   },
   {
     id: 'answer-first',

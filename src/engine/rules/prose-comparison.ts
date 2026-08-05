@@ -35,7 +35,7 @@ export const proseComparison: Rule = {
         checkId: 'structure',
         severity: 'minor',
         span: second.span,
-        message: `This section compares options in running prose — by "${truncate(second.text, 90)}" the reader is holding ${matching.length} comparison sentences in their head.`,
+        message: `This section compares options in running prose. By "${truncate(second.text, 90)}" the reader is holding ${matching.length} comparison sentences in their head.`,
         whyItMatters:
           'Agents answer comparison questions far more reliably from a table than from prose.',
         suggestion:

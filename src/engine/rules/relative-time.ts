@@ -32,7 +32,7 @@ export const relativeTime: Rule = {
             span: m.span,
             message: `"${truncate(m.text, 40)}" is anchored to the writing date, which the reader of a retrieved section never sees.`,
             whyItMatters:
-              "Agents can't tell when this was written — 'currently' becomes wrong silently.",
+              "Agents can't tell when this was written, so 'currently' becomes wrong silently.",
             suggestion:
               'State an absolute date or version instead, such as "as of June 2026" or "in version 4.2".',
             sectionHeading: sectionLabel(section)

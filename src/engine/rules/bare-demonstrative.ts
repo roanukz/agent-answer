@@ -42,7 +42,7 @@ export const bareDemonstrative: Rule = {
           checkId: 'unresolved-references',
           severity: 'minor',
           span: sentence.span,
-          message: `Paragraph opens with "${truncate(sentence.text, 80)}" — nothing in it says what "${display}" refers to.`,
+          message: `Paragraph opens with "${truncate(sentence.text, 80)}". Nothing in it says what "${display}" refers to.`,
           whyItMatters:
             "Each paragraph may be quoted alone in an answer; a paragraph that starts with 'This…' forces the agent to guess the referent.",
           suggestion: `Replace "${display}" with the specific noun it stands for.`,
