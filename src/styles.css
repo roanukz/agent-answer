@@ -348,8 +348,8 @@ button {
 
 .score-meter-fill {
   height: 100%;
-  background: var(--accent-400);
-  border-right: 1px solid var(--accent-600);
+  background: var(--meter-fill);
+  border-right: 1px solid var(--meter-edge);
 }
 
 .score-meta {
@@ -476,8 +476,8 @@ button {
   width: 24px;
   height: 24px;
   border-radius: var(--radius);
-  background: var(--primary-100);
-  color: var(--primary-800);
+  background: var(--rank-bg);
+  color: var(--rank-text);
   font-size: var(--size-13);
   font-weight: 650;
   display: flex;
@@ -813,17 +813,17 @@ mark {
 }
 
 mark.sev-major {
-  background: var(--error-100);
+  background: var(--mark-major-bg);
   border-bottom: 2px solid var(--error-bar);
 }
 
 mark.sev-minor {
-  background: var(--warning-100);
+  background: var(--mark-minor-bg);
   border-bottom: 2px dashed var(--warning-bar);
 }
 
 mark.sev-info {
-  background: var(--info-100);
+  background: var(--mark-info-bg);
   border-bottom: 2px dotted var(--info-bar);
 }
 
@@ -855,8 +855,8 @@ mark.flash {
   position: absolute;
   z-index: 40;
   max-width: 320px;
-  background: var(--neutral-900);
-  color: var(--neutral-50);
+  background: var(--inverse-surface);
+  color: var(--on-inverse);
   font-size: var(--size-13);
   line-height: var(--lh-13);
   letter-spacing: var(--ls-13);
@@ -872,8 +872,8 @@ mark.flash {
   bottom: var(--space-32);
   transform: translateX(-50%);
   z-index: 50;
-  background: var(--neutral-900);
-  color: var(--neutral-50);
+  background: var(--inverse-surface);
+  color: var(--on-inverse);
   font-size: 14px;
   line-height: 21px;
   border-radius: var(--radius);

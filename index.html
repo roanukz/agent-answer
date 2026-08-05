@@ -46,7 +46,7 @@
     <header class="hero">
       <div class="wrap">
         <p class="eyebrow">Product teardown</p>
-        <h1>Will My Agent Answer This? A Product Teardown</h1>
+        <h1>Will My Agent Answer This?</h1>
         <p class="lede">
           Knowledge teams are being told to get their articles ready for AI
           agents, and the test they are handed is a manual one: cut out a
@@ -66,6 +66,30 @@
             >View the source</a
           >
         </div>
+
+        <div class="facts">
+          <div class="fact">
+            <span class="fact-value">80%</span>
+            <span class="fact-label"
+              >Of common support issues resolved by agents by 2029, per
+              Gartner</span
+            >
+          </div>
+          <div class="fact">
+            <span class="fact-value">19 rules</span>
+            <span class="fact-label">Across five checks that each explain themselves</span>
+          </div>
+          <div class="fact">
+            <span class="fact-value">Zero</span>
+            <span class="fact-label"
+              >Network requests, now enforced by the browser</span
+            >
+          </div>
+          <div class="fact">
+            <span class="fact-value">11</span>
+            <span class="fact-label">Tool ideas I cut to find this one</span>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -74,14 +98,14 @@
         <p class="toc-title">Contents</p>
         <ol>
           <li><a href="#tldr">Summary</a></li>
-          <li><a href="#problem">The problem</a></li>
-          <li><a href="#evidence">The evidence</a></li>
-          <li><a href="#market">Market and incentives</a></li>
-          <li><a href="#gap">Found by elimination</a></li>
-          <li><a href="#built">What I built</a></li>
-          <li><a href="#next">What I would do next</a></li>
-          <li><a href="#cut">What I would cut</a></li>
-          <li><a href="#method">Method made visible</a></li>
+          <li><a href="#problem">1. The problem</a></li>
+          <li><a href="#evidence">2. The evidence</a></li>
+          <li><a href="#market">3. Market and incentives</a></li>
+          <li><a href="#gap">4. Found by elimination</a></li>
+          <li><a href="#built">5. What I built</a></li>
+          <li><a href="#next">6. What I would do next</a></li>
+          <li><a href="#cut">7. What I would cut</a></li>
+          <li><a href="#method">Appendix. Method made visible</a></li>
         </ol>
       </nav>
 
@@ -93,7 +117,7 @@
             <li>
               <strong>The problem is documented, not inferred.</strong> Two
               vendors publish the same manual test in almost the same words
-              (<a href="#evidence">Part B</a>), and Gartner projects that by
+              (<a href="#evidence">Part 2</a>), and Gartner projects that by
               2029, agentic AI will autonomously resolve 80% of common customer
               service issues without human intervention. Those agents will be
               answering from knowledge bases written for people.
@@ -117,7 +141,7 @@
         </section>
 
         <section id="problem">
-          <p class="section-kicker">Part A</p>
+          <p class="section-kicker">Part 1</p>
           <h2>The problem</h2>
           <p>
             The problem is that an AI support agent never reads your article.
@@ -130,7 +154,7 @@
           </p>
           <p>
             The test for that is manual, and it is the routine two vendors
-            describe in <a href="#evidence">Part B</a>. It fails for two
+            describe in <a href="#evidence">Part 2</a>. It fails for two
             reasons. It asks a writer to imagine how retrieval software reads,
             which is not a skill anyone was hired for, and at the size of a real
             knowledge base it is a second job rather than a test. Knowing what
@@ -188,7 +212,7 @@
                     Agent rollouts are decided high up and arrive with a
                     deflection target attached. Rezolve.ai's own guidance says
                     only a small percentage of content is usually AI-ready as
-                    written (<a href="#evidence">Part B</a>).
+                    written (<a href="#evidence">Part 2</a>).
                   </td>
                 </tr>
                 <tr>
@@ -223,7 +247,7 @@
           <p>
             Neither of those worries is a marketing problem. Each one settled a
             piece of the architecture, which is decisions 1 and 2 in
-            <a href="#built">Part E</a>.
+            <a href="#built">Part 5</a>.
           </p>
 
           <div class="pullquote">
@@ -236,7 +260,7 @@
         </section>
 
         <section id="evidence">
-          <p class="section-kicker">Part B</p>
+          <p class="section-kicker">Part 2</p>
           <h2>The evidence</h2>
           <p>
             The manual test is being recommended in public, by the vendors
@@ -360,7 +384,7 @@
         </section>
 
         <section id="market">
-          <p class="section-kicker">Part C</p>
+          <p class="section-kicker">Part 3</p>
           <h2>Market and incentives</h2>
           <p>
             The market case rests on two outside numbers and no others.
@@ -422,7 +446,7 @@
         </section>
 
         <section id="gap">
-          <p class="section-kicker">Part D</p>
+          <p class="section-kicker">Part 4</p>
           <h2>Found by elimination</h2>
           <p>
             This tool was not the first idea, it was the survivor. Around
@@ -605,7 +629,7 @@
         </section>
 
         <section id="built">
-          <p class="section-kicker">Part E</p>
+          <p class="section-kicker">Part 5</p>
           <h2>What I built</h2>
           <p>
             I built one web page. You paste in an article and get a score out of 100 for
@@ -967,7 +991,7 @@
         </section>
 
         <section id="next">
-          <p class="section-kicker">Part F</p>
+          <p class="section-kicker">Part 6</p>
           <h2>What I would do next</h2>
           <p>
             <strong>RICE</strong> scores reach times impact times confidence,
@@ -1041,7 +1065,7 @@
                 </tr>
                 <tr>
                   <td colspan="6">
-                    Closes the evidence gap in <a href="#evidence">Part B</a>
+                    Closes the evidence gap in <a href="#evidence">Part 2</a>
                     before launch messaging, not after.
                   </td>
                 </tr>
@@ -1108,7 +1132,7 @@
         </section>
 
         <section id="cut">
-          <p class="section-kicker">Part G</p>
+          <p class="section-kicker">Part 7</p>
           <h2>What I would cut</h2>
           <p>
             The <strong>Blue Ocean ERRC grid</strong> asks what to eliminate,
