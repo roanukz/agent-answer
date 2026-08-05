@@ -52,6 +52,12 @@ npm run smoke    # score both test fixtures from Node and print the results
 The analysis engine (`src/engine/`) is pure, DOM-free TypeScript — every
 rule is a small module with its own unit tests in `tests/rules/`.
 
+The UI uses the same token-based design system as
+[Save the Dates](https://github.com/Roanukz): cool grey neutrals, an
+anodised teal primary, semantic colour ramps, and system fonts only. The
+portable core lives in `src/tokens.css`; application styles read role
+tokens, never raw ramp values.
+
 ## Deploying
 
 Pushing to `main` runs tests, builds, and deploys to GitHub Pages via

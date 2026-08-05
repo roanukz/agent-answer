@@ -8,6 +8,7 @@ import type { Report, ScoredFinding } from './engine/types.js'
 import { countWords, looksNonEnglish } from './engine/textUtils.js'
 import { attachPasteHandler } from './paste.js'
 import { el, clear } from './ui/dom.js'
+import { icon } from './ui/icons.js'
 import { showToast } from './ui/toast.js'
 import { renderScorePanel } from './ui/scorePanel.js'
 import { renderFixList } from './ui/fixList.js'
@@ -61,8 +62,22 @@ loadSampleBtn.addEventListener('click', () => {
 
 /* ---------- analyze flow ---------- */
 
-function notice(kind: 'info' | 'warn', text: string): HTMLElement {
-  return el('div', { class: `notice notice-${kind}` }, text)
+/**
+ * Factual disclosures get the notice treatment (square icon, "Good to
+ * know" label); reliability cautions get the warning triangle.
+ */
+function notice(kind: 'notice' | 'warn', text: string): HTMLElement {
+  const body = el('div', {})
+  if (kind === 'notice') {
+    body.append(el('p', { class: 'notice-label' }, 'Good to know'))
+  }
+  body.append(el('p', { class: 'notice-body' }, text))
+  return el(
+    'div',
+    { class: `notice notice-${kind}` },
+    icon(kind === 'warn' ? 'warning' : 'notice'),
+    body
+  )
 }
 
 analyzeBtn.addEventListener('click', () => {
@@ -80,7 +95,7 @@ analyzeBtn.addEventListener('click', () => {
   const isLarge = countWords(source) > LARGE_ARTICLE_WORDS
   if (isLarge) {
     noticesHost.append(
-      notice('info', 'Large article — analysis may take a few seconds.')
+      notice('notice', 'Large article — analysis may take a few seconds.')
     )
   }
   // Let the notice paint before the (synchronous) analysis runs.
@@ -104,7 +119,7 @@ function runAnalysis(source: string): void {
   if (report.doc.headingsInferred) {
     noticesHost.append(
       notice(
-        'info',
+        'notice',
         'No markdown headings found — I guessed the section boundaries. Add # headings for a more accurate score.'
       )
     )
@@ -133,7 +148,7 @@ copyBtn.addEventListener('click', async () => {
   try {
     await navigator.clipboard.writeText(buildMarkdownReport(currentReport))
     const original = copyBtn.textContent
-    copyBtn.textContent = 'Copied ✓'
+    copyBtn.textContent = 'Copied'
     window.setTimeout(() => {
       copyBtn.textContent = original
     }, 1600)

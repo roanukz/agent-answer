@@ -1,11 +1,24 @@
-import type { Report, ScoredFinding } from '../engine/types.js'
+import type { CheckStatus, Report, ScoredFinding, Severity } from '../engine/types.js'
 import { el } from './dom.js'
+import { icon, type IconName } from './icons.js'
 import { quoteOf } from './format.js'
 
 const STATUS_LABEL: Record<string, string> = {
   pass: 'pass',
   'needs-work': 'needs work',
   fail: 'fail'
+}
+
+const STATUS_ICON: Record<CheckStatus, IconName> = {
+  pass: 'success',
+  'needs-work': 'warning',
+  fail: 'error'
+}
+
+const SEVERITY_ICON: Record<Severity, IconName> = {
+  major: 'error',
+  minor: 'warning',
+  info: 'info'
 }
 
 export function renderCheckCards(
@@ -16,7 +29,7 @@ export function renderCheckCards(
   return report.checks.map((check) => {
     const card = el(
       'article',
-      { class: 'check-card' },
+      { class: 'card check-card' },
       el(
         'div',
         { class: 'check-head' },
@@ -28,6 +41,7 @@ export function renderCheckCards(
           el(
             'span',
             { class: `chip chip-${check.status}` },
+            icon(STATUS_ICON[check.status]),
             STATUS_LABEL[check.status] ?? check.status
           )
         )
@@ -38,7 +52,12 @@ export function renderCheckCards(
     const issues = check.findings.filter((f) => !f.positive)
     if (issues.length === 0) {
       card.append(
-        el('p', { class: 'check-clean' }, 'Nothing to fix in this check. ✓')
+        el(
+          'p',
+          { class: 'check-clean' },
+          icon('success'),
+          'Nothing to fix in this check.'
+        )
       )
       return card
     }
@@ -47,7 +66,12 @@ export function renderCheckCards(
       const top = el(
         'div',
         { class: 'finding-top' },
-        el('span', { class: `sev sev-${f.severity}` }, f.severity),
+        el(
+          'span',
+          { class: `sev sev-${f.severity}` },
+          icon(SEVERITY_ICON[f.severity]),
+          f.severity
+        ),
         el(
           'span',
           { class: 'finding-section' },
