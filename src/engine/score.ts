@@ -6,6 +6,13 @@
  * deduction (the rest are listed but tagged as the same habit). Scores
  * floor at 0. The overall score is the weighted average of the five
  * checks. Fully deterministic — same input, same score, always.
+ *
+ * The weighted average alone cannot certify an article, because the weights
+ * decide how much a collapsed check hurts. A check worth 15% driven to 0
+ * leaves a composite of 85, which used to read as agent-ready; the same
+ * collapse on the 25% check gave 81 and failed. Whether a completely failed
+ * check sank the article depended only on which check it was. CHECK_FLOOR
+ * closes that: no article is agent-ready with any check below it.
  */
 
 import type {
@@ -19,6 +26,7 @@ import type {
   ScoredFinding,
   Severity
 } from './types.js'
+import { snippetize, type SnippetMap } from './snippets.js'
 
 export const CHECK_DEFS: readonly CheckDef[] = [
   {
@@ -72,8 +80,24 @@ export function checkStatus(score: number): CheckStatus {
   return 'fail'
 }
 
-export function bandFor(overall: number): Band {
-  if (overall >= 85) return 'agent-ready'
+/**
+ * The per-check floor. No article is agent-ready with any check below it,
+ * whatever the composite says.
+ *
+ * 60 rather than a new number, because 60 is already the published boundary
+ * between "needs work" and "fail" on every check card. The tool already
+ * told readers that a failing check is a failing check whatever the total
+ * says; the floor makes the score obey the sentence.
+ */
+export const CHECK_FLOOR = 60
+
+/**
+ * The band, given the composite and the weakest check. A check below the
+ * floor caps the band at needs-edits: the composite is never altered, only
+ * the certification it can buy.
+ */
+export function bandFor(overall: number, weakestScore = 100): Band {
+  if (overall >= 85 && weakestScore >= CHECK_FLOOR) return 'agent-ready'
   if (overall >= 60) return 'needs-edits'
   return 'struggle'
 }
@@ -81,7 +105,16 @@ export function bandFor(overall: number): Band {
 /** Only the first N findings of each rule count toward the deduction. */
 export const PER_RULE_CAP = 3
 
-export function buildReport(doc: DocModel, findings: Finding[]): Report {
+/**
+ * The snippet map defaults to computing itself from the document, so a
+ * report built in a test is the same report analyze() builds. analyze()
+ * passes the map it already has rather than paying for it twice.
+ */
+export function buildReport(
+  doc: DocModel,
+  findings: Finding[],
+  snippets: SnippetMap = snippetize(doc)
+): Report {
   // Deterministic order: by position, then rule id.
   const ordered = [...findings].sort(
     (a, b) => a.span.start - b.span.start || a.ruleId.localeCompare(b.ruleId)
@@ -135,7 +168,13 @@ export function buildReport(doc: DocModel, findings: Finding[]): Report {
 
   const overallRaw = checks.reduce((n, c) => n + c.score * c.def.weight, 0)
   const overall = Math.round(overallRaw)
-  const band = bandFor(overall)
+  // Ties go to the earlier check in CHECK_DEFS order, so the weakest check
+  // shown in the header never depends on iteration luck.
+  const weakestCheck = checks.reduce((worst, c) =>
+    c.score < worst.score ? c : worst
+  )
+  const band = bandFor(overall, weakestCheck.score)
+  const floored = overall >= 85 && weakestCheck.score < CHECK_FLOOR
 
   const issues = scored.filter((f) => !f.positive)
   const strengths = scored.filter((f) => f.positive === true)
@@ -167,10 +206,13 @@ export function buildReport(doc: DocModel, findings: Finding[]): Report {
 
   return {
     doc,
+    snippets,
     overall,
     band,
     bandLabel: BAND_LABELS[band],
     checks,
+    weakestCheck,
+    floored,
     issues,
     strengths,
     fixes,

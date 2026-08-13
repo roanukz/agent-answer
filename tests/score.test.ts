@@ -3,6 +3,7 @@ import { parse } from '../src/engine/parse'
 import {
   bandFor,
   buildReport,
+  CHECK_FLOOR,
   checkStatus,
   deductionFor,
   PER_RULE_CAP
@@ -133,6 +134,105 @@ describe('weights', () => {
       for (let i = 0; i < 4; i++) findings.push(finding(id, 'major', `${id}-${i}`))
     }
     expect(buildReport(doc, findings).overall).toBe(0)
+  })
+})
+
+/**
+ * The defect these pin: a weighted average alone lets a completely failed
+ * check pass, and whether it passes depends only on which check it was.
+ * The three cases are the arithmetic that proves it, and each one also
+ * asserts the band the floor now produces.
+ */
+describe('the per-check floor', () => {
+  /** Drive one check down by n majors, each from a different rule. */
+  function collapse(check: CheckId, majors: number) {
+    return Array.from({ length: majors }, (_, i) =>
+      finding(check, 'major', `${check}-${i}`)
+    )
+  }
+
+  const raw = (report: ReturnType<typeof buildReport>) =>
+    report.checks.reduce((n, c) => n + c.score * c.def.weight, 0)
+
+  it('the 15% check at 25, others at 100: 88.75, and NOT agent-ready', () => {
+    // 3 majors × 25 = 75 off → 25. 0.15 × 25 + 0.85 × 100 = 88.75.
+    const report = buildReport(doc, collapse('one-idea', 3))
+    expect(checkScore(report, 'one-idea')).toBe(25)
+    expect(raw(report)).toBeCloseTo(88.75, 10)
+    expect(report.overall).toBe(89)
+    // Used to read as agent-ready on the composite alone.
+    expect(report.band).toBe('needs-edits')
+    expect(report.floored).toBe(true)
+    expect(report.weakestCheck.def.id).toBe('one-idea')
+  })
+
+  it('the 15% check at 0, others at 100: exactly 85.0, and NOT agent-ready', () => {
+    // 4 majors × 25 = 100 off → 0. 0.15 × 0 + 0.85 × 100 = 85.0.
+    const report = buildReport(doc, collapse('one-idea', 4))
+    expect(checkScore(report, 'one-idea')).toBe(0)
+    expect(raw(report)).toBeCloseTo(85.0, 10)
+    expect(report.overall).toBe(85)
+    // The exact case the tool used to certify: a zeroed check, 85, pass.
+    expect(report.band).toBe('needs-edits')
+    expect(report.floored).toBe(true)
+  })
+
+  it('the 25% check at 25, others at 100: 81.25, and fails on the composite alone', () => {
+    // The same collapse as the first case, moved to the heaviest check:
+    // 0.25 × 25 + 0.75 × 100. This is the case that always worked, and it
+    // is why the defect looked invisible — the arithmetic only betrays you
+    // on the lighter checks.
+    const report = buildReport(doc, collapse('self-contained', 3))
+    expect(checkScore(report, 'self-contained')).toBe(25)
+    expect(raw(report)).toBeCloseTo(81.25, 10)
+    expect(report.overall).toBe(81)
+    expect(report.band).toBe('needs-edits')
+    // Not "floored": the composite never reached 85, so the floor did no
+    // work here. This is the case that was already handled correctly.
+    expect(report.floored).toBe(false)
+  })
+
+  it('the floor is 60, the same number the check cards already call a fail', () => {
+    expect(CHECK_FLOOR).toBe(60)
+    expect(checkStatus(CHECK_FLOOR)).toBe('needs-work')
+    expect(checkStatus(CHECK_FLOOR - 1)).toBe('fail')
+  })
+
+  it('a check exactly at the floor still allows agent-ready', () => {
+    // 4 minors × 10 = 40 off → 60, exactly the floor.
+    const report = buildReport(
+      doc,
+      Array.from({ length: 4 }, (_, i) => finding('one-idea', 'minor', `r${i}`))
+    )
+    expect(checkScore(report, 'one-idea')).toBe(60)
+    expect(report.overall).toBe(94)
+    expect(report.band).toBe('agent-ready')
+    expect(report.floored).toBe(false)
+  })
+
+  it('bandFor caps at needs-edits when the weakest check is below the floor', () => {
+    expect(bandFor(100, 100)).toBe('agent-ready')
+    expect(bandFor(85, 60)).toBe('agent-ready')
+    expect(bandFor(85, 59)).toBe('needs-edits')
+    expect(bandFor(99, 0)).toBe('needs-edits')
+    // A weak check cannot rescue a bad composite either.
+    expect(bandFor(59, 100)).toBe('struggle')
+  })
+
+  it('the weakest check is reported even when everything passes', () => {
+    const report = buildReport(doc, [finding('structure', 'minor', 'x')])
+    expect(report.weakestCheck.def.id).toBe('structure')
+    expect(report.weakestCheck.score).toBe(90)
+    expect(report.floored).toBe(false)
+  })
+
+  it('ties for weakest resolve in CHECK_DEFS order, not iteration order', () => {
+    const report = buildReport(doc, [
+      finding('structure', 'minor', 'a'),
+      finding('answer-first', 'minor', 'b')
+    ])
+    // Both sit at 90; answer-first is declared first.
+    expect(report.weakestCheck.def.id).toBe('answer-first')
   })
 })
 

@@ -26,18 +26,26 @@ describe('section-too-long', () => {
     expect(doc.source.slice(f.span.start, f.span.end)).toBe('# Sync details')
   })
 
-  it('flags a 501+ word section as major — still only ONE finding', () => {
+  it('a 501+ word section is still ONE finding, and still a minor', () => {
+    // The old major tier at 500 words is retired: it made a mechanical
+    // claim ("guaranteed to be split") on an invented number.
+    // snippet-too-long makes that claim now, against a published limit.
     const src = `# Sync details\n\n${paras(17)}\n`
     const doc = parse(src)
     expect(doc.sections[0]!.wordCount).toBe(510)
 
     const findings = rule.run(doc)
     expect(findings).toHaveLength(1)
-    expect(findings[0]!.severity).toBe('major')
+    expect(findings[0]!.severity).toBe('minor')
     expect(findings[0]!.message).toContain('510')
     expect(doc.source.slice(findings[0]!.span.start, findings[0]!.span.end)).toBe(
       '# Sync details'
     )
+  })
+
+  it('never emits a major, at any length', () => {
+    const doc = parse(`# Sync details\n\n${paras(60)}\n`)
+    expect(rule.run(doc).every((f) => f.severity === 'minor')).toBe(true)
   })
 
   it('anchors on the first block when the long section has no heading', () => {
@@ -77,7 +85,7 @@ describe('section-too-long', () => {
     expect(findings).toHaveLength(2)
     expect(findings[0]!.severity).toBe('minor')
     expect(findings[0]!.sectionHeading).toBe('First topic')
-    expect(findings[1]!.severity).toBe('major')
+    expect(findings[1]!.severity).toBe('minor')
     expect(findings[1]!.sectionHeading).toBe('Second topic')
     expect(findings[0]!.span.start).toBeLessThan(findings[1]!.span.start)
   })
@@ -85,7 +93,7 @@ describe('section-too-long', () => {
   it('uses the exact whyItMatters wording', () => {
     const doc = parse(`# Sync details\n\n${paras(11)}\n`)
     expect(rule.run(doc)[0]!.whyItMatters).toBe(
-      'Long sections get split wherever the software decides, mid-sentence and mid-idea, instead of where you would split them.'
+      'A section carrying several ideas matches every one of their questions weakly, instead of matching one strongly.'
     )
   })
 })

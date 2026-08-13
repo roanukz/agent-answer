@@ -4,6 +4,9 @@
  * engine is unit-testable in Node.
  */
 
+// Type-only, so the cycle with snippets.ts is erased at compile time.
+import type { SnippetMap } from './snippets.js'
+
 /** Character offsets into the raw source string. `end` is exclusive. */
 export interface Span {
   start: number
@@ -98,11 +101,25 @@ export interface Finding {
   docLevel?: boolean
 }
 
+/**
+ * What a rule is given besides the document. Rules that only reason about
+ * heading sections ignore it; the size rules read the snippet map, because
+ * size is a property of the delivered piece rather than of the section the
+ * author wrote.
+ *
+ * Optional, and the rules that use it recompute the map when it is absent.
+ * The map is a pure function of the document, so a rule run on its own
+ * returns exactly what it returns inside a full analysis.
+ */
+export interface AnalysisContext {
+  snippets: SnippetMap
+}
+
 export interface Rule {
   id: string
   checkId: CheckId
   severity: Severity
-  run(doc: DocModel): Finding[]
+  run(doc: DocModel, ctx?: AnalysisContext): Finding[]
 }
 
 export interface CheckDef {
@@ -145,11 +162,23 @@ export type Band = 'agent-ready' | 'needs-edits' | 'struggle'
 
 export interface Report {
   doc: DocModel
+  /** Where this article would be cut, by Moveworks' published algorithm. */
+  snippets: SnippetMap
   /** Weighted overall score, rounded to an integer 0–100. */
   overall: number
   band: Band
   bandLabel: string
   checks: CheckResult[]
+  /**
+   * The lowest-scoring check, shown beside the composite always. Ties go to
+   * the first check in CHECK_DEFS order, so it is deterministic.
+   */
+  weakestCheck: CheckResult
+  /**
+   * True when the composite reached 85 but a check below the floor blocked
+   * the agent-ready band. The header says so in words when this is set.
+   */
+  floored: boolean
   /** All non-positive findings, sorted by source position. */
   issues: ScoredFinding[]
   /** Positive findings — what the article already does right. */

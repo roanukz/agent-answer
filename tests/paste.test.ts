@@ -54,16 +54,6 @@ describe('htmlToMarkdown: page chrome is dropped', () => {
     expect(md).toContain('Body.')
   })
 
-  it('drops images entirely', () => {
-    const md = htmlToMarkdown(
-      '<p>Before.</p><img src="https://cdn.example.com/x.png" alt="diagram"><p>After.</p>'
-    )
-    expect(md).not.toContain('![')
-    expect(md).not.toContain('cdn.example.com')
-    expect(md).toContain('Before.')
-    expect(md).toContain('After.')
-  })
-
   it('drops nav, header, footer, aside and iframe chrome', () => {
     const md = htmlToMarkdown(
       '<header>Site Header</header><nav>Home | Docs</nav>' +
@@ -72,6 +62,31 @@ describe('htmlToMarkdown: page chrome is dropped', () => {
         '<iframe src="https://ads.example.com"></iframe>'
     )
     expect(md).toBe('The actual article.')
+  })
+})
+
+describe('htmlToMarkdown: images survive as text', () => {
+  it('keeps an alt-less image as markdown, so image-without-alt can see it', () => {
+    const md = htmlToMarkdown(
+      '<p>Before.</p><img src="https://cdn.example.com/x.png"><p>After.</p>'
+    )
+    expect(md).toContain('![](https://cdn.example.com/x.png)')
+    expect(md).toContain('Before.')
+    expect(md).toContain('After.')
+  })
+
+  it('keeps the alt text when the author wrote one', () => {
+    const md = htmlToMarkdown(
+      '<img src="https://cdn.example.com/x.png" alt="The Reset token button">'
+    )
+    expect(md).toContain('![The Reset token button](https://cdn.example.com/x.png)')
+  })
+
+  it('an image inside stripped chrome still goes, with the chrome', () => {
+    const md = htmlToMarkdown(
+      '<header><img src="https://cdn.example.com/logo.png"></header><p>Body.</p>'
+    )
+    expect(md).toBe('Body.')
   })
 })
 

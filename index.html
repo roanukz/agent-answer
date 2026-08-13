@@ -6,7 +6,7 @@
     <title>Will My Agent Answer This? A Product Teardown</title>
     <meta
       name="description"
-      content="The product thinking behind a free tool that scores whether an AI agent can answer from a knowledge-base article, and runs entirely in your browser: the job, the evidence, the gap, eight decisions, and what I would cut."
+      content="The product thinking behind a free tool that scores whether an AI agent can answer from a knowledge-base article, and runs entirely in your browser: the job, the evidence, the gap, nine decisions, and what I would cut."
     />
 
     <!-- Share card. og:image is a file in this repo, rendered from og-image.svg
@@ -15,7 +15,7 @@
     <meta property="og:title" content="Will My Agent Answer This? A Product Teardown" />
     <meta
       property="og:description"
-      content="The product thinking behind a free tool that scores whether an AI agent can answer from a knowledge-base article, and runs entirely in your browser: the job, the evidence, the gap, eight decisions, and what I would cut."
+      content="The product thinking behind a free tool that scores whether an AI agent can answer from a knowledge-base article, and runs entirely in your browser: the job, the evidence, the gap, nine decisions, and what I would cut."
     />
     <meta property="og:image" content="https://roanukz.github.io/agent-answer/og-image.png" />
     <meta property="og:image:width" content="2400" />
@@ -71,12 +71,12 @@
           <div class="fact">
             <span class="fact-value">80%</span>
             <span class="fact-label"
-              >Of common support issues resolved by agents by 2029, per
-              Gartner</span
+              >Of common support issues resolved by agents by 2029, as
+              Gartner predicts. A forecast, not a measurement</span
             >
           </div>
           <div class="fact">
-            <span class="fact-value">19 rules</span>
+            <span class="fact-value">25 rules</span>
             <span class="fact-label">Across five checks that each explain themselves</span>
           </div>
           <div class="fact">
@@ -116,10 +116,14 @@
           <ul>
             <li>
               <strong>The problem is documented, not inferred.</strong> Two
-              vendors publish the same manual test in almost the same words
-              (<a href="#evidence">Part 2</a>), and Gartner projects that by
-              2029, agentic AI will autonomously resolve 80% of common customer
-              service issues without human intervention. Those agents will be
+              vendors publish the same manual test in almost the same words,
+              and three describe the retrieval mechanism in their own
+              technical documentation
+              (<a href="#evidence">Part 2</a>). Gartner separately
+              <em>predicts</em> that by 2029, agentic AI will autonomously
+              resolve 80% of common customer service issues without human
+              intervention, which is a forecast rather than a measurement.
+              Whatever the number turns out to be, those agents will be
               answering from knowledge bases written for people.
             </li>
             <li>
@@ -145,12 +149,15 @@
           <h2>The problem</h2>
           <p>
             The problem is that an AI support agent never reads your article.
-            Software splits it into pieces, usually one per section, and files
-            each piece separately. When a customer asks a question, it retrieves the few
-            pieces that best match and the agent answers from those alone,
-            without the title, the introduction, or the paragraphs that came
-            before. So a section that only makes sense in sequence is a section
-            the agent will get wrong.
+            Software splits it into pieces and files each piece separately. It
+            does not split at every heading, either: one vendor picks a single
+            heading level for the whole article and cuts only there, so a piece
+            can carry several of your sections, and adding one heading can move
+            every boundary in the document. When a customer asks a question, it
+            retrieves the few pieces that best match and the agent answers from
+            those alone, without the title, the introduction, or the paragraphs
+            that came before. So a section that only makes sense in sequence is
+            a section the agent will get wrong.
           </p>
           <p>
             The test for that is manual, and it is the routine two vendors
@@ -264,8 +271,9 @@
           <h2>The evidence</h2>
           <p>
             The manual test is being recommended in public, by the vendors
-            selling the agents. Every quote below was re-checked at its own page
-            in August 2026.
+            selling the agents. Every quote in this first list was re-checked at
+            its own page in August 2026; the mechanism evidence further down
+            was checked separately, and carries its own date.
           </p>
 
           <ul class="evidence">
@@ -337,7 +345,8 @@
             </li>
             <li>
               <span class="src">Gartner</span>
-              <span class="yr">press release, March 2025</span><br />
+              <span class="yr">press release, March 2025 · a prediction, not a
+                measurement</span><br />
               By 2029, agentic AI will autonomously resolve 80% of common
               customer service issues without human intervention, leading to a
               30% reduction in operational costs.
@@ -345,8 +354,124 @@
                 href="https://www.gartner.com/en/newsroom/press-releases/2025-03-05-gartner-predicts-agentic-ai-will-autonomously-resolve-80-percent-of-common-customer-service-issues-without-human-intervention-by-20290"
                 >Gartner press release</a
               >.
+              <strong>Graded:</strong> this is an analyst's forecast about
+              2029, not an observation of anything that has happened. It is
+              worth citing because it tells you where the buying is pointed,
+              and it is worth nothing as proof that agents fail on today's
+              articles. Nothing in this teardown rests on the 80% being right.
             </li>
           </ul>
+
+          <h3>The mechanism, documented by the vendors</h3>
+          <p>
+            The evidence above is about demand: people are being told to run
+            this test by hand. This is a different kind, and it arrived later.
+            Three companies document the retrieval mechanism itself in their
+            own technical documentation, and two of them instruct writers to
+            do exactly what this tool scores. Every quotation below was
+            checked at the vendor's own page on 13 August 2026.
+          </p>
+
+          <ul class="evidence">
+            <li>
+              <span class="src">Moveworks</span>
+              <span class="yr">Writing AI-ready KB Articles for Moveworks,
+                under "Snippetizing Best Practices"</span>
+              <blockquote>
+                <p>
+                  "Ideally, ensure each section can be understood independent
+                  of the rest of the article when served as a snippet."
+                </p>
+              </blockquote>
+              <p>
+                The same page, under "Content": "Do not rely on article
+                hierarchies to provide context".
+                <a
+                  href="https://docs.moveworks.com/ai-assistant/enterprise-search/writing-ai-ready-kb-articles"
+                  >Read the guidance</a
+                >.
+              </p>
+            </li>
+            <li>
+              <span class="src">Intercom</span>
+              <span class="yr">Optimizing content for Fin, updated 30 June
+                2026, under "Repeat key terms throughout (Entity
+                distribution)"</span>
+              <blockquote>
+                <p>
+                  "When Fin retrieves a section mid-article, it needs enough
+                  context to know what's being discussed."
+                </p>
+              </blockquote>
+              <p>
+                <a
+                  href="https://www.intercom.com/help/en/articles/7860255-optimizing-content-for-fin"
+                  >Read the article</a
+                >.
+              </p>
+            </li>
+            <li>
+              <span class="src">Zendesk</span>
+              <span class="yr">Optimizing your knowledge content for
+                generative AI</span>
+              <blockquote>
+                <p>
+                  "Repeat the question or topic from the title. This ensures
+                  that context isn't lost during chunking, and avoids
+                  separating questions from their answers."
+                </p>
+              </blockquote>
+              <p>
+                Its instruction to writers, under "Best practices for writing
+                content for AI use", is the heading "Create self-contained
+                content".
+                <a
+                  href="https://support.zendesk.com/hc/en-us/articles/4408845739162-Optimizing-your-knowledge-content-for-generative-AI"
+                  >Read the article</a
+                >.
+              </p>
+            </li>
+          </ul>
+
+          <p>
+            <strong>This does not calibrate anything.</strong> The weights are
+            still my judgement and the score is still uncalibrated, for the
+            reasons in
+            <a href="#built">what I got wrong</a>. What it changes is the
+            premise underneath the weights. The claim that a section is
+            retrieved alone and has to survive alone is no longer only my
+            reading of the problem; it is how three vendors describe their own
+            products, in the pages they write for their own customers.
+          </p>
+
+          <div class="callout callout-notice">
+            <h4>Who owns these voices</h4>
+            <p>
+              Two of the three quotations above are Moveworks', and
+              <strong>Moveworks has been a ServiceNow company since 15
+                December 2025</strong>, when
+              <a
+                href="https://www.moveworks.com/us/en/company/news/press-releases/servicenow-completes-acquisition-of-moveworks"
+                >ServiceNow announced it had completed the acquisition</a
+              >. So this is three companies and not three unrelated ones. It
+              matters more than a footnote, because the tool now implements
+              Moveworks' published splitting algorithm and quotes its limits
+              by name: one vendor is doing a lot of the work here, and a
+              reader should be able to see that and discount it.
+            </p>
+            <p>
+              I also cut two sources rather than soften them. Salesforce
+              publishes a maximum chunk size and a section-aware chunking
+              description, and ServiceNow documents what a Q&amp;A Genius
+              Result card shows, but neither company's documentation pages
+              could be retrieved as text at their own URLs on 13 August 2026.
+              A claim I cannot open is not a citation, so both are absent
+              rather than paraphrased from somewhere else. One consequence is
+              worth stating: the 512-token limit this tool checks against is
+              Moveworks' alone, and nothing here should be read as an industry
+              standard.
+            </p>
+          </div>
 
           <div class="callout callout-warning">
             <h4>Freshness check, August 2026</h4>
@@ -373,12 +498,21 @@
           <div class="callout callout-notice">
             <h4>Where this evidence is weak</h4>
             <p>
-              The weakness is not accuracy, it is source type. Three of the five
-              sources are vendor guides and the fourth is a company with
-              something to sell. I have no first-hand complaint from working
-              technical writers, which is why gathering it is item three on the
+              The weakness is not accuracy, it is source type, and it applies
+              to the demand evidence specifically. Three of those five sources
+              are vendor guides and the fourth is a company with something to
+              sell. I have no first-hand complaint from a working technical
+              writer, which is why gathering it is item three on the
               <a href="#next">roadmap</a>, scheduled before launch messaging
               rather than after.
+            </p>
+            <p>
+              The mechanism evidence does not have that problem, and it does
+              not fix this one either. A vendor describing how its own
+              retrieval works is close to a primary source about that product.
+              A vendor telling me that authors are frustrated is marketing.
+              These are two different questions, and only the first one is now
+              well sourced.
             </p>
           </div>
         </section>
@@ -387,8 +521,10 @@
           <p class="section-kicker">Part 3</p>
           <h2>Market and incentives</h2>
           <p>
-            The market case rests on two outside numbers and no others.
-            Gartner's projection above is the demand driver. For size, knowledge management software is
+            The market case rests on two outside numbers and no others, and
+            both are forecasts rather than measurements, so read them as
+            direction and not as size. Gartner's 2029 prediction above is the
+            demand driver. For size, knowledge management software is
             projected to reach $75.22 billion by 2034 at a 12.3% annual growth
             rate
             (<a
@@ -614,17 +750,22 @@
           </div>
 
           <p>
-            Both near misses are closer than a competitive table usually admits.
-            The retrieval preview tools are free and take pasted text, and they
-            show you the pieces your document will be broken into, which is
-            exactly the right raw material. They stop before the judgement,
-            because showing an author their article in fragments answers "what
-            will the software store?" and not "can an agent answer from this?"
-            The visibility checkers are also free and score two of the same
-            things I score, but they score them for a marketer chasing citations
-            on a public page. Neither category asks whether a section still
-            stands up once retrieval has pulled it out alone, and that is the
-            check carrying the most weight here.
+            Both near misses are closer than a competitive table usually admits,
+            and one of them got closer after I built this. The retrieval preview
+            tools are free, take pasted text, and show you the pieces your
+            document will be broken into, which is exactly the right raw
+            material. This tool now shows those pieces too, so that is no longer
+            a line between us. Two things still are. Their preview runs a
+            generic splitter, where this runs one vendor's published algorithm
+            and says whose it is, so the boundaries are the ones a named product
+            would actually produce. And they stop at the boundaries, because
+            showing an author their article in fragments answers "what will the
+            software store?" and not "can an agent answer from this?" The
+            visibility checkers are also free and score two of the same things I
+            score, but they score them for a marketer chasing citations on a
+            public page. Neither category asks whether a section still stands up
+            once retrieval has pulled it out alone, and that is the check
+            carrying the most weight here.
           </p>
         </section>
 
@@ -637,8 +778,11 @@
             sections stand alone, whether the answer comes first, whether
             references point at something nearby, whether each section holds one
             idea, and whether the structure is clear. The checks are weighted
-            25/20/20/15/20 with 19 rules underneath, every finding is marked in
-            your own text, and every point lost is itemised.
+            25/20/20/15/20 with 25 rules underneath, no single check may fail
+            while the article is called agent-ready, every finding is marked in
+            your own text, and every point lost is itemised. The report also
+            draws the boundaries where one vendor's software would cut the
+            article into pieces, and scores those pieces for size.
           </p>
           <p>
             <strong>Marty Cagan's four product risks</strong> are the spine
@@ -715,10 +859,11 @@
               Authors do not write in plain text markup. They copy from a
               finished page in Zendesk, Confluence or ServiceNow, and pasting
               that as plain text flattens the headings into ordinary sentences.
-              Headings are where sections begin, the section is the unit every
-              check scores, and four of the five checks have rules that read the
-              headings themselves, so the tool converts the formatted version of
-              what you copied instead.
+              Headings are where sections begin, the section is the unit almost
+              every check scores, the two size rules score the pieces those
+              sections are delivered in, and four of the five checks have rules
+              that read the headings themselves, so the tool converts the
+              formatted version of what you copied instead.
             </p>
             <ul class="tradeoff">
               <li>
@@ -773,11 +918,15 @@
             <h3>The words authors use, not the words engineers use</h3>
             <p class="decision-risk">Risk addressed: usability</p>
             <p>
-              The interface says "section" and never "chunk", and the ideas the
-              rubric rests on are explained rather than assumed. This sounds
-              cosmetic, but it is the positioning made concrete: the category is
-              full of tools that speak to people who already know the jargon and
-              empty of tools that speak to the person writing the words.
+              The interface says "section" for the thing you wrote and "piece"
+              for the thing that gets delivered, and the ideas the rubric rests
+              on are explained rather than assumed. The one word it borrows
+              from the engineers is "chunk", and only when quoting a vendor's
+              published limit, because naming whose limit a number is beats
+              keeping the vocabulary tidy. This sounds cosmetic, but it is the
+              positioning made concrete: the category is full of tools that
+              speak to people who already know the jargon and empty of tools
+              that speak to the person writing the words.
             </p>
             <ul class="tradeoff">
               <li>
@@ -879,6 +1028,66 @@
             </ul>
           </div>
 
+          <div class="decision">
+            <span class="decision-num">Decision 9</span>
+            <h3>Drawing the cut lines, using one vendor's published algorithm</h3>
+            <p class="decision-risk">Risk addressed: value</p>
+            <p>
+              The tool used to score the sections an author wrote, which is
+              not the same thing as the pieces the software delivers. Moveworks
+              publishes how it divides an article, in enough detail to compute
+              from the article's own markup: one header level divides the
+              article, the largest level with at least two instances wins, the
+              search stops at H2, and FAQ articles are the exception. So the
+              report now draws those boundaries onto the pasted text and scores
+              each resulting piece for size, against Moveworks' published
+              maximum of 512 tokens per chunk.
+            </p>
+            <p>
+              It produces a finding I have not seen anywhere else. If an
+              article has one H1 and several H2s, the cuts land on the H2s; add
+              a second H1 and every boundary in the document moves, splitting
+              the article somewhere completely different, and nothing in any
+              authoring tool would tell you. The label in the interface is
+              "where Moveworks would cut this", never "where your article gets
+              cut", because it is one company's documented behaviour and not a
+              standard.
+            </p>
+            <p>
+              Two smaller calls came out of the same work, and both are the
+              rubric refusing to argue with itself. The new rule for an answer
+              that lives only in a table is a minor rather than a major,
+              because check 5 already asks authors to turn comparisons into
+              tables, and a major would have punished them for doing it: the
+              two rules do not actually disagree, so the ask is to keep the
+              table and also write the takeaway in a sentence. And the old
+              "section over 500 words" major was retired, because it made a
+              mechanical claim, that the section is guaranteed to be split, on
+              a number I invented. The new size rule makes that claim against a
+              published limit instead. One claim, one rule, and the invented
+              number does not get to keep the authority.
+            </p>
+            <ul class="tradeoff">
+              <li>
+                <span class="k">Cost</span
+                ><span
+                  >A dependency on one vendor's documentation, which that
+                  vendor can change without telling me. It is also the one
+                  place the tool teaches an implementation detail rather than
+                  writing craft.</span
+                >
+              </li>
+              <li>
+                <span class="k">Bought</span
+                ><span
+                  >The only part of this product that shows an author
+                  something they cannot work out by reading their own article
+                  carefully, and it still needs no server and no model.</span
+                >
+              </li>
+            </ul>
+          </div>
+
           <h3>Kano classification</h3>
           <p>
             The <strong>Kano model</strong> sorts features by how people react
@@ -915,7 +1124,7 @@
                 </tr>
                 <tr>
                   <th scope="row">Analysis</th>
-                  <td>5 fixed checks, 19 rules</td>
+                  <td>5 fixed checks, 25 rules, none allowed to fail</td>
                   <td>AI models and similarity scoring</td>
                   <td>One model call would break both trust and the no-network rule.</td>
                 </tr>
@@ -949,6 +1158,26 @@
           <h3>What I got wrong, and what is still open</h3>
           <ol>
             <li>
+              <strong>The scoring model certified articles it should have
+                refused, and the arithmetic was public the whole
+                time.</strong>
+              Five weighted checks and a threshold of 85 meant a check worth
+              15% could be driven to zero and the article still scored exactly
+              85.0, which read as agent-ready. The same collapse on the 25%
+              check gave 81.25 and failed. So whether a completely failed
+              dimension sank an article depended on nothing but which
+              dimension it was. Every number needed to spot that was printed
+              on the scoring page from the day it shipped, and I published the
+              weights without ever multiplying them out. The fix is a floor,
+              at the 60 this page already called a fail: no article is
+              agent-ready with any check below it, and the weakest check is
+              now shown beside the total every time. Worth being precise about
+              the lesson, which is not "test the code". The tests all passed.
+              It is that a scoring model needs its edge cases worked by hand
+              before it is published, because a rubric that cannot be trusted
+              at the boundary is not a rubric.
+            </li>
+            <li>
               <strong>The weights are judgement, not evidence.</strong> The
               25/20/20/15/20 split is my ranking of what damages an answer most,
               with no dataset of failed articles behind it. Defensible, not
@@ -971,15 +1200,41 @@
               not a fix.
             </li>
             <li>
-              <strong>I ran this page through the tool, and it marked me
-                down.</strong>
-              Answer first was the weakest check, because several sections
-              opened with context instead of the point. Those openings are
-              rewritten, which is the rubric doing its job on its author. It
-              also flagged the Cost and Bought lines in every decision as buried
-              steps, and I left those alone, because they are a summary rather
-              than a procedure. That is exactly the false positive risk 2
-              describes, found in my own writing.
+              <strong>I ran this page through the tool, and it lands in the
+                bottom band: "an agent will struggle to answer from
+                this".</strong>
+              One idea per section scores 0. Answer first was the weakest check
+              before the size rules existed, because several sections opened
+              with context instead of the point, and those openings are
+              rewritten. What sinks the page now is size: it would be cut into
+              ten pieces, and the largest runs to about 3,500 estimated tokens
+              against a limit of 512, roughly seven times over.
+              <br /><br />
+              The exact composite is deliberately not quoted here, and that is
+              a finding rather than a dodge. A page that reports its own score
+              changes that score every time it is edited, including by this
+              paragraph, and the number moved twice while I was writing it. Any
+              figure printed here is stale the moment the next sentence is
+              improved. The failing check and the band are structural and
+              survive an edit, so those are what the page claims.
+            </li>
+            <li>
+              <strong>That failure is a genre difference, and it is the honest
+                limit of the rubric.</strong>
+              A teardown is an essay, written to be read from the top by a
+              person who chose to be here. A knowledge-base article is written
+              to be cut into pieces and read one piece at a time by software
+              that did not choose anything. The rubric scores the second thing,
+              so it is right to fail the first, and I am leaving the essay long
+              rather than chopping it into retrieval-sized fragments to flatter
+              my own score. Worth saying plainly, because the number is the
+              product's whole argument: a tool that scores one genre well is
+              not a general writing grader, and a 61 here is the rubric working
+              rather than the rubric misfiring. It also flagged the Cost and
+              Bought lines in every decision as buried steps, and I left those
+              alone, because they are a summary rather than a procedure. That
+              is exactly the false positive risk 3 describes, found in my own
+              writing.
             </li>
             <li>
               <strong>The rubric can never be tuned from usage.</strong> No
@@ -1037,6 +1292,29 @@
                 </tr>
                 <tr>
                   <th scope="row">
+                    Size and split checks, needing no model
+                    <span class="shipped">shipped</span>
+                  </th>
+                  <td class="num">5</td>
+                  <td class="num">7</td>
+                  <td class="num">90%</td>
+                  <td class="num">0.5</td>
+                  <td class="num">63</td>
+                </tr>
+                <tr>
+                  <td colspan="6">
+                    A section that stands alone perfectly and is still too big
+                    to arrive in one piece was invisible to every other check.
+                    Counting characters and estimating tokens catches it, and
+                    both are arithmetic: no model, no download, no server.
+                    Confidence is high because the limit is published rather
+                    than guessed. Scored honestly, it lands second, above two
+                    distribution items, which is the one place this table
+                    disagrees with its own headline.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
                     Post where the manual test is being recommended: Show HN,
                     r/technicalwriting, r/knowledgemanagement, Write the Docs
                   </th>
@@ -1070,25 +1348,6 @@
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">
-                    Version 2 standalone-section check, using a model that runs
-                    locally
-                  </th>
-                  <td class="num">4</td>
-                  <td class="num">6</td>
-                  <td class="num">50%</td>
-                  <td class="num">3</td>
-                  <td class="num">4</td>
-                </tr>
-                <tr>
-                  <td colspan="6">
-                    transformers.js with all-MiniLM-L6-v2 is about 22MB
-                    compressed and stays in the browser, so the privacy promise
-                    survives. Low confidence it beats the fixed rules by enough
-                    to justify the download.
-                  </td>
-                </tr>
-                <tr>
                   <th scope="row">Reading Word and web page files directly</th>
                   <td class="num">3</td>
                   <td class="num">4</td>
@@ -1112,9 +1371,34 @@
                 </tr>
                 <tr>
                   <td colspan="6">
-                    The most-requested feature I expect, and the
-                    lowest-scoring. Teams want it; this version scores for
-                    individuals, because individuals are who is here.
+                    The most-requested feature I expect. Teams want it; this
+                    version scores for individuals, because individuals are
+                    who is here.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    Version 2 standalone-section check, using a model that runs
+                    locally
+                  </th>
+                  <td class="num">3</td>
+                  <td class="num">3</td>
+                  <td class="num">30%</td>
+                  <td class="num">3</td>
+                  <td class="num">1</td>
+                </tr>
+                <tr>
+                  <td colspan="6">
+                    Re-scored from 4 down to 1, and it moved from fourth to
+                    last because the shipped row above took most of its value
+                    away. transformers.js with all-MiniLM-L6-v2 is still about
+                    22MB compressed and still stays in the browser. What
+                    changed is what is left for it to do: the size insight,
+                    the concrete thing I expected a model to surface, turned
+                    out to be a character count. Impact drops from 6 to 3
+                    because the remaining gain is judging meaning at the
+                    margin, and confidence from 50% to 30% because a 22MB
+                    download now has to beat a better baseline than it did.
                   </td>
                 </tr>
               </tbody>
@@ -1124,9 +1408,30 @@
           <div class="callout callout-success">
             <h4>The table forces the finding</h4>
             <p>
-              The top three items are reach and evidence, and not one is a
-              feature. The version 2 check, the thing I most want to build,
-              scores 4 against publishing's 115.
+              Of the items still unbuilt, the top three are reach and
+              evidence, and not one is a feature. The version 2 check, the
+              thing I most want to build, now scores 1 against publishing's
+              115.
+            </p>
+            <p>
+              The exception is the row marked shipped, and it is the honest
+              kind. Scored after the fact it lands at 63, second overall and
+              ahead of two distribution items, which contradicts my own rule
+              that features wait behind reach. It earns that only because its
+              effort is half a day and its limit is published rather than
+              guessed. A feature that cheap and that well evidenced is not
+              really the thing the rule was written to hold back.
+            </p>
+            <p>
+              The re-score is the more useful result. The same insight, "a
+              section can be self-contained and still be too big to survive",
+              was worth 63 as arithmetic and 1 as machine learning. I had it
+              filed under model work for months because I framed it as a
+              judgement about meaning, when it was a measurement all along.
+              RICE did not find that; scoring the cheap version honestly
+              against the expensive one did, which is the argument for
+              re-scoring a roadmap after you build something rather than only
+              before.
             </p>
           </div>
         </section>
@@ -1225,7 +1530,7 @@
                 <tr>
                   <th scope="row">Cagan's four risks</th>
                   <td>
-                    Made each of the eight decisions name the risk it settles
+                    Made each of the nine decisions name the risk it settles
                     rather than the feature it adds.
                   </td>
                 </tr>
@@ -1233,7 +1538,8 @@
                   <th scope="row">RICE</th>
                   <td>
                     Put distribution above features, and the most interesting
-                    engineering work fourth.
+                    engineering work last, once the cheap version of the same
+                    insight was scored honestly beside it.
                   </td>
                 </tr>
                 <tr>

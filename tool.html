@@ -108,6 +108,7 @@ Copying straight from a finished KB page (Zendesk, Confluence, ServiceNow) works
           <div id="results-notices"></div>
           <section id="score-panel" class="card" aria-label="Overall score"></section>
           <section id="fix-list" class="card" aria-label="Prioritized fixes"></section>
+          <div id="snippet-panel"></div>
           <div class="results-columns">
             <section id="check-cards" aria-label="Checks"></section>
             <section
@@ -123,13 +124,16 @@ Copying straight from a finished KB page (Zendesk, Confluence, ServiceNow) works
           <p>
             An AI support agent does not read your article the way a person
             does. Before the agent sees your writing, software splits the
-            article into pieces, usually one piece per section, and stores each
-            piece on its own. (Engineers call these pieces <em>chunks</em>.
-            Everywhere else, this tool just says <em>sections</em>.) When
-            someone asks the agent a question, that software fetches the few
-            sections that best match the question, and the agent answers from
-            those sections alone, without the title, the intro, or whatever came
-            before.
+            article into pieces and stores each piece on its own. The split is
+            driven by your headings, though not necessarily by every one of
+            them: the vendor whose algorithm is drawn onto your article further
+            down picks a single heading level and cuts only there, so one piece
+            can hold several of your sections. (Engineers call these pieces
+            <em>chunks</em>. This page says <em>section</em> for what you wrote
+            and <em>piece</em> for what gets delivered.) When someone asks the
+            agent a question, that software fetches the few pieces that best
+            match the question, and the agent answers from those alone, without
+            the title, the intro, or whatever came before.
           </p>
           <p>
             The usual way to test for this is by hand: pull a paragraph out of
@@ -154,6 +158,11 @@ Copying straight from a finished KB page (Zendesk, Confluence, ServiceNow) works
             one habit is one lesson rather than ten. A check never drops below
             0.
           </p>
+          <p>
+            The report shows the weakest check next to the overall number,
+            every time, not only when it is bad. An average hides exactly the
+            thing you need to see: one collapsed dimension.
+          </p>
           <p>The overall score is a weighted average of the five checks:</p>
           <table class="weights-table">
             <thead>
@@ -173,6 +182,29 @@ Copying straight from a finished KB page (Zendesk, Confluence, ServiceNow) works
             on it. <strong>Below 60:</strong> an agent will struggle to answer
             from this. The same bands apply to each individual check, as pass,
             needs work, or fail.
+          </p>
+
+          <h3>The floor: no single check may fail</h3>
+          <p>
+            <strong>Nothing is agent-ready with any check below 60</strong>,
+            whatever the average says. That rule exists because the weighted
+            average, on its own, gets this wrong. Run the arithmetic on the
+            15% check with the other four perfect: drive it to 25 and the
+            total is 88.75, drive it all the way to 0 and the total is
+            exactly 85.0. Both used to certify. The same collapse on the 25%
+            check gives 81.25, which fails. So whether a completely failed
+            check sank the article depended on nothing but which check it
+            happened to be, which is not a rubric, it is an accident of the
+            weights.
+          </p>
+          <p>
+            The floor is 60 rather than some new number because 60 is already
+            the line this page draws between "needs work" and "fail" on every
+            check. The score now obeys a sentence this page was already
+            printing: a failing check is a failing check, whatever the total
+            says. When the floor is what stopped an article, the report says
+            so in words, and the overall number is still shown unchanged. The
+            number is never quietly adjusted; only the verdict it can buy.
           </p>
 
           <h3>Check 1: Self-contained sections (25%)</h3>
@@ -240,6 +272,19 @@ Copying straight from a finished KB page (Zendesk, Confluence, ServiceNow) works
               topic, retrieval has weaker evidence that this section answers
               the question.
             </li>
+            <li>
+              <strong>Past the chat cutoff</strong> (minor, costs 10). The
+              piece opens with more than 500 characters of prose, or its steps
+              begin after that point. Moveworks documents what a person
+              actually sees of a retrieved piece in chat: "The maximum number
+              of characters that can be shown in a snippet is 500 characters",
+              and "Snippets end at the first space after 500 characters, this
+              is done so that the last word in a snippet is not cut off." An
+              answer below that line is retrieved, is correct, and is never
+              read. The same page says the article title does not count toward
+              the 500, so this check does not count it either. That is one
+              vendor's display limit, not a universal one.
+            </li>
           </ul>
 
           <h3>Check 3: Unresolved references (20%)</h3>
@@ -286,10 +331,30 @@ Copying straight from a finished KB page (Zendesk, Confluence, ServiceNow) works
           </p>
           <ul class="rule-list">
             <li>
-              <strong>Section too long</strong> (minor, costs 10 over 300
-              words; major, costs 25 over 500). Oversized sections get split
-              wherever the software decides, mid-sentence and mid-idea, instead
-              of where you would have split them.
+              <strong>Section too long</strong> (minor, costs 10, over 300
+              words). A section past about 300 words is usually carrying more
+              than one idea, and each extra idea weakens its match to any one
+              question. This is a rule of thumb about meaning, and that is all
+              it claims.
+            </li>
+            <li>
+              <strong>Piece too long</strong> (major, costs 25). The delivered
+              piece is over roughly 512 tokens. This is the one rule that
+              scores the piece rather than the section, because a long,
+              perfectly self-contained section is exactly the one that gets
+              split again, which destroys the very property the rest of this
+              page rewards. The limit is Moveworks': its structure-aware
+              chunking publishes a hard maximum of 512 tokens per chunk, with
+              a target size of 256. The target is not used as a threshold,
+              because an ordinary 200-word section already sits above it, and
+              flagging that would be punishing writing that is doing nothing
+              wrong. Token counts here are an estimate at four characters per
+              token, not a tokenizer, and the report says so wherever a number
+              appears. One difference from the rule above it is deliberate:
+              code blocks do not count toward a section's word count, because
+              they are not prose, but they do count toward a piece's token
+              count, because the software doing the splitting has to carry
+              them either way.
             </li>
             <li>
               <strong>Topic shift</strong> (minor, costs 10). Two or more
@@ -340,7 +405,78 @@ Copying straight from a finished KB page (Zendesk, Confluence, ServiceNow) works
               paragraph over 120 words. Long paragraphs get split blindly,
               mid-thought.
             </li>
+            <li>
+              <strong>Answer only in a table</strong> (minor, costs 10). A
+              section whose content is a table with under 20 words of prose
+              around it. Moveworks states that "The bot is currently unable to
+              surface content from tables in-chat", so an answer living only
+              in a table can be retrieved and still not shown. It is a minor,
+              and the fix is additive: keep the table, and also write the
+              takeaway in a sentence. Anything stronger would contradict
+              "comparison in prose" three rules up, which asks you to build
+              the table in the first place. Note the word "currently": this is
+              one vendor's present limitation, not a fact about agents.
+            </li>
+            <li>
+              <strong>Image with no alt text</strong> (minor, costs 10; major,
+              costs 25 when the image is nearly all the section has).
+              Moveworks: "Do not use images to provide text. Moveworks cannot
+              read text that's embedded in your images (no OCR)." A screenshot
+              with no alt text is simply not there as far as an agent is
+              concerned. When you paste from a rendered page, images are kept
+              as text so this check can see them; nothing is ever fetched, and
+              the page's content security policy would refuse it anyway.
+            </li>
+            <li>
+              <strong>Nested list</strong> (minor, costs 10). List items
+              indented under other list items. Moveworks asks writers to
+              "avoid creating nested lists, or lists within lists", because
+              "The nested list will be flattened and the list items will all
+              appear on the same level." Flattening is worse than losing the
+              formatting: a sub-step that applied to one case is promoted into
+              a step that applies to everybody.
+            </li>
+            <li>
+              <strong>Hyperlink in a heading</strong> (minor, costs 10).
+              Moveworks: "Do not insert hyperlinks into headings". The heading
+              is the label the piece is retrieved by, and part of it is now
+              anchor text pointing somewhere else.
+            </li>
           </ul>
+
+          <h3>Where Moveworks would cut this</h3>
+          <p>
+            Everything above scores the sections you wrote. The report also
+            shows where your article would actually be cut, which is not the
+            same thing, and it is drawn straight onto your text.
+          </p>
+          <p>
+            Moveworks publishes its splitting rule, so it can be computed from
+            your own headings. "For each article, one level of header is used
+            to divide an article into sections, these sections then make up a
+            snippet." Which level? "We look for the largest header style that
+            has at least 2 instances, so if H1 is present but only once, and
+            H2 occurs 3 times, then snippetization will occur on H2." The
+            search stops there: "This does not consider headers below H2 once
+            the condition is met", which means an article whose only headings
+            are H3s is never divided at all, and arrives in one piece. FAQ
+            articles are the exception, where "we look for the largest header
+            which occurs more than 4 times and the majority of instances end
+            in a question mark (?)".
+          </p>
+          <p>
+            The consequence is worth seeing once. If your article has a single
+            H1 and several H2s, the cuts land on the H2s. Add one more H1 and
+            every boundary in the document moves, splitting your article
+            somewhere else entirely, and nothing anywhere would tell you. The
+            report says so when your article is in that state.
+          </p>
+          <p>
+            This is <strong>one vendor's published algorithm, not an industry
+            standard</strong>. It is here because Moveworks documents it fully
+            enough to compute and most vendors do not. Another product will
+            cut your article somewhere else.
+          </p>
 
           <h3>Strengths</h3>
           <p>
@@ -365,10 +501,21 @@ Copying straight from a finished KB page (Zendesk, Confluence, ServiceNow) works
             One consequence of the weighting is worth knowing. The three checks
             about meaning, which are self-containment, answer first and
             references, carry 65% of the score, and pure structure carries 35%.
-            An article whose only problem is structural, one giant unbroken
-            section for example, can still land in the 80s. So read the five
-            check scores rather than just the headline number. A failing check
-            is a failing check, whatever the total says.
+            An article whose only problem is structural can still land in the
+            80s on the composite. What it can no longer do is get called
+            agent-ready: the floor stops any article with a failing check,
+            and the weakest check is printed beside the total either way. Read
+            the five check scores rather than the headline number.
+          </p>
+          <p>
+            Where a number comes from a vendor, this page says which vendor.
+            The 512-token maximum, the 500-character chat cutoff, the table
+            and image and list rules, and the map of where your article gets
+            cut are all Moveworks', taken from its own documentation and
+            quoted above. They are documented behaviour of one product, which
+            is more than a guess and less than a standard. The thresholds that
+            are mine, such as 300 words for a section or 120 for a paragraph,
+            are rules of thumb, and they are labelled as such.
           </p>
         </section>
       </main>

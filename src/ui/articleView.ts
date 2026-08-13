@@ -257,8 +257,27 @@ export function renderArticleView(
     message: f.message
   }))
 
+  // Sections that open a snippet, so the boundary can be drawn above them.
+  const boundaries = new Map<Section, number>()
+  for (const snippet of report.snippets.snippets) {
+    if (snippet.heading === null) continue
+    const first = snippet.sections[0]
+    if (first) boundaries.set(first, snippet.index)
+  }
+  const total = report.snippets.snippets.length
+
   const doc = el('div', { class: 'article-doc' })
   for (const section of report.doc.sections) {
+    const boundary = boundaries.get(section)
+    if (boundary !== undefined) {
+      doc.append(
+        el(
+          'div',
+          { class: 'snippet-boundary', role: 'separator' },
+          el('span', {}, `cut · piece ${boundary} of ${total}`)
+        )
+      )
+    }
     if (section.heading !== null && section.headingSpan) {
       doc.append(renderHeading(section, marks))
     }

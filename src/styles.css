@@ -392,6 +392,58 @@ button {
   color: var(--error-text);
 }
 
+/* The weakest check sits beside the composite every time, because an
+   average hides the one collapsed dimension that decides the answer. */
+.score-weakest {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+  margin: 0 0 var(--space-8);
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.score-weakest-label {
+  font-size: var(--size-13);
+  line-height: var(--lh-13);
+  letter-spacing: var(--ls-13);
+  font-weight: 650;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.score-weakest-name {
+  font-weight: 650;
+  color: var(--text-heading);
+}
+
+.score-weakest-num {
+  color: var(--text-body);
+  font-variant-numeric: tabular-nums;
+}
+
+.score-floor-note {
+  flex-basis: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-8);
+  margin: var(--space-12) 0 0;
+  padding: var(--space-12);
+  border: 1px solid var(--warning-line);
+  background: var(--warning-tint);
+  border-radius: var(--radius);
+  color: var(--warning-deep);
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.score-floor-note .icon {
+  flex: none;
+  margin-top: 3px;
+  color: var(--warning-text);
+}
+
 .score-summary {
   margin: 0;
   color: var(--text-body);
@@ -710,6 +762,137 @@ button {
   max-height: calc(100vh - 32px);
   overflow-y: auto;
   box-shadow: var(--elev-2);
+}
+
+/* ---------- the split map ---------- */
+
+.snippet-panel {
+  margin-bottom: var(--space-16);
+}
+
+.snippet-panel h2 {
+  margin: 0 0 var(--space-8);
+  font-size: var(--size-20);
+  line-height: var(--lh-20);
+  letter-spacing: var(--ls-20);
+  font-weight: var(--w-20);
+  color: var(--text-heading);
+}
+
+.snippet-caveat {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-8);
+  margin: 0 0 var(--space-12);
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--text-muted);
+}
+
+.snippet-caveat .icon {
+  flex: none;
+  margin-top: 3px;
+}
+
+.snippet-verdict {
+  margin: 0 0 var(--space-8);
+  font-weight: 650;
+  color: var(--text-heading);
+}
+
+.snippet-quote {
+  margin: 0 0 var(--space-12);
+  padding-left: var(--space-12);
+  border-left: 2px solid var(--border-subtle);
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--text-muted);
+}
+
+.snippet-fragile {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-8);
+  margin: 0 0 var(--space-12);
+  padding: var(--space-12);
+  border: 1px solid var(--warning-line);
+  background: var(--warning-tint);
+  border-radius: var(--radius);
+  color: var(--warning-deep);
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.snippet-fragile .icon {
+  flex: none;
+  margin-top: 3px;
+  color: var(--warning-text);
+}
+
+.snippet-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: snippet;
+}
+
+.snippet-item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+  padding: var(--space-8) 0;
+  border-top: 1px solid var(--border-subtle);
+  counter-increment: snippet;
+}
+
+.snippet-item::before {
+  content: counter(snippet);
+  min-width: 1.5em;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  color: var(--text-muted);
+}
+
+.snippet-name {
+  font-weight: 650;
+  color: var(--text-heading);
+}
+
+.snippet-size {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.snippet-note {
+  margin: var(--space-12) 0 0;
+  padding-top: var(--space-12);
+  border-top: 1px solid var(--border-subtle);
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--text-muted);
+}
+
+/* Boundaries drawn into the article itself. */
+.snippet-boundary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin: var(--space-24) 0 var(--space-16);
+  font-size: var(--size-13);
+  line-height: var(--lh-13);
+  letter-spacing: var(--ls-13);
+  font-weight: 650;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.snippet-boundary::before,
+.snippet-boundary::after {
+  content: '';
+  flex: 1;
+  border-top: 1px dashed var(--border-strong, var(--border-subtle));
 }
 
 .article-view-title {

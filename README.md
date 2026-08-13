@@ -36,8 +36,29 @@ Every rule, its exact deduction, and the retrieval principle behind it is
 documented in the in-app **"How scoring works"** section at the bottom of
 the page — transparency is the product's core trust feature. In short:
 five weighted checks, each starting at 100; majors −25, minors −10, info
-−0; only the first three findings per rule count; 85+ is agent-ready.
-Same input, same score, always.
+−0; only the first three findings per rule count; 85+ is agent-ready,
+**and no article is agent-ready with any single check below 60**. Same
+input, same score, always.
+
+That floor is not decoration. Without it the weighted average certifies
+articles it should refuse: the 15%-weight check driven to 0 with the
+other four perfect scores exactly 85.0 and used to pass, while the same
+collapse on the 25% check scores 81.25 and fails. Whether a failed check
+sank an article depended only on which check it was. The three cases are
+pinned as unit tests in `tests/score.test.ts`. The result header shows
+the weakest check beside the composite every time.
+
+### Sections, and the pieces they are delivered in
+
+Twenty-three of the 25 rules score the heading sections you wrote. Two
+score the *pieces* the retrieval software would deliver, which is not the
+same thing: a long, perfectly self-contained section is exactly the one
+that gets split again. Those boundaries are computed with Moveworks'
+published snippetization algorithm — one vendor's documented behaviour,
+labelled as such everywhere it appears, not an industry standard — and
+drawn onto the pasted article. Token counts are an estimate at four
+characters per token, never a tokenizer, and the 512-token maximum and
+500-character chat cutoff are Moveworks' own published numbers.
 
 ## Privacy promise — and how to verify it
 
@@ -112,10 +133,11 @@ set **Pages → Source** to **"GitHub Actions"**. The Vite `base` is
 
 ## v2 roadmap
 
-- Local-embedding semantic self-containment check (in-browser, still no
-  server)
 - DOCX/HTML ingestion
 - Batch mode
+- Local-embedding semantic self-containment check (in-browser, still no
+  server) — re-scored down the list, because the concrete insight it was
+  meant to deliver turned out to be a character count
 
 The teardown's [RICE table](index.html) is the current, prioritised
 version of this list. Every source quoted in the teardown was re-checked

@@ -13,6 +13,7 @@ import { showToast } from './ui/toast.js'
 import { renderScorePanel } from './ui/scorePanel.js'
 import { renderFixList } from './ui/fixList.js'
 import { renderCheckCards } from './ui/checkCards.js'
+import { renderSnippetPanel } from './ui/snippetPanel.js'
 import {
   attachMarkTooltip,
   focusFinding,
@@ -33,6 +34,7 @@ const resultsView = document.getElementById('results-view') as HTMLElement
 const noticesHost = document.getElementById('results-notices') as HTMLElement
 const scoreHost = document.getElementById('score-panel') as HTMLElement
 const fixHost = document.getElementById('fix-list') as HTMLElement
+const snippetHost = document.getElementById('snippet-panel') as HTMLElement
 const cardsHost = document.getElementById('check-cards') as HTMLElement
 const articleHost = document.getElementById('article-view') as HTMLElement
 
@@ -89,6 +91,7 @@ analyzeBtn.addEventListener('click', () => {
   clear(noticesHost)
   clear(scoreHost)
   clear(fixHost)
+  clear(snippetHost)
   clear(cardsHost)
   clear(articleHost)
 
@@ -129,6 +132,7 @@ function runAnalysis(source: string): void {
   const fixes = renderFixList(report, idOf, goTo)
   fixHost.hidden = fixes.length === 0
   fixHost.append(...fixes)
+  snippetHost.append(renderSnippetPanel(report))
   cardsHost.append(...renderCheckCards(report, idOf, goTo))
   articleHost.append(renderArticleView(report, idOf))
   attachMarkTooltip(articleHost)
