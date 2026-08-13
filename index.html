@@ -467,9 +467,13 @@
               could be retrieved as text at their own URLs on 13 August 2026.
               A claim I cannot open is not a citation, so both are absent
               rather than paraphrased from somewhere else. One consequence is
-              worth stating: the 512-token limit this tool checks against is
-              Moveworks' alone, and nothing here should be read as an industry
-              standard.
+              worth stating: the
+              <a
+                href="https://docs.moveworks.com/ai-assistant/enterprise-search/document-chunking-and-snippetization-overview"
+                >512-token limit</a
+              >
+              this tool checks against is Moveworks' alone, and nothing here
+              should be read as an industry standard.
             </p>
           </div>
 
@@ -1035,13 +1039,21 @@
             <p>
               The tool used to score the sections an author wrote, which is
               not the same thing as the pieces the software delivers. Moveworks
-              publishes how it divides an article, in enough detail to compute
-              from the article's own markup: one header level divides the
-              article, the largest level with at least two instances wins, the
-              search stops at H2, and FAQ articles are the exception. So the
-              report now draws those boundaries onto the pasted text and scores
-              each resulting piece for size, against Moveworks' published
-              maximum of 512 tokens per chunk.
+              publishes
+              <a
+                href="https://docs.moveworks.com/ai-assistant/enterprise-search/writing-ai-ready-kb-articles"
+                >how it divides an article</a
+              >, in enough detail to compute from the article's own markup: one
+              header level divides the article, the largest level with at least
+              two instances wins, the search stops at H2, and FAQ articles are
+              the exception. So the report now draws those boundaries onto the
+              pasted text and scores each resulting piece for size, against the
+              <a
+                href="https://docs.moveworks.com/ai-assistant/enterprise-search/document-chunking-and-snippetization-overview"
+                >hard maximum of 512 tokens per chunk</a
+              >
+              published for its structure-aware chunking, where the target size
+              is 256.
             </p>
             <p>
               It produces a finding I have not seen anywhere else. If an

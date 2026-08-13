@@ -343,9 +343,13 @@ Copying straight from a finished KB page (Zendesk, Confluence, ServiceNow) works
               scores the piece rather than the section, because a long,
               perfectly self-contained section is exactly the one that gets
               split again, which destroys the very property the rest of this
-              page rewards. The limit is Moveworks': its structure-aware
-              chunking publishes a hard maximum of 512 tokens per chunk, with
-              a target size of 256. The target is not used as a threshold,
+              page rewards. The limit is Moveworks': its
+              <a
+                href="https://docs.moveworks.com/ai-assistant/enterprise-search/document-chunking-and-snippetization-overview"
+                >structure-aware chunking</a
+              >
+              publishes a hard maximum of 512 tokens per chunk, with a target
+              size of 256. The target is not used as a threshold,
               because an ordinary 200-word section already sits above it, and
               flagging that would be punishing writing that is doing nothing
               wrong. Token counts here are an estimate at four characters per
@@ -475,7 +479,11 @@ Copying straight from a finished KB page (Zendesk, Confluence, ServiceNow) works
             This is <strong>one vendor's published algorithm, not an industry
             standard</strong>. It is here because Moveworks documents it fully
             enough to compute and most vendors do not. Another product will
-            cut your article somewhere else.
+            cut your article somewhere else. Every quotation above comes from
+            <a
+              href="https://docs.moveworks.com/ai-assistant/enterprise-search/writing-ai-ready-kb-articles"
+              >Writing AI-ready KB Articles for Moveworks</a
+            >, checked at that page on 13 August 2026.
           </p>
 
           <h3>Strengths</h3>
