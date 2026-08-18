@@ -45,7 +45,7 @@ export function buildMarkdownReport(report: Report): string {
   lines.push('## Where Moveworks would cut this')
   lines.push('')
   lines.push(
-    'One vendor’s published algorithm, not an industry standard. Token counts are an estimate at four characters per token.'
+    "One vendor's published algorithm, not an industry standard. Token counts are an estimate at four characters per token."
   )
   lines.push('')
   lines.push(splitVerdict(map))

@@ -31,7 +31,7 @@ export function renderSnippetPanel(report: Report): HTMLElement {
       'p',
       { class: 'snippet-caveat' },
       icon('notice'),
-      'This is one vendor’s published algorithm, not an industry standard. Moveworks documents how it divides an article, so this map is computed from your own headings. Another vendor will cut somewhere else.'
+      "This is one vendor's published algorithm, not an industry standard. Moveworks documents how it divides an article, so this map is computed from your own headings. Another vendor will cut somewhere else."
     ),
     el('p', { class: 'snippet-verdict' }, splitVerdict(map)),
     el('blockquote', { class: 'snippet-quote' }, ruleQuote(map))
@@ -83,7 +83,7 @@ export function renderSnippetPanel(report: Report): HTMLElement {
     el(
       'p',
       { class: 'snippet-note' },
-      `Token counts are an estimate at four characters per token, not a tokenizer. The 512-token maximum is Moveworks’ own, published for its structure-aware chunking; its target size is 256.`
+      `Token counts are an estimate at four characters per token, not a tokenizer. The 512-token maximum is Moveworks' own, published for its structure-aware chunking; its target size is 256.`
     )
   )
   return panel

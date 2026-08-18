@@ -376,3 +376,108 @@ its own score would be optimising the artifact for a measurement that does not a
   turned out to be a character count. Recorded in the teardown's RICE table with the
   reasoning, since a roadmap re-scored after building something is worth more than one
   scored only before.
+
+---
+
+## 2026-08-13 (night) — End-to-end validation of the shipped build. Three fixes.
+
+### What triggered this
+
+Two implementations of the same brief existed: one pushed to `main`, one built in parallel
+in a separate session. The remote was taken as the base because it was more complete, and
+the parallel work was kept on `parallel-implementation-aug13` rather than merged. What
+follows is what survived from it, plus what an end-to-end pass over the merged result
+found.
+
+### Ported from the parallel build: banding read the rounded composite (verified)
+
+The floor closes the case where a collapsed check hides behind a weighted average. Reading
+that code turned up a second route to the same threshold: `bandFor()` was handed
+`Math.round(overallRaw)`, so a composite below 85 could be promoted into the band above it.
+
+Checks of `[45, 100, 100, 90, 100]` average **84.75**, display as **85**, and certified.
+Reachable with real check scores, not theoretical. The band now reads the unrounded average
+and only the display rounds. Pinned in `tests/score.test.ts` beside the three floor cases.
+
+The lesson is sharper than the first one: when a boundary bug turns up, the question is not
+whether this one is fixed but how many ways there are to reach that boundary.
+
+### Withdrawn: a correction that was itself wrong (verified, and worth recording)
+
+The parallel build claimed `size.ts` had fabricated its quotation, on the grounds that
+"Hard maximum" appears nowhere on the KB-articles page and that 512 is the threshold below
+which a paragraph is *preserved*, not a ceiling above which chunks split.
+
+That was wrong. The comment cites a different page,
+`document-chunking-and-snippetization-overview`, which was never fetched before the claim
+was made. That page says verbatim: "Minimum chunk size: 8 tokens (smaller chunks are
+merged) Target chunk size: 256 tokens Hard maximum: 512 tokens (tables and lists: 1,024
+tokens) If a structural block still exceeds the hard maximum, it is recursively split
+further." The threshold, the citation and the framing were all correct as shipped, and the
+"8 tokens" figure that had been cut as unverifiable is documented there too.
+
+**Process correction: a challenge to someone else's citation starts at the source their
+comment names, not at the source you happen to have open.** Both pages were needed; one was
+read.
+
+### Found by end-to-end validation: the tool contradicted itself (fixed)
+
+Running the reference article through the finished build produced, on the same table, in
+the same section, at the same time:
+
+- STRENGTH: "This article presents structured facts as a table instead of burying them in prose."
+- ISSUE: "This section's answer lives only in a table, with only 16 words of prose around it."
+
+Both correct in isolation. Together they read as a tool that does not know its own mind.
+A positive finding is now dropped when a negative finding lands on the exact same block, so
+praise is never delivered for something criticised in the same run. Matched on the exact
+span, so a strength elsewhere in a flagged section survives. Pinned in
+`tests/contradiction.test.ts`.
+
+`good-article.md` was also rewritten to state its answer in a sentence and keep the table as
+the detail, which is what the finding tells every other author to do. It scores 100 again,
+and the reference article now models the fix rather than the fault.
+
+### Found by end-to-end validation: the split map reported internals, not consequences (fixed)
+
+On the sample article the map said "No level qualified. The search runs H1, then H2, and
+neither appears twice here." Algorithmically exact, and useless: it describes what the
+algorithm did rather than what it costs the reader. The sample has one H1 and one H3, so the
+whole 873-word article arrives as a single piece, which is the alarming part and was the
+part left unsaid.
+
+It now reads: "The whole article arrives as one piece. Cuts land on the largest heading
+level that appears at least twice, and neither H1 nor H2 does that here, so nothing divides
+it. Add a second H1 or a second H2 and you choose where it splits." Consequence first, then
+the rule, then the action.
+
+### Validation performed
+
+- 246 tests, 32 files. Typecheck and production build clean.
+- The brief's acceptance cases re-run against the built engine: a 1,500 word section is
+  flagged and a 200 word one is not; one H1 with three H2s cuts on H2 into four pieces, and
+  adding a second H1 moves the cut to H1 and two pieces; same input gives the same report.
+- Every quotation on both shipped pages checked against a fetched copy of its own source.
+  Quotations appearing on a page and unconfirmed at source: **zero**.
+- 15 outbound links: 13 return 200; Gartner and Bloomfire return 403 to scripted requests
+  and were confirmed by hand in a browser.
+- Dark mode: every new component uses role tokens only, no raw values. Contrast measured on
+  the new UI in dark: panel note 6.42, weakest-check line 12.69, piece rows 12.69, band 9.91.
+  All pass AA.
+- Zero horizontal overflow at 1280 and at 375. An earlier reading of 301px was a
+  measurement artifact from a collapsed pane, not a layout bug.
+- No `fetch(`, `XMLHttpRequest`, `sendBeacon` or `WebSocket` in the bundle. CSP present on
+  both pages. No external subresources.
+- House style: zero em or en dashes in either page's visible text, zero uses of "kill",
+  and curly apostrophes removed from UI copy while quotations keep the ones their sources
+  use.
+
+### Open threads
+
+- The sample article demonstrates the split map as a single undivided piece. That is the
+  more alarming demonstration and it is now legible, but a second sample with real
+  boundaries would show the feature working rather than only failing.
+- `parallel-implementation-aug13` still exists locally. Nothing in it is unported; it is
+  kept only as a record of what two independent passes at the same brief converged on,
+  which was the floor at 60, the same justification for it, and the 500-character limit
+  placed in check 2 rather than with the size rules.

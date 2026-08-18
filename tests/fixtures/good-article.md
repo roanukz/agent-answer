@@ -19,7 +19,7 @@ Enroll in multi-factor authentication (MFA) before your first token reset. MFA e
 
 ## Hardware token vs. soft token
 
-Choose a token type based on how you work. The table below compares the two options.
+Choose a token type based on how you work. Most employees should use the soft token, because it refreshes automatically and the help desk can reissue it the same day. Choose the hardware token if you work from a site with unreliable mobile coverage. The table below compares the two options in full.
 
 | Feature | Soft token | Hardware token |
 | --- | --- | --- |

@@ -15,9 +15,9 @@ export function splitVerdict(map: SnippetMap): string {
   const pieces = map.snippets.length
   switch (map.reason) {
     case 'no-headings':
-      return 'This article has no headings, so there is no level to cut on. It arrives as one piece.'
+      return 'The whole article arrives as one piece, because it has no headings for anything to cut on. Add headings and you choose the boundaries instead of a size limit choosing them.'
     case 'none':
-      return 'No level qualified. The search runs H1, then H2, and neither appears twice here, so the article arrives as one piece.'
+      return 'The whole article arrives as one piece. Cuts land on the largest heading level that appears at least twice, and neither H1 nor H2 does that here, so nothing divides it. Add a second H1 or a second H2 and you choose where it splits.'
     case 'faq':
       return `This reads as an FAQ article, so the exception applies: the cuts land on H${map.level}, giving ${pieces} pieces.`
     default:
