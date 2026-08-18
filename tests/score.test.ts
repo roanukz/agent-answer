@@ -3,6 +3,7 @@ import { parse } from '../src/engine/parse'
 import {
   bandFor,
   buildReport,
+  CHECK_DEFS,
   CHECK_FLOOR,
   checkStatus,
   deductionFor,
@@ -348,5 +349,30 @@ describe('determinism', () => {
     expect(r1.issues.map((f) => f.ruleId)).toEqual(
       r2.issues.map((f) => f.ruleId)
     )
+  })
+})
+
+/**
+ * Rounding must not buy a certification.
+ *
+ * The floor closes the case where a collapsed check hides behind an average.
+ * This is the other way the same threshold can be crossed without earning it:
+ * a composite below 85 that displays as 85. Both are the same bug wearing
+ * different clothes, so both are pinned.
+ */
+describe('the band reads the unrounded composite', () => {
+  it('84.75 displays as 85 and is not agent-ready', () => {
+    const scores = [45, 100, 100, 90, 100]
+    const raw = CHECK_DEFS.reduce((sum, def, i) => sum + scores[i]! * def.weight, 0)
+    expect(raw).toBeCloseTo(84.75, 10)
+    expect(Math.round(raw)).toBe(85)
+    // The bug: banding on the rounded number promotes it.
+    expect(bandFor(Math.round(raw))).toBe('agent-ready')
+    // The fix: banding on the raw number does not.
+    expect(bandFor(raw)).toBe('needs-edits')
+  })
+
+  it('an exact 85.0 still passes when every check clears the floor', () => {
+    expect(bandFor(85.0, 100)).toBe('agent-ready')
   })
 })

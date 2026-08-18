@@ -1190,6 +1190,21 @@
               at the boundary is not a rubric.
             </li>
             <li>
+              <strong>The same bug had a second door, and the fix walked
+                straight past it.</strong>
+              Fixing the floor meant reading the banding code, which is where a
+              second way to certify an unearned pass had been sitting: the band
+              was decided on the <em>rounded</em> composite. Checks of 45, 100,
+              100, 90 and 100 average 84.75, which is below the threshold and
+              displays as 85, so the article passed on a rounding artifact.
+              Verifying the arithmetic by hand fixed the case I was looking for
+              and left its neighbour alone. The band now reads the unrounded
+              average and only the display rounds. The lesson sharpens the one
+              above: when a boundary bug turns up, the question is not whether
+              this one is fixed but how many ways there are to reach that
+              boundary.
+            </li>
+            <li>
               <strong>The weights are judgement, not evidence.</strong> The
               25/20/20/15/20 split is my ranking of what damages an answer most,
               with no dataset of failed articles behind it. Defensible, not

@@ -95,6 +95,10 @@ export const CHECK_FLOOR = 60
  * The band, given the composite and the weakest check. A check below the
  * floor caps the band at needs-edits: the composite is never altered, only
  * the certification it can buy.
+ *
+ * Takes the UNROUNDED composite. Banding on the rounded number is a second
+ * way to certify an article that has not earned it, because 84.75 displays
+ * as 85. Callers pass overallRaw and round only for display.
  */
 export function bandFor(overall: number, weakestScore = 100): Band {
   if (overall >= 85 && weakestScore >= CHECK_FLOOR) return 'agent-ready'
@@ -173,8 +177,12 @@ export function buildReport(
   const weakestCheck = checks.reduce((worst, c) =>
     c.score < worst.score ? c : worst
   )
-  const band = bandFor(overall, weakestCheck.score)
-  const floored = overall >= 85 && weakestCheck.score < CHECK_FLOOR
+  // Band on the UNROUNDED composite. Rounding first promotes a composite
+  // that is below the threshold into the band above it: checks of
+  // [45, 100, 100, 90, 100] average 84.75, which displays as 85 and used to
+  // certify the article. Only the display rounds.
+  const band = bandFor(overallRaw, weakestCheck.score)
+  const floored = overallRaw >= 85 && weakestCheck.score < CHECK_FLOOR
 
   const issues = scored.filter((f) => !f.positive)
   const strengths = scored.filter((f) => f.positive === true)
