@@ -481,3 +481,22 @@ the rule, then the action.
   kept only as a record of what two independent passes at the same brief converged on,
   which was the floor at 60, the same justification for it, and the 500-character limit
   placed in check 2 rather than with the size rules.
+
+### Later the same night: the market-size forecast was cut from the teardown
+
+Part 3 rested on two outside numbers. One is now gone: knowledge management software
+projected to reach $75.22 billion by 2034 at 12.3% (Straits Research).
+
+The reason is not length, though the essay was being trimmed when it went. The same firm
+publishes a materially different figure for the same market, which meant the number arrived
+already carrying two caveats: that it is a forecast, and that its own publisher disagrees
+with it. Nothing in the product rests on it, and it was doing no work that the incentive
+analysis below it does not do better. A number that has to be qualified twice before it can
+be read is not evidence, and keeping it only because the original brief asked for it would
+be the same mistake as keeping the two vendor claims that could not be retrieved.
+
+Gartner's 2029 prediction stays, still graded as a forecast, because it is the number that
+gets budget approved and the page says so plainly.
+
+Every remaining figure on the page now traces to Gartner, to a Moveworks published limit,
+or to the product's own arithmetic.
