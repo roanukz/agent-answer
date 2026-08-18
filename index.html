@@ -755,20 +755,18 @@
 
           <p>
             Both near misses are closer than a competitive table usually admits,
-            and one of them got closer after I built this. The retrieval preview
-            tools are free, take pasted text, and show you the pieces your
-            document will be broken into, which is exactly the right raw
-            material. This tool now shows those pieces too, so that is no longer
-            a line between us. Two things still are. Their preview runs a
-            generic splitter, where this runs one vendor's published algorithm
-            and says whose it is, so the boundaries are the ones a named product
-            would actually produce. And they stop at the boundaries, because
-            showing an author their article in fragments answers "what will the
-            software store?" and not "can an agent answer from this?" The
-            visibility checkers are also free and score two of the same things I
-            score, but they score them for a marketer chasing citations on a
-            public page. Neither category asks whether a section still stands up
-            once retrieval has pulled it out alone, and that is the check
+            and one got closer after I built this. The retrieval preview tools
+            are free, take pasted text, and show the pieces a document breaks
+            into, which is exactly the right raw material. This tool shows those
+            pieces too now, so that is no longer a line between us. Two things
+            still are. Their preview runs a generic splitter where this runs one
+            named vendor's published algorithm, so the boundaries are the ones a
+            real product would produce. And they stop at the boundaries: showing
+            an author their article in fragments answers "what will the software
+            store?", not "can an agent answer from this?" The visibility
+            checkers score two of the same things, but for a marketer chasing
+            citations on a public page. Neither asks whether a section still
+            stands up once retrieval has pulled it out alone, which is the check
             carrying the most weight here.
           </p>
         </section>
@@ -1037,49 +1035,34 @@
             <h3>Drawing the cut lines, using one vendor's published algorithm</h3>
             <p class="decision-risk">Risk addressed: value</p>
             <p>
-              The tool used to score the sections an author wrote, which is
-              not the same thing as the pieces the software delivers. Moveworks
-              publishes
-              <a
-                href="https://docs.moveworks.com/ai-assistant/enterprise-search/writing-ai-ready-kb-articles"
-                >how it divides an article</a
-              >, in enough detail to compute from the article's own markup: one
-              header level divides the article, the largest level with at least
-              two instances wins, the search stops at H2, and FAQ articles are
-              the exception. So the report now draws those boundaries onto the
-              pasted text and scores each resulting piece for size, against the
-              <a
-                href="https://docs.moveworks.com/ai-assistant/enterprise-search/document-chunking-and-snippetization-overview"
-                >hard maximum of 512 tokens per chunk</a
-              >
-              published for its structure-aware chunking, where the target size
-              is 256.
+              The tool scored the sections an author wrote, which is not the
+              same thing as the pieces the software delivers. Moveworks
+              publishes how it divides an article in enough detail to compute
+              from the article's own markup: one heading level divides it, the
+              largest level with at least two instances wins, the search stops
+              at H2, and FAQ articles are the exception. The report now draws
+              those boundaries onto the pasted text and scores each piece
+              against the 512-token hard maximum the same vendor publishes.
             </p>
             <p>
-              It produces a finding I have not seen anywhere else. If an
-              article has one H1 and several H2s, the cuts land on the H2s; add
-              a second H1 and every boundary in the document moves, splitting
-              the article somewhere completely different, and nothing in any
-              authoring tool would tell you. The label in the interface is
-              "where Moveworks would cut this", never "where your article gets
-              cut", because it is one company's documented behaviour and not a
-              standard.
+              It produces a finding I have not seen elsewhere. An article with
+              one H1 and several H2s is cut on the H2s. Add a second H1 and
+              every boundary in the document moves, and no authoring tool would
+              tell you. The label says "where Moveworks would cut this", never
+              "where your article gets cut", because it is one company's
+              documented behaviour and not a standard.
             </p>
             <p>
-              Two smaller calls came out of the same work, and both are the
-              rubric refusing to argue with itself. The new rule for an answer
-              that lives only in a table is a minor rather than a major,
-              because check 5 already asks authors to turn comparisons into
-              tables, and a major would have punished them for doing it: the
-              two rules do not actually disagree, so the ask is to keep the
-              table and also write the takeaway in a sentence. And the old
-              "section over 500 words" major was retired, because it made a
-              mechanical claim, that the section is guaranteed to be split, on
-              a number I invented. The new size rule makes that claim against a
-              published limit instead. One claim, one rule, and the invented
-              number does not get to keep the authority.
+              Two smaller calls followed, and both are the rubric refusing to
+              argue with itself. The table rule is a minor, not a major,
+              because another check asks authors to turn comparisons into
+              tables and a major would punish them for complying. And the old
+              "section over 500 words" major was retired: it made a mechanical
+              claim on a number I had invented, and the new rule makes the same
+              claim against a published limit. The invented number does not get
+              to keep the authority.
             </p>
-            <ul class="tradeoff">
+          <ul class="tradeoff">
               <li>
                 <span class="k">Cost</span
                 ><span
@@ -1102,15 +1085,10 @@
 
           <h3>Kano classification</h3>
           <p>
-            The <strong>Kano model</strong> sorts features by how people react
-            to them. Reading headings correctly is the must-have, because
-            getting it wrong puts every section boundary in the wrong place, and
-            nobody reports that as a parsing bug because they simply stop
-            believing the score. Marking passages in place and scoring each
-            check separately are performance features, where more precision is
-            straightforwardly better. The delighters are the line on every
-            finding explaining why it matters to an agent, and a privacy claim
-            you can test by switching off your network.
+            The one classification that changed anything: reading headings
+            correctly is a must-have, not a feature. Get it wrong and every
+            boundary is in the wrong place, and nobody reports that as a parsing
+            bug, because they simply stop believing the score and leave.
           </p>
 
           <h3>Scope, made legible</h3>
@@ -1171,54 +1149,34 @@
           <ol>
             <li>
               <strong>The scoring model certified articles it should have
-                refused, and the arithmetic was public the whole
-                time.</strong>
-              Five weighted checks and a threshold of 85 meant a check worth
-              15% could be driven to zero and the article still scored exactly
-              85.0, which read as agent-ready. The same collapse on the 25%
-              check gave 81.25 and failed. So whether a completely failed
-              dimension sank an article depended on nothing but which
-              dimension it was. Every number needed to spot that was printed
-              on the scoring page from the day it shipped, and I published the
-              weights without ever multiplying them out. The fix is a floor,
-              at the 60 this page already called a fail: no article is
-              agent-ready with any check below it, and the weakest check is
-              now shown beside the total every time. Worth being precise about
-              the lesson, which is not "test the code". The tests all passed.
-              It is that a scoring model needs its edge cases worked by hand
-              before it is published, because a rubric that cannot be trusted
-              at the boundary is not a rubric.
+                refused, and it did it two different ways.</strong>
+              A check worth 15% could be driven to zero and the article still
+              scored exactly 85.0, which read as agent-ready, while the same
+              collapse on the 25% check gave 81.25 and failed. Whether a failed
+              dimension sank an article depended on nothing but which dimension
+              it was. Fixing that turned up the second door: the band was
+              decided on the <em>rounded</em> composite, so 84.75 displayed as
+              85 and passed on a rounding artifact. Both are closed, by a floor
+              at the 60 this page already called a fail and by banding on the
+              unrounded average. Every number needed to spot the first one was
+              printed on the scoring page from the day it shipped. The lesson is
+              not "test the code", because the tests passed. It is that a
+              scoring model needs its boundaries worked by hand before it is
+              published, and that when one boundary bug turns up the question is
+              how many ways there are to reach that boundary.
             </li>
             <li>
-              <strong>The same bug had a second door, and the fix walked
-                straight past it.</strong>
-              Fixing the floor meant reading the banding code, which is where a
-              second way to certify an unearned pass had been sitting: the band
-              was decided on the <em>rounded</em> composite. Checks of 45, 100,
-              100, 90 and 100 average 84.75, which is below the threshold and
-              displays as 85, so the article passed on a rounding artifact.
-              Verifying the arithmetic by hand fixed the case I was looking for
-              and left its neighbour alone. The band now reads the unrounded
-              average and only the display rounds. The lesson sharpens the one
-              above: when a boundary bug turns up, the question is not whether
-              this one is fixed but how many ways there are to reach that
-              boundary.
-            </li>
-            <li>
-              <strong>The tool praised and penalised the same table in the same
-                breath.</strong>
-              Running the reference article through the finished build turned up
-              a comparison table that the strengths rule celebrated and the new
-              table rule flagged, at the same time, on the same block. Both were
-              right on their own terms. A table is the right shape for a
-              comparison, and a table nobody has summarised in prose is an
-              answer the assistant cannot read out. Delivered together they read
-              as a tool that does not know its own mind, which is worse than
-              either half being missing. A strength is now suppressed when a
-              finding lands on the exact same block, and the reference article
-              was rewritten to state its answer in a sentence and keep the table
-              as the detail, which is what the finding tells everyone else to
-              do. Two rules can both be correct and still add up to nonsense.
+              <strong>Two rules were each correct and together produced
+                nonsense.</strong>
+              The same table, in the same section, was celebrated as a strength
+              and flagged as an answer the assistant cannot read out. Both
+              readings are right: a table is the correct shape for a comparison,
+              and a table nobody has summarised in prose is an answer that never
+              gets spoken. Delivered together they read as a tool that does not
+              know its own mind. Praise is now suppressed when a finding lands
+              on the same block, and the reference article was rewritten to
+              state its answer in a sentence and keep the table as the detail.
+              Rules get unit tested in isolation; what they add up to does not.
             </li>
             <li>
               <strong>The weights are judgement, not evidence.</strong> The
@@ -1234,8 +1192,8 @@
             </li>
             <li>
               <strong>The demand evidence is vendor-sourced.</strong> Strong on
-              the existence of the manual test, thin on what it feels like to do
-              it.
+              the existence of the manual test, thin on what it costs to do it.
+              Closing that is item three on the roadmap.
             </li>
             <li>
               <strong>The rules only work properly in English.</strong> The tool
@@ -1243,47 +1201,25 @@
               not a fix.
             </li>
             <li>
-              <strong>I ran this page through the tool, and it lands in the
-                bottom band: "an agent will struggle to answer from
-                this".</strong>
-              One idea per section scores 0. Answer first was the weakest check
-              before the size rules existed, because several sections opened
-              with context instead of the point, and those openings are
-              rewritten. What sinks the page now is size: it would be cut into
-              ten pieces, and the largest runs to about 3,500 estimated tokens
-              against a limit of 512, roughly seven times over.
-              <br /><br />
-              The exact composite is deliberately not quoted here, and that is
-              a finding rather than a dodge. A page that reports its own score
-              changes that score every time it is edited, including by this
-              paragraph, and the number moved twice while I was writing it. Any
-              figure printed here is stale the moment the next sentence is
-              improved. The failing check and the band are structural and
-              survive an edit, so those are what the page claims.
-            </li>
-            <li>
-              <strong>That failure is a genre difference, and it is the honest
-                limit of the rubric.</strong>
-              A teardown is an essay, written to be read from the top by a
-              person who chose to be here. A knowledge-base article is written
-              to be cut into pieces and read one piece at a time by software
-              that did not choose anything. The rubric scores the second thing,
-              so it is right to fail the first, and I am leaving the essay long
-              rather than chopping it into retrieval-sized fragments to flatter
-              my own score. Worth saying plainly, because the number is the
-              product's whole argument: a tool that scores one genre well is
-              not a general writing grader, and a 61 here is the rubric working
-              rather than the rubric misfiring. It also flagged the Cost and
-              Bought lines in every decision as buried steps, and I left those
-              alone, because they are a summary rather than a procedure. That
-              is exactly the false positive risk 3 describes, found in my own
-              writing.
+              <strong>This page fails its own tool, and that is the rubric
+                working.</strong>
+              It lands in the bottom band, with one idea per section at zero,
+              because it would be cut into ten pieces and the largest runs about
+              seven times over the limit. A teardown is an essay, read from the
+              top by someone who chose to be here; a knowledge-base article is
+              cut into pieces and read one piece at a time by software that
+              chose nothing. The rubric scores the second thing, so it is right
+              to fail the first, and the essay stays long rather than being
+              chopped into fragments to flatter its own score. The exact
+              composite is not quoted, because a page that reports its own score
+              changes it with every edit, including this one. The failing check
+              and the band survive an edit; a number does not.
             </li>
             <li>
               <strong>The rubric can never be tuned from usage.</strong> No
               funnel, no drop-off, no spread of real scores to calibrate the
-              bands against. That is the price of decision 2, paid knowingly,
-              because the alternative breaks the claim the tool rests on.
+              bands against. That is the price of the privacy promise, paid
+              knowingly.
             </li>
           </ol>
         </section>
