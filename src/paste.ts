@@ -9,7 +9,7 @@
  *
  * Images are KEPT, as markdown text. They used to be dropped along with the
  * chrome, which quietly made the image-without-alt rule unreachable on the
- * path most authors use: an unlabelled screenshot pasted from a real KB page
+ * path most authors use: an unlabeled screenshot pasted from a real KB page
  * disappeared before any rule could see it, so the tool advertised a check it
  * could not perform. Keeping `![](src)` costs nothing, because it is inert
  * text: the textarea holds text, the article view builds text nodes rather

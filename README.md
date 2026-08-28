@@ -54,8 +54,8 @@ Twenty-three of the 25 rules score the heading sections you wrote. Two
 score the *pieces* the retrieval software would deliver, which is not the
 same thing: a long, perfectly self-contained section is exactly the one
 that gets split again. Those boundaries are computed with Moveworks'
-published snippetization algorithm — one vendor's documented behaviour,
-labelled as such everywhere it appears, not an industry standard — and
+published snippetization algorithm — one vendor's documented behavior,
+labeled as such everywhere it appears, not an industry standard — and
 drawn onto the pasted article. Token counts are an estimate at four
 characters per token, never a tokenizer, and the 512-token maximum and
 500-character chat cutoff are Moveworks' own published numbers.
@@ -118,8 +118,8 @@ soffice --headless --convert-to 'png:draw_png_Export:{"PixelWidth":{"type":"long
 ```
 
 The UI uses the same token-based design system as
-[Save the Dates](https://github.com/Roanukz): cool grey neutrals, an
-anodised teal primary, semantic colour ramps, and system fonts only. The
+[Save the Dates](https://github.com/Roanukz): cool gray neutrals, an
+anodized teal primary, semantic color ramps, and system fonts only. The
 portable core lives in `src/tokens.css`; application styles read role
 tokens, never raw ramp values.
 
@@ -139,7 +139,7 @@ set **Pages → Source** to **"GitHub Actions"**. The Vite `base` is
   server) — re-scored down the list, because the concrete insight it was
   meant to deliver turned out to be a character count
 
-The teardown's [RICE table](index.html) is the current, prioritised
+The teardown's [RICE table](index.html) is the current, prioritized
 version of this list. Every source quoted in the teardown was re-checked
 at its own page in August 2026.
 

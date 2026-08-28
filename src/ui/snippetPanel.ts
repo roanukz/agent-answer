@@ -1,7 +1,7 @@
 /**
  * "Where Moveworks would cut this" — the split map.
  *
- * Labelled as one vendor's published algorithm everywhere it appears, on
+ * Labeled as one vendor's published algorithm everywhere it appears, on
  * purpose. Nobody else publishes their boundaries in enough detail to
  * compute, so this is not a survey of the field and must not read like one.
  */

@@ -7,13 +7,13 @@
   screens and softens. Edit here, not there — the render command is in the
   README.
 
-  LAYOUT IS CENTRED ON PURPOSE. LinkedIn's profile "Featured" section does not
-  honour the 1.91:1 ratio: it centre-crops into a roughly square frame, which
-  throws away half the width. Every element lives inside a 540px-wide centre
+  LAYOUT IS CENTERED ON PURPOSE. LinkedIn's profile "Featured" section does not
+  honor the 1.91:1 ratio: it center-crops into a roughly square frame, which
+  throws away half the width. Every element lives inside a 540px-wide center
   column (x 330..870) so it survives that crop and still reads as a deliberate
-  centred card at full width.
+  centered card at full width.
 
-  Colours are literal values from tokens.css — an SVG cannot read a stylesheet,
+  Colors are literal values from tokens.css — an SVG cannot read a stylesheet,
   and this file must not fetch anything. Neutral-950 ground, primary-400 rule,
   success-400 and error-400 for the two verdicts. The accent ramp is unused: in
   this design system it is reserved for measurement.

@@ -1,9 +1,9 @@
 /**
  * The design system's closed icon set. The shapes are deliberately
- * different from each other, not just differently coloured: notice is the
+ * different from each other, not just differently colored: notice is the
  * only square, warning the only triangle, and info, success and error are
  * circles that differ in what is inside them — so every status stays
- * readable with all colour removed. An icon always sits beside a word,
+ * readable with all color removed. An icon always sits beside a word,
  * never alone.
  */
 

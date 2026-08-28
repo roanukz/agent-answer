@@ -330,13 +330,13 @@ material would have caught this. The fixture did.
 
 `image-without-alt` shipped, was documented on the scoring page, passed its unit tests, and
 was **structurally unable to fire on a pasted KB article**. The paste pipeline stripped
-`<img>` as page chrome, so an unlabelled screenshot copied from a rendered page disappeared
+`<img>` as page chrome, so an unlabeled screenshot copied from a rendered page disappeared
 before any rule could see it. It only ever worked on hand-typed markdown.
 
 **Decision: keep images as markdown text (`![](src)`) instead of dropping them.** The cost
 is nil: the textarea holds text, the article view builds text nodes rather than elements,
 and `img-src 'self'` refuses a remote load even if something tried. Verified by pasting a
-real KB-style page with an unlabelled image and confirming both that the rule fires and
+real KB-style page with an unlabeled image and confirming both that the rule fires and
 that the network log stays empty.
 
 **The general failure:** the unit test proved the rule worked on the input the test author
@@ -364,7 +364,7 @@ limit of 512.
 top by a person who chose to be here; a KB article is written to be cut up and read one
 piece at a time by software that chose nothing. The rubric scores the second thing, so it
 is correct to fail the first. Chopping the essay into retrieval-sized fragments to flatter
-its own score would be optimising the artifact for a measurement that does not apply to it.
+its own score would be optimizing the artifact for a measurement that does not apply to it.
 
 ### Open threads
 
@@ -430,7 +430,7 @@ the same section, at the same time:
 
 Both correct in isolation. Together they read as a tool that does not know its own mind.
 A positive finding is now dropped when a negative finding lands on the exact same block, so
-praise is never delivered for something criticised in the same run. Matched on the exact
+praise is never delivered for something criticized in the same run. Matched on the exact
 span, so a strength elsewhere in a flagged section survives. Pinned in
 `tests/contradiction.test.ts`.
 

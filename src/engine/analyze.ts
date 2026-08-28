@@ -9,7 +9,7 @@ import { snippetize } from './snippets.js'
 import { ALL_RULES } from './rules/index.js'
 
 /**
- * Never celebrate what the same run just criticised.
+ * Never celebrate what the same run just criticized.
  *
  * The strengths rule praises the first table it finds, and answer-only-in-table
  * flags a table that carries the answer with no prose around it. Both are
@@ -22,13 +22,13 @@ import { ALL_RULES } from './rules/index.js'
  * block that was flagged. A strength elsewhere in the same section survives.
  */
 function dropContradictedStrengths(findings: Finding[]): Finding[] {
-  const criticised = new Set(
+  const criticized = new Set(
     findings
       .filter((f) => !f.positive)
       .map((f) => `${f.span.start}:${f.span.end}`)
   )
   return findings.filter(
-    (f) => !f.positive || !criticised.has(`${f.span.start}:${f.span.end}`)
+    (f) => !f.positive || !criticized.has(`${f.span.start}:${f.span.end}`)
   )
 }
 

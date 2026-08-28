@@ -66,7 +66,7 @@ describe('ambiguous-it', () => {
 
   it('skips the first paragraph of each section', () => {
     const src = [
-      '# Sync behaviour',
+      '# Sync behavior',
       '',
       'It runs every fifteen minutes in the background.'
     ].join('\n')

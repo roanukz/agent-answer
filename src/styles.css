@@ -1,9 +1,9 @@
 /* ===========================================================================
    Will My Agent Answer This? — application styles.
-   Built on the shared design system in tokens.css (cool grey neutrals,
-   anodised teal primary, 6px radius, 1.25 type ratio, system fonts only).
+   Built on the shared design system in tokens.css (cool gray neutrals,
+   anodized teal primary, 6px radius, 1.25 type ratio, system fonts only).
    Components follow the system's recipes: role tokens only — never a raw
-   ramp value — so every colour decision traces back to the step mapping.
+   ramp value — so every color decision traces back to the step mapping.
 
    Severity mapping: major → error, minor → warning, info → info,
    strengths → success, factual notices → notice.
@@ -987,7 +987,7 @@ button {
 }
 
 /* Marks never rely on hue alone: each severity keeps a distinct underline
-   style (solid / dashed / dotted) so the three read apart without colour. */
+   style (solid / dashed / dotted) so the three read apart without color. */
 mark {
   padding: 0 2px;
   border-radius: 3px;

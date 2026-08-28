@@ -1,7 +1,7 @@
 /**
  * Moveworks' published snippetization algorithm, run on the pasted article.
  *
- * This is one vendor's documented behaviour, not an industry standard, and
+ * This is one vendor's documented behavior, not an industry standard, and
  * everything user-facing says so. It is implemented here because Moveworks
  * publishes it in full and it is computable from the article's own markup,
  * which makes it the one place this tool can show an author where their

@@ -6,13 +6,13 @@
   not that an essay exists about it. public/og-tool.png is rendered from this
   file at 2x, 2400x1254. The render command is in the README.
 
-  LAYOUT IS CENTRED ON PURPOSE. LinkedIn's profile "Featured" section does not
-  honour the 1.91:1 ratio: it centre-crops into a roughly square frame, which
-  throws away half the width. Every element lives inside a 540px-wide centre
+  LAYOUT IS CENTERED ON PURPOSE. LinkedIn's profile "Featured" section does not
+  honor the 1.91:1 ratio: it center-crops into a roughly square frame, which
+  throws away half the width. Every element lives inside a 540px-wide center
   column (x 330..870) so it survives that crop and still reads as a deliberate
-  centred card at full width.
+  centered card at full width.
 
-  Colours are literal values from tokens.css dark mapping, because an SVG
+  Colors are literal values from tokens.css dark mapping, because an SVG
   cannot read a stylesheet and this file must not fetch anything. Fonts are a
   plain system stack. No webfont, no network request, ever.
 -->

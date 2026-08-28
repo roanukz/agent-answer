@@ -30,7 +30,7 @@ describe('link-in-heading', () => {
   })
 
   it('near-miss: brackets in a heading that are not a link', () => {
-    const src = '## Reset [beta] tokens\n\nThe beta programme ends in March.\n'
+    const src = '## Reset [beta] tokens\n\nThe beta program ends in March.\n'
     expect(rule.run(parse(src))).toEqual([])
   })
 })

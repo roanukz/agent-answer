@@ -1,5 +1,5 @@
 /**
- * The tool must not praise and penalise the same thing at once.
+ * The tool must not praise and penalize the same thing at once.
  *
  * strengths celebrates the first table; answer-only-in-table flags a table
  * that carries the answer alone. Both are correct, and delivered together on
