@@ -95,11 +95,31 @@
       </div>
     </header>
 
+    <div class="wrap">
+      <section id="tldr" class="brief" aria-label="TL;DR">
+        <p class="section-kicker">Thirty seconds</p>
+        <h2>TL;DR</h2>
+        <p class="brief-definition">Too long; didn't read. The whole page in five sentences.</p>
+        <p class="brief-body">
+          AI support agents answer from one section of an article at a time,
+          and most knowledge bases were written to be read in order. I built a
+          free web page that checks every section of a pasted article for
+          whether it stands alone, with fixed rules that explain each point
+          lost. The rules turn the vendors' own published advice into a check
+          that runs in seconds. Nothing you paste leaves your browser, which you
+          can prove by turning off Wi-Fi. The score is a defensible hint, not a
+          verdict, because the rules are not yet calibrated against real
+          articles.
+        </p>
+      </section>
+    </div>
+
     <div class="wrap layout">
       <nav class="toc" aria-label="Contents">
         <p class="toc-title">Contents</p>
         <ol>
-          <li><a href="#tldr">Summary</a></li>
+          <li><a href="#tldr">TL;DR</a></li>
+          <li><a href="#summary">Summary</a></li>
           <li><a href="#problem">1. The problem</a></li>
           <li><a href="#evidence">2. The evidence</a></li>
           <li><a href="#market">3. Market and incentives</a></li>
@@ -112,36 +132,81 @@
       </nav>
 
       <main id="main">
-        <section id="tldr" class="tldr">
-          <p class="section-kicker">The short version</p>
+        <section id="summary" class="summary">
+          <p class="section-kicker">Three minutes</p>
           <h2>Summary</h2>
           <ul>
             <li>
-              <strong>The problem is documented, not inferred.</strong> Two
-              vendors publish the same manual test in almost the same words,
-              and three describe the retrieval mechanism in their own
-              technical documentation
-              (<a href="#evidence">Part 2</a>). Gartner separately
-              <em>predicts</em> that by 2029, agentic AI will autonomously
-              resolve 80% of common customer service issues without human
-              intervention, which is a forecast rather than a measurement.
-              Whatever the number turns out to be, those agents will be
-              answering from knowledge bases written for people.
+              <strong>The problem.</strong> An AI support agent never reads a
+              whole article. Software cuts the article into pieces ahead of
+              time and hands the agent only the few pieces that match a
+              question, without the title or the paragraphs that came before, so
+              a section that only makes sense in sequence is a section the agent
+              gets wrong. The vendors who sell these agents tell writers to test
+              for this by hand, one paragraph at a time, and nobody finishes
+              that on a real knowledge base
+              (<a href="#problem">Part 1</a>, <a href="#evidence">Part 2</a>).
             </li>
             <li>
-              <strong>The gap was found by elimination.</strong> Around fourteen
-              ideas were researched for saturation before anything was built,
-              and eleven were cut. This was the only space where no existing
-              product combines all four of: written for the knowledge-base
-              author, scores whether a section stands alone, takes pasted text,
-              and runs entirely in the browser.
+              <strong>The thesis.</strong> The manual test can be run by fixed
+              rules rather than by hand or by another AI. Five checks with 25
+              rules underneath score whether each section stands alone, puts its
+              answer first, points only at things nearby, holds one idea, and is
+              structured for software to parse. Fixed rules give the same score
+              every time and show the sentence behind every point lost, which is
+              what a knowledge manager needs to argue for a rewrite, and the
+              whole thing runs in the browser so confidential articles go
+              nowhere (<a href="#built">Part 5</a>).
             </li>
             <li>
-              <strong>Trust and distribution are the constraints, not
-                capability.</strong>
-              Hence fixed published rules instead of a model's opinion, nothing
-              leaving the browser, and a <a href="#next">roadmap</a> whose top
-              three items are reach and evidence rather than features.
+              <strong>The method.</strong> Before anything was built, around
+              fourteen candidate ideas were checked for how crowded they already
+              were, and eleven were cut; this was the only space with no free,
+              in-browser tool aimed at the author. The evidence that the problem
+              exists is quoted from the vendors' own pages, re-checked on a
+              stated date and graded, with an analyst forecast cited as a
+              forecast. Every rule ships with an example it must catch and a
+              near miss it must leave alone, and the bar was set before each rule
+              was written: both tests pass or the rule does not ship. The near
+              miss is the control, because a rule-based checker fails by crying
+              wolf, not by missing things
+              (<a href="#evidence">Part 2</a>, <a href="#gap">Part 4</a>,
+              <a href="#built">Part 5</a>).
+            </li>
+            <li>
+              <strong>The results.</strong> The tool scores an article out of 100
+              across the five checks, marks every finding in the author's own
+              text, ranks the fixes by points recovered, and draws where one
+              vendor's software would cut the article into pieces, with each
+              piece scored against that vendor's published size limit. Two
+              scoring defects were found by working the boundaries by hand and
+              closed before publication: a collapsed check could still certify an
+              article, and rounding could promote a failing score into the band
+              above. This page fails its own tool, because an essay is not a
+              knowledge-base article, and that is the rubric working
+              (<a href="#built">Part 5</a>).
+            </li>
+            <li>
+              <strong>What it means.</strong> The score is uncalibrated. The
+              weights are judgment rather than evidence, no dataset of failed
+              articles sits behind them, and fixed rules will flag some good
+              writing, so the score is a strong hint rather than a verdict. The
+              gap the tool sits in exists because closing it would cost the
+              incumbents their audit revenue, which is a sturdier kind of gap
+              than one nobody has noticed. The most useful next work is reach
+              and evidence, not features: scored honestly, publishing and
+              first-hand accounts from writers rank above anything the tool
+              could gain (<a href="#market">Part 3</a>, <a href="#next">Part 6</a>).
+            </li>
+            <li>
+              <strong>Cautions, and how to check.</strong> The demand evidence is
+              vendor-sourced, and there is no first-hand account from a working
+              writer yet. The tool can never be tuned from usage, because it
+              records none, which is the price of the privacy promise paid
+              knowingly. Every rule's two tests run in the repository's suite,
+              the scoring boundaries are printed on the scoring page for anyone
+              to work by hand, and the offline claim can be checked by turning
+              off Wi-Fi (<a href="#built">Part 5</a>, <a href="#method">Appendix</a>).
             </li>
           </ul>
         </section>
